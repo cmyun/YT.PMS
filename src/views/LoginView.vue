@@ -48,18 +48,22 @@ export default {
   },
   created(){
     const requestOptions = {
-        method: 'GET',
+        method: 'POST',
         // headers: new Headers(),
         // withCredentials: true,
-        crossorigin: true,    
+        // crossorigin: true,    
         // mode: 'no-cors',
         // ,
+        body: JSON.stringify({
+          id: "TEST01",
+          password: "TEST01234"
+        })
         
         // mode: "cors",
         // cache: "default"
     };
 
-    fetch('http://dev.yunwootech.com:52304/user-management/users', requestOptions).then(function(response){
+    fetch('http://dev.yunwootech.com:52304/user-management/login', requestOptions).then(function(response){
       console.log(response)
     });
    
