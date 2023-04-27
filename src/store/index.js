@@ -1,4 +1,6 @@
 import { createStore } from "vuex";
+// import { account } from './modules/account';
+// import { alert } from './modules/alert';
 
 export default createStore({
   state: {},
@@ -6,4 +8,9 @@ export default createStore({
   mutations: {},
   actions: {},
   modules: {},
+  // modules: {
+  //   account 
+  //   // alert
+  // }
 });
+
