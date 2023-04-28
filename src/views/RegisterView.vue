@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <form @submit.prevent="submitForm">
+  <form @submit.prevent="handleSubmit">
     <h1 class="text-center mb-5">Sign up</h1>
     <div class="form-group mb-3">
       <label for="id"><b>ID</b><span class="req"> *</span></label>
@@ -44,7 +44,7 @@
     </div>
     <p class="text-center mb-3">Already a member? <router-link to="/login">Login</router-link></p>
     <div class="text-center mb-3">
-      <button type="submit" @click="onSubmit" class="btn btn-dark w-100">Sign up</button>
+      <button class="btn btn-dark w-100">Sign up</button>
     </div>
   </form>
 </div>
@@ -52,8 +52,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { required, email  } from '@vuelidate/validators'
-import { userService } from '../../services';
-import router from "../router";
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "RegisterView",
   setup () {
@@ -74,6 +73,7 @@ export default {
       submitted: false
     }
   },
+  
   validations () {
     
     return {
@@ -96,14 +96,14 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapState('account', ['status'])
+  },
   methods: {
-    onSubmit() {
-      this.submitted = true;
-      const { user } = this;
-      userService.register(user).then(function(user){
-        console.log(user);
-        router.push('/login');
-      })
+    ...mapActions('account', ['register']),
+    handleSubmit(e) {
+        this.submitted = true;
+        this.register(this.user);
     }
   },
   

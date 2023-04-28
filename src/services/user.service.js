@@ -10,11 +10,11 @@ export const userService = {
 
 const apiUrl = 'http://dev.yunwootech.com:52304';
 
-function login(username, password) {
+function login(id, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ id, password })
     };
 
     return fetch(`${apiUrl}/user-management/login`, requestOptions)
