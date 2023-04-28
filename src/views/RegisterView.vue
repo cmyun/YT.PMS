@@ -4,23 +4,23 @@
     <h1 class="text-center mb-5">Sign up</h1>
     <div class="form-group mb-3">
       <label for="id"><b>ID</b><span class="req"> *</span></label>
-      <input type="text" v-model="user.id" class="form-control" id="id" @blur="v$.user.id.$touch" maxlength="20">
-      <div v-if="v$.user.id.$error" :class="{error: v$.user.id.$error}" >You can't leave this empty.</div>
+      <input type="text" v-model="user.login_ID" class="form-control" id="id" @blur="v$.user.login_ID.$touch" maxlength="20">
+      <div v-if="v$.user.login_ID.$error" :class="{error: v$.user.login_ID.$error}" >You can't leave this empty.</div>
     </div>
     <div class="form-group mb-3">
-      <label for="password"><b>Password</b><span class="req"> *</span></label>
-      <input type="password" v-model="user.password" class="form-control" id="password" @blur="v$.user.password.$touch" maxlength="16">
-      <div v-if="v$.user.password.$error" :class="{error: v$.user.password.$error}" >You can't leave this empty.</div>
+      <label for="login_PW"><b>Password</b><span class="req"> *</span></label>
+      <input type="password" v-model="user.login_PW" class="form-control" id="login_PW" @blur="v$.user.login_PW.$touch" maxlength="16">
+      <div v-if="v$.user.login_PW.$error" :class="{error: v$.user.login_PW.$error}" >You can't leave this empty.</div>
     </div>
     <div class="form-group mb-3">
-      <label for="confirm_password"><b>Confirm Password</b><span class="req"> *</span></label>
-      <input type="password" v-model="user.confirm_password" class="form-control" id="confirm_password" @blur="v$.user.confirm_password.$touch" maxlength="16">
-      <div v-if="v$.user.confirm_password.$error" :class="{error: v$.user.confirm_password.$error}" >These passwords don’t match.</div>
+      <label for="confirm_PW"><b>Confirm Password</b><span class="req"> *</span></label>
+      <input type="password" v-model="user.confirm_PW" class="form-control" id="confirm_PW" @blur="v$.user.confirm_PW.$touch" maxlength="16">
+      <div v-if="v$.user.confirm_PW.$error" :class="{error: v$.user.confirm_PW.$error}" >These passwords don’t match.</div>
     </div>
     <div class="form-group mb-3">
       <label for="name"><b>Name</b><span class="req"> *</span></label>
       <input type="text" v-model="user.name" class="form-control" name="name" id="name" @blur="v$.user.name.$touch">
-      <div v-if="v$.user.name.$error" :class="{error: v$.user.password.$error}" >You can't leave this empty.</div>
+      <div v-if="v$.user.name.$error" :class="{error: v$.user.name.$error}" >You can't leave this empty.</div>
     </div>
     <div class="form-group mb-3">
       <label for="nickname"><b>Nickname</b></label>
@@ -61,14 +61,15 @@ export default {
   data(){
     return {
       user: {
-        id: '',
-        password: '',
-        confirm_password: '',
+        login_ID: '',
+        login_PW: '',
+        confirm_PW: '',
         name: '',
         nickname: '',
         office: '',
         mobile: '',
-        email: ''
+        email: '',
+        note: ''
       },
       submitted: false
     }
@@ -78,13 +79,13 @@ export default {
     
     return {
       user: {
-        id: {
+        login_ID: {
           required
         },
-        password: {
+        login_PW: {
           required
         },
-        confirm_password: {
+        confirm_PW: {
           required
         },
         name: {
@@ -102,6 +103,8 @@ export default {
   methods: {
     ...mapActions('account', ['register']),
     handleSubmit(e) {
+        const user = this;
+        console.log(user)
         this.submitted = true;
         this.register(this.user);
     }
