@@ -76,7 +76,6 @@ export default {
   },
   
   validations () {
-    
     return {
       user: {
         login_ID: {
