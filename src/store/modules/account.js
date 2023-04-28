@@ -7,10 +7,10 @@ const state = user
     : { status: {}, user: null };
 
 const actions = {
-    login({ dispatch, commit }, { username, password }) {
-        commit('loginRequest', { username });
+    login({ dispatch, commit }, { id, password }) {
+        commit('loginRequest', { id });
     
-        userService.login(username, password)
+        userService.login(id, password)
             .then(
                 user => {
                     commit('loginSuccess', user);
@@ -35,7 +35,6 @@ const actions = {
                     commit('registerSuccess', user);
                     router.push('/login');
                     setTimeout(() => {
-                        // hiển thị message thành công sau redirect sang trang 
                         dispatch('alert/success', 'Registration successful', { root: true });
                     })
                 },

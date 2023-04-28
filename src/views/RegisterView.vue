@@ -111,7 +111,7 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 50%;
+  width: 80%;
   max-width: 500px;
   margin: 0 auto;
   margin-top: 50px;

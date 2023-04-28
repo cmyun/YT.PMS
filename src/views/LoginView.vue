@@ -51,9 +51,9 @@ export default {
     handleSubmit (e) {
         this.submitted = true;
         const { id, password } = this;
+        console.log(this)
         if (id && password) {
-          console.log({id, password})
-            this.login({ id, password })
+          this.login({ id, password })
         }
     }
   },
@@ -62,8 +62,8 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 50%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 500px;
   margin: 0 auto;
   margin-top: 200px;
   text-align: left;

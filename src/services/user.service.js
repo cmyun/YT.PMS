@@ -11,6 +11,7 @@ export const userService = {
 const apiUrl = 'http://dev.yunwootech.com:52304';
 
 function login(id, password) {
+    console.log(JSON.stringify({ id, password }))
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -20,9 +21,10 @@ function login(id, password) {
     return fetch(`${apiUrl}/user-management/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            if (user.token) {
+            console.log(user);
+            // if (user.token) {
                 localStorage.setItem('user', JSON.stringify(user));
-            }
+            // }
             return user;
         });
 }
@@ -32,6 +34,7 @@ function logout() {
 }
 
 function register(user) {
+    console.log(JSON.stringify(user))
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,8 +57,8 @@ function handleResponse(response) {
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
-                logout();
-                location.reload(true);
+                // logout();
+                // location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;
