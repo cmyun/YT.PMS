@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import MemberView from "../views/MemberView.vue";
 
 const routes = [
   {
@@ -19,12 +20,18 @@ const routes = [
     name: "register",
     component: RegisterView,
   },
+  {
+    path: "/member",
+    name: "member",
+    component: MemberView,
+  },
   { path: "/:catchAll(.*)", redirect: "/" },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  linkActiveClass: "active"
 });
 
 router.beforeEach((to, from, next) => {
