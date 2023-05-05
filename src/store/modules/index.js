@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 import { alert } from './modules/alert';
 import { account } from './modules/account';
 import { members } from './modules/members';
+import { positions } from './modules/positions';
+import { organizations } from './modules/organizations';
 
 Vue.use(Vuex);
 
@@ -11,6 +13,8 @@ export const store = new Vuex.Store({
   modules: {
     alert,
     account,
-    members
+    members,
+    positions,
+    organizations
   }
 });

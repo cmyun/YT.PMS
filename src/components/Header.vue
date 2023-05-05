@@ -14,35 +14,47 @@
         <div class="menuArea">
             <ul class="menuList">
                 <li>
-                    <router-link to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Board" >
+                    <router-link to="/" data-title="Board" >
+                        <span>
                         <img src="../assets/icon_board.svg" alt="">
-                        
+                            
+                        </span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/message" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Message">
-                        <img src="../assets/icon_message.svg" alt="">
+                    <router-link to="/message" data-title="Message">
+                        <span>
+                            <img src="../assets/icon_message.svg" alt="">
+                        </span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/calendar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar">
-                        <img src="../assets/icon_calendar.svg" alt="">
+                    <router-link to="/calendar" data-title="Calendar">
+                        <span>
+                            <img src="../assets/icon_calendar.svg" alt="">
+                        </span>
                     </router-link>
                 </li>
                 <li class="active">
-                    <router-link to="/contact" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contacts">
-                        <img src="../assets/icon_contact.svg" alt="" class="iconNormal">
-                        <img src="../assets/icon_contact_w.svg" alt="" class="iconActive">
+                    <router-link to="/contact" data-title="Contacts">
+                        <span>
+                            <img src="../assets/icon_contact.svg" alt="" class="iconNormal">
+                            <img src="../assets/icon_contact_w.svg" alt="" class="iconActive">
+                        </span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/task" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Task">
-                        <img src="../assets/icon_task.svg" alt="">
+                    <router-link to="/task" data-title="Task">
+                        <span>
+                            <img src="../assets/icon_task.svg" alt="">
+                        </span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/form" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Form">
-                        <img src="../assets/icon_form.svg" alt="">
+                    <router-link to="/form" data-title="Form">
+                        <span>
+                            <img src="../assets/icon_form.svg" alt="">
+                        </span>
                     </router-link>
                 </li>
             </ul>
@@ -92,7 +104,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 export default {
   name: "HeaderView",
   data() {
@@ -106,7 +117,6 @@ export default {
   },
   methods: {
     getUsername(){
-        console.log(Array.from(this.user.name)[0])
         return Array.from(this.user.name)[0];
     },
     ...mapActions({
@@ -121,8 +131,7 @@ export default {
     },
   },
   mounted(){
-    Array.from(document.querySelectorAll('button[data-bs-toggle="tooltip"]'))
-        .forEach(tooltipNode => new Tooltip(tooltipNode))
+    
     }
 };
 </script>
@@ -145,6 +154,28 @@ export default {
         display: block;
         width: 100%;
         height: 100%;
+        transition: all .3s;
+        &:hover:before {
+            content: attr(data-title);
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            margin-top: 15px;
+            color: #fff;
+            font-size: 12px;
+            line-height: 19px;
+            padding: 1px 8px 2px;
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, 0.6);
+            white-space: nowrap;
+            -webkit-transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+            margin-left: 1px;
+        }
+    }
+    span {
+        display: block;
     }
     li {
         margin: 0 5px;
@@ -179,16 +210,16 @@ export default {
                 opacity: 0;
             }
         }
-        &:not(.active):hover {
-            opacity: .45;
-        }
         &:not(.active) {
-            opacity: .35;
+            span {
+                opacity: .35;
+                &:hover {
+                    opacity: .45;
+                }
+            }
+            
         }
     }
-    // img.iconNormal {
-    //     opacity: .35;
-    // }
 }
 .logoArea {
     display: flex;

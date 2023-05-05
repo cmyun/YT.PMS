@@ -29,12 +29,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: "SidebarView",
-  data() {
-    return {
-        
-    }
-  }
+  name: "SidebarView"
 }
 </script>
 <style scoped lang="scss">

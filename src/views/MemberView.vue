@@ -17,7 +17,7 @@
           <div class="contentsBody">
             <div class="memberView">
               <div class="organization">
-
+                <oganization-list :treeData="newOrganizations" :className="'orgTree'"/>
               </div>
               <div class="memberList">
                 <div class="listHead">
@@ -36,9 +36,8 @@
                 <div class="fixBody">
                   <div class="memberlistTableHeader">
                     <div class="lwTr thead">
-                      <div class="lwTh move"></div>
                       <div class="lwTh check">
-                        <input type="checkbox" class="lwCheckbox" id="default-id-3-all">
+                        <input type="checkbox" class="lwCheckbox" v-model="selectAll" @click="checkAll()">
                         <label for="default-id-3-all"></label>
                       </div>
                       <div class="lwTh profile"></div>
@@ -49,35 +48,29 @@
                     </div>
                   </div>
                   <div class="tableScoll">
-                    <div class="memberlistTable">
-                      <div class="lwTr">
-                          <div class="lwTd move">
-                            <!-- <span class="drag_handle">
-                              <span class="cst_tooltip">Drag to reorder</span>
-                            </span> -->
-                          </div>
+                    <div class="memberlistTable" v-if="members.length">
+                      <router-link to="home" class="lwTr" v-for="member in members" :key="member.id">
                           <div class="lwTd check">
-                            <input name="110002506932338" type="checkbox" class="lw_checkbox" id="default-id-3-110002506932338">
-                            <label for="default-id-3-110002506932338"></label>
+                            <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
                           </div>
                           <div class="lwTd profile">
                             <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
                           </div>
                           <div class="lwTd userName">
-                            <span class="name_cover">
-                              <span class="name">test test</span>
+                            <span class="nameCover">
+                              <span class="name">{{ member.name }}</span>
                               <span class="name_en"></span>
                             </span>
                             <span class="team"></span>
                           </div>
                           <div class="lwTd title">
-                            <span class="ellipsis_element">Management</span>
+                            <span class="ellipsis_element">{{ member.position_ID }}</span>
                           </div>
                           <div class="lwTd status">
-                            <span class="msg using">In use</span>
+                            <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
                           </div>
                           <div class="lwTd detail"></div>
-                      </div>
+                        </router-link>
                     </div>
                   </div>
                 </div>
@@ -85,11 +78,9 @@
             </div>
           </div>
         </div>
-        
       </div>
-
     </div>
-    
+    {{ members }}
   </div>
 </template>
 
@@ -97,29 +88,80 @@
 
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import OganizationList from "@/components/OganizationList.vue";
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: "MemberView",
   components: {
     Header,
-    Sidebar
+    Sidebar,
+    OganizationList
   },
   data(){
     return {
-      isCheckAll: false
+      selectAll: false,
+      selected: []
     }
   },
   computed: {
-    ...mapState('members', ['members'])
+    ...mapState('members', ['members']),
+    ...mapState('organizations', ['organizations']),
+    ...mapState('positions', ['positions']),
+
+    newOrganizations(){
+      const tree = this.buildTree(this.organizations, -1, 0);
+      return tree;
+    },
   },
   created() {
-    // this.getMembers();
+    this.getMembersByOrg(0);
+    this.getOrganizations();
+    this.getPositions();
     // console.log(this.members)
   },
   methods: {
-    ...mapActions('members', ['getMembers']),
+    ...mapActions('members', ['getMembersByOrg']),
+    ...mapActions('organizations', ['getOrganizations']),
+    ...mapActions('positions', ['getPositions']),
     checkAll(){
-      this.isCheckAll = !this.isCheckAll;
+      this.selected = [];
+      if (!this.selectAll) {
+        for (let i in this.members) {
+          this.selected.push(this.members[i].id);
+        }
+      }
+    },
+    updateCheckall(){
+      if(this.members.length == this.selected.length){
+        this.selectAll = true;
+      }else{
+        this.selectAll = false;
+      }
+    },
+    buildTree(data, parent, level) {
+      const tree = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].pid === parent) {
+          const node = {
+            id: data[i].id,
+            name: data[i].name,
+            no: data[i].no,
+            type: data[i].type,
+            isUse: data[i].isUse,
+            note: data[i].note,
+            pid: data[i].pid,
+            level: level,
+            children: []
+          };
+          const children = this.buildTree(data, data[i].id, level + 1);
+          if (children.length) {
+            node.children = children;
+          }
+          tree.push(node);
+        }
+      }
+      return tree;
     }
     
   }
@@ -131,6 +173,7 @@ export default {
     justify-content: space-between;
     width: 100%;
     padding: 18px 0 0;
+    margin-bottom: 30px;
   }
   .btnAddMember {
     background-color: #07B53B;
@@ -148,9 +191,18 @@ export default {
   .memberView {
     display: flex;
     .organization {
+      flex: 0 0 auto;
       width: 240px;
+      position: relative;
       border: 1px solid #e5e5e6;
       box-sizing: border-box;
+      border-right: 0;
+      min-height: 0;
+      min-width: 0;
+      padding: 13px;
+      ul {
+        padding-left: 0;
+      }
     }
     .memberList {
       width: calc(100% - 240px);
@@ -189,6 +241,8 @@ export default {
   }
   .lwTr {
       display: table-row;
+      text-decoration: none;
+      color: #2c3e50;
     }
     .lwTd {
       border-bottom: 1px solid #f5f5f6;
@@ -241,5 +295,221 @@ export default {
     .thumbCover {
       display: block;
     }
-  
+    .orgTree {
+    display: inline-block;
+    min-width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    a {
+      text-decoration: none;
+    }
+    li {
+      position: relative;
+    }
+    ul {
+      // padding-left: 0;
+    }
+    .treeItem {
+      position: relative;
+      display: flex;
+      margin-bottom: 2px;
+      border-radius: 2px;
+      &.selected {
+        background-color: #e7f2fe;
+        .groupName {
+          color: #157efb;
+          font-weight: 700;
+          &:before {
+            background-image: url(../assets/icon_group_active.svg)
+          }
+          
+        }
+        
+      }
+      &.corp {
+        .groupName {
+          &:before {
+            background-image: url(../assets/icon_organization.svg)
+          }
+          
+        }
+        &.selected {
+          .groupName {
+            &:before {
+              background-image: url(../assets/icon_organization_active.svg);
+            }
+          }
+        }
+      }
+      
+      .groupName {
+        position: relative;
+        display: flex;
+        flex: 0 1 auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 100%;
+        word-wrap: normal;
+        font-size: 14px;
+        color: #222;
+        line-height: 21px;
+        padding: 6px 0 5px 52px;
+        &:before {
+          content: '';
+          background-image: linear-gradient(transparent,transparent),url(../assets/icon_group.svg);
+          background-size: 100% auto;
+          background-position: 0 0;
+          width: 20px;
+          height: 20px;
+          display: inline-block;
+          position: absolute;
+          left: 20px;
+          top: 50%;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+       
+        
+      }
+      .btnToggleTree {
+        flex: 0 0 auto;
+        border: 0;
+        background-color: transparent;
+        padding: 6px;
+        line-height: 0;
+        overflow: hidden;
+        margin-right: -20px;
+        position: relative;
+        z-index: 10;
+        &::before {
+          background-image: linear-gradient(transparent,transparent),url(../assets/icon_organization.svg);
+          background-size: 1013px 983px;
+          background-position: -548px -964px;
+          width: 8px;
+          height: 8px;
+          display: inline-block;
+          vertical-align: top;
+        }
+      }
+      
+      .dragHandle {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        margin-top: 1px;
+        .cstTooltip {
+          left: 0;
+          top: 100%;
+          margin-top: 8px;
+        }
+        &.lastoflist {
+          top: auto;
+          bottom: 100%;
+          margin-bottom: 8px;
+          margin-top: auto;
+        }
+      }
+      .btnContext {
+        opacity: 0;
+        border: 0;
+        background-color: transparent;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 16px;
+        position: relative;
+        &:before {
+          background-image: linear-gradient(transparent,transparent),url(../assets/icon_group.svg);
+          background-size: 1013px 983px;
+          background-position: -967px -100px;
+          width: 16px;
+          height: 17px;
+          display: inline-block;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+      }
+      
+    }
+    .subGroup {
+      padding-left: 0;
+      // .treeItem {
+      //   padding-left: 12px;
+      // }
+      // .subGroup {
+      //   .tree_item {
+      //     padding-left: 24px;
+      //   }
+      //   .subGroup {
+      //     .tree_item {
+      //       padding-left: 36px;
+      //     }
+      //     .subGroup {
+      //       .tree_item {
+      //         padding-left: 48px;
+      //       }
+      //       .subGroup {
+      //         .tree_item {
+      //           padding-left: 60px;
+      //         }
+      //         .subGroup {
+      //           .tree_item {
+      //             padding-left: 72px;
+      //           }
+      //           .subGroup {
+      //             .tree_item {
+      //               padding-left: 84px;
+      //             }
+      //             .subGroup {
+      //               .tree_item {
+      //                 padding-left: 96px;
+      //               }
+      //               .subGroup {
+      //                 .tree_item {
+      //                   padding-left: 108px;
+      //                 }
+      //                 .subGroup {
+      //                   .tree_item {
+      //                     padding-left: 120px;
+      //                   }
+      //                 }
+      //               }
+      //             }
+      //           }
+                
+      //         }
+      //       }
+      //     }
+          
+      //   }
+      // }
+    }
+  }
+  .cstTooltip {
+    display: none;
+    position: absolute;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,.6);
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .blind {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
 </style>

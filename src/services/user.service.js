@@ -1,11 +1,12 @@
-// import config from 'config';
-// import { authHeader } from '../helpers';
-
 export const userService = {
     login,
     logout,
     register,
-    getAll
+    getAll,
+    getById,
+    getByOrg,
+    update,
+    delete: _delete
 };
 
 const apiUrl = 'http://dev.yunwootech.com:52304';
@@ -55,8 +56,16 @@ function getById(id) {
         method: 'GET',
         // headers: authHeader()
     };
-
+    // /user-management/organizations/{id}/users
     return fetch(`${apiUrl}/user-management/users/${id}`, requestOptions).then(handleResponse);
+}
+function getByOrg(orgId) {
+    const requestOptions = {
+        method: 'GET',
+        // headers: authHeader()
+    };
+
+    return fetch(`${apiUrl}/user-management/organizations/${orgId}/users`, requestOptions).then(handleResponse);
 }
 function update(user) {
     const requestOptions = {

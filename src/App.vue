@@ -29,11 +29,13 @@ export default {
 </script>
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,Helvetica,Arial,Dotum,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: 14px;
+  line-height: 1.5;
 }
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, object, iframe, pre, code, p, blockquote, form, fieldset, legend, table, th, td, caption, tbody, tfoot, thead, article, aside, figure, footer, header, hgroup, menu, nav, section, audio, video, canvas {
     margin:0;
@@ -66,8 +68,8 @@ ul, ol, menu { list-style:none; }
     display: flex;
     justify-content: center;
     .main {
-      display: flex;
-      flex-wrap: wrap;
+      // display: flex;
+      // flex-wrap: wrap;
       // justify-content: space-between;
       max-width: 1250px;
       min-width: 1000px;
@@ -77,4 +79,11 @@ ul, ol, menu { list-style:none; }
   }
   
 }
+
+
+
+
+
+
+
 </style>

@@ -1,16 +1,17 @@
 import { createStore } from "vuex";
 import { account } from './modules/account';
 import { alert } from './modules/alert';
+import { members } from './modules/members';
+import { positions } from './modules/positions';
+import { organizations } from './modules/organizations';
 
 export default createStore({
-  // state: {},
-  // getters: {},
-  // mutations: {},
-  // actions: {},
-  // modules: {},
   modules: {
     account,
-    alert
+    alert,
+    members,
+    positions,
+    organizations
   }
 });
 

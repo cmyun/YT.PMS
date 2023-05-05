@@ -1,5 +1,4 @@
 import { userService } from '../../services';
-import router from '../../router';
 
 const state = {
     status: null,
@@ -7,7 +6,7 @@ const state = {
 }
 
 const actions = {
-    getMembers({ dispatch, commit }, { id, password }) {
+    getMembers({ commit }) {
         userService.getAll()
             .then(
                 members => {
@@ -15,9 +14,20 @@ const actions = {
                 }
             );
     },
-    addMember(context, member) {
-        // context.commit('addMember', member);
-    }
+    // const actions = {
+    //     login({ dispatch, commit }, { id, password }) {
+    //         commit('loginRequest', { id });
+        
+    //         userService.login(id, password)
+    getMembersByOrg({ commit }, orgId) {
+        console.log(orgId)
+        userService.getByOrg(orgId)
+            .then(
+                members => {
+                    commit('setMembers', members);
+                }
+            );
+    },
 };
 
 const mutations = {
