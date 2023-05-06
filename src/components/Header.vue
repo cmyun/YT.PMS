@@ -72,7 +72,7 @@
                 </div>
                 <ul>
                     <li>
-                        <router-link to="#">
+                        <router-link to="settings">
                             My Information
                         </router-link>
                     </li>
@@ -92,7 +92,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <button type="button" @click="logout">
+                        <button type="button" @click="handleLogout">
                             Logout
                         </button>
                     </li>
@@ -122,7 +122,7 @@ export default {
     ...mapActions({
       logout: 'account/logout'
     }),
-    logout () {
+    handleLogout () {
       this.logout();
       location.reload(true);
     },

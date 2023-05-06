@@ -43,7 +43,8 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
-    }
+    },
+    
 };
 
 const mutations = {
@@ -71,7 +72,7 @@ const mutations = {
     },
     registerFailure(state, error) {
         state.status = {};
-    }
+    },
 };
 
 export const account = {

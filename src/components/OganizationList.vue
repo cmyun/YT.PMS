@@ -1,9 +1,9 @@
 <template>
   <!-- <ul class="orgTree subGroup">    -->
   <ul :class="className" class="subGroup">
-    <li v-for="item in treeData" :key="item.id">
-        <span class="treeItem" :class="(item.pid == -1) ? 'corp' : (isSelected?'selected':'')" @click="getMembersByOrganization(item.id)">
-          <a href="#" class="groupName">{{ item.name }}</a>
+    <li v-for="(item, index) in treeData" :key="index">
+        <span class="treeItem" :class="(item.pid == -1) ? 'selected corp' : ''" @click="getMembersByOrganization(item)">
+          <a href="javascript:void(0)"  class="groupName">{{ item.name }}</a>
         </span>
         <organization-list :treeData="item.children" v-if="item.children.length" />
     </li>       
@@ -26,7 +26,7 @@
     },
     data() {
       return {
-        isSelected: false
+        // isActive: false,
       }
     },
     computed: {
@@ -34,14 +34,26 @@
     },
     methods: {
       ...mapActions('members', ['getMembersByOrg']),
-      getMembersByOrganization(id){
-        this.selected = true
-        this.getMembersByOrg(id);
-      }
+      getMembersByOrganization(item){
+        this.getMembersByOrg(item.id);
+
+      },
+      
     }
   };
   </script>
 <style scope lang="scss">
+.subGroup {
+  padding-left: 0;
+  li {
+    padding-left: 12px;
+  }
+  &.orgTree{
+    & > li {
+      padding-left: 0;
+    }
+  }
+}
 .orgTree {
     display: inline-block;
     min-width: 100%;

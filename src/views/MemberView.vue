@@ -9,7 +9,7 @@
             <h3 class="title"><span class="txt">Member</span></h3>
             <div class="taskArea">
               <div class="btnGroup">
-                <button type="button" class="btn btn-danger w-10 btnDeleteMember">Delete</button>
+                <button type="button" class="btn btn-danger w-10 btnDeleteMember" @click="handleDelete">Delete</button>
                 <button type="button" class="btn w-10 btnAddMember ms-3">Add members</button>
               </div>
             </div>
@@ -21,7 +21,7 @@
               </div>
               <div class="memberList">
                 <div class="listHead">
-                  <h1><span class="groupName">test</span><em class="cnt">2</em></h1>
+                  <h1><span class="groupName">{{user.name}}</span><em class="cnt">{{members.length}}</em></h1>
                   <div class="taskArea">
                     <button type="button" class="btnSearch">
                       <i class="bi bi-search"></i>
@@ -49,7 +49,7 @@
                   </div>
                   <div class="tableScoll">
                     <div class="memberlistTable" v-if="members.length">
-                      <router-link to="home" class="lwTr" v-for="member in members" :key="member.id">
+                      <div class="lwTr" v-for="member in members" :key="member.id">
                           <div class="lwTd check">
                             <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
                           </div>
@@ -58,7 +58,7 @@
                           </div>
                           <div class="lwTd userName">
                             <span class="nameCover">
-                              <span class="name">{{ member.name }}</span>
+                              <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
                               <span class="name_en"></span>
                             </span>
                             <span class="team"></span>
@@ -70,7 +70,7 @@
                             <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
                           </div>
                           <div class="lwTd detail"></div>
-                        </router-link>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -80,7 +80,6 @@
         </div>
       </div>
     </div>
-    {{ members }}
   </div>
 </template>
 
@@ -89,7 +88,8 @@
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import OganizationList from "@/components/OganizationList.vue";
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex';
+import { userService } from '../services';
 
 export default {
   name: "MemberView",
@@ -108,6 +108,7 @@ export default {
     ...mapState('members', ['members']),
     ...mapState('organizations', ['organizations']),
     ...mapState('positions', ['positions']),
+    ...mapState('account', ['user']),
 
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
@@ -124,6 +125,7 @@ export default {
     ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('positions', ['getPositions']),
+    ...mapActions('account', ['getPositions']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -152,6 +154,7 @@ export default {
             note: data[i].note,
             pid: data[i].pid,
             level: level,
+            isActive: false,
             children: []
           };
           const children = this.buildTree(data, data[i].id, level + 1);
@@ -162,12 +165,26 @@ export default {
         }
       }
       return tree;
+    },
+    handleDelete(){
+      this.selected.forEach(element => {
+        userService.delete(element);
+        
+      });
+      setTimeout(()=>{
+        location.reload(true)
+      }, 3000)
+
     }
     
   }
 };
 </script>
 <style scoped lang="scss">
+a {
+  text-decoration: none;
+  color: #2c3e50;
+}
   .contentsHead {
     display: flex;
     justify-content: space-between;
@@ -441,56 +458,6 @@ export default {
     }
     .subGroup {
       padding-left: 0;
-      // .treeItem {
-      //   padding-left: 12px;
-      // }
-      // .subGroup {
-      //   .tree_item {
-      //     padding-left: 24px;
-      //   }
-      //   .subGroup {
-      //     .tree_item {
-      //       padding-left: 36px;
-      //     }
-      //     .subGroup {
-      //       .tree_item {
-      //         padding-left: 48px;
-      //       }
-      //       .subGroup {
-      //         .tree_item {
-      //           padding-left: 60px;
-      //         }
-      //         .subGroup {
-      //           .tree_item {
-      //             padding-left: 72px;
-      //           }
-      //           .subGroup {
-      //             .tree_item {
-      //               padding-left: 84px;
-      //             }
-      //             .subGroup {
-      //               .tree_item {
-      //                 padding-left: 96px;
-      //               }
-      //               .subGroup {
-      //                 .tree_item {
-      //                   padding-left: 108px;
-      //                 }
-      //                 .subGroup {
-      //                   .tree_item {
-      //                     padding-left: 120px;
-      //                   }
-      //                 }
-      //               }
-      //             }
-      //           }
-                
-      //         }
-      //       }
-      //     }
-          
-      //   }
-      // }
     }
   }
   .cstTooltip {

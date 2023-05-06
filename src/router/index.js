@@ -3,6 +3,8 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import MemberView from "../views/MemberView.vue";
+import MemberDetail from "../views/MemberDetail.vue";
+import UserInfo from "../views/UserInfo.vue";
 
 const routes = [
   {
@@ -24,6 +26,17 @@ const routes = [
     path: "/member",
     name: "member",
     component: MemberView,
+  },
+  { 
+    path: '/member/:id', 
+    name: "MemberDetail",
+    component: MemberDetail ,
+    props: true
+  },
+  { 
+    path: '/settings', 
+    name: "UserInfo",
+    component: UserInfo
   },
   { path: "/:catchAll(.*)", redirect: "/" },
 ];

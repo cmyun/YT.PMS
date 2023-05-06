@@ -4,6 +4,7 @@ export const userService = {
     register,
     getAll,
     getById,
+    getInfoById,
     getByOrg,
     update,
     delete: _delete
@@ -33,7 +34,6 @@ function logout() {
 }
 
 function register(user) {
-    console.log(JSON.stringify(user))
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -58,6 +58,15 @@ function getById(id) {
     };
     // /user-management/organizations/{id}/users
     return fetch(`${apiUrl}/user-management/users/${id}`, requestOptions).then(handleResponse);
+}
+// /user-management/users/{id}/details
+function getInfoById(id) {
+    const requestOptions = {
+        method: 'GET',
+        // headers: authHeader()
+    };
+    // /user-management/organizations/{id}/users
+    return fetch(`${apiUrl}/user-management/users/${id}/details`, requestOptions).then(handleResponse);
 }
 function getByOrg(orgId) {
     const requestOptions = {
