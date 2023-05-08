@@ -10,14 +10,14 @@
             <div class="taskArea">
               <div class="btnGroup">
                 <button type="button" class="btn btn-danger w-10 btnDeleteMember" @click="handleDelete">Delete</button>
-                <button type="button" class="btn w-10 btnAddMember ms-3">Add members</button>
+                <button type="button" class="btn w-10 btnAddMember ms-3" @click="openModal">Add members</button>
               </div>
             </div>
           </div>
           <div class="contentsBody">
             <div class="memberView">
               <div class="organization">
-                <oganization-list :treeData="newOrganizations" :className="'orgTree'"/>
+                <oganization-list :treeData="newOrganizations" :className="'orgTree'" :callApi="true" @button-clicked="()=>{console.log(1)}"></oganization-list>/>
               </div>
               <div class="memberList">
                 <div class="listHead">
@@ -78,8 +78,11 @@
             </div>
           </div>
         </div>
+        <modal-form :title="title" :visible="visible" @close="closeModal" @submit="submitForm" >
+        </modal-form>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -87,6 +90,7 @@
 
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import ModalForm from '@/components/ModalForm.vue';
 import OganizationList from "@/components/OganizationList.vue";
 import { mapState, mapActions } from 'vuex';
 import { userService } from '../services';
@@ -96,12 +100,15 @@ export default {
   components: {
     Header,
     Sidebar,
-    OganizationList
+    OganizationList,
+    ModalForm
   },
   data(){
     return {
       selectAll: false,
-      selected: []
+      selected: [],
+      title: 'Modal Form',
+      visible: false,
     }
   },
   computed: {
@@ -119,13 +126,11 @@ export default {
     this.getMembersByOrg(0);
     this.getOrganizations();
     this.getPositions();
-    // console.log(this.members)
   },
   methods: {
     ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('positions', ['getPositions']),
-    ...mapActions('account', ['getPositions']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -175,7 +180,17 @@ export default {
         location.reload(true)
       }, 3000)
 
+    },
+    openModal() {
+      this.visible = true;
+    },
+    closeModal() {
+      this.visible = false;
+    },
+    handleSelected(item){
+      
     }
+
     
   }
 };

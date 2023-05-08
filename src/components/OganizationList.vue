@@ -1,17 +1,18 @@
 <template>
-  <!-- <ul class="orgTree subGroup">    -->
   <ul :class="className" class="subGroup">
-    <li v-for="(item, index) in treeData" :key="index">
-        <span class="treeItem" :class="(item.pid == -1) ? 'selected corp' : ''" @click="getMembersByOrganization(item)">
-          <a href="javascript:void(0)"  class="groupName">{{ item.name }}</a>
-        </span>
-        <organization-list :treeData="item.children" v-if="item.children.length" />
+    <li v-for="(item, index) in treeData" :key="index" :data-value="item.id" >
+      <span class="treeItem" :class="(item.pid == -1) ? 'selected corp' : ''" @click="onItemClick(item)">
+        <a href="javascript:void(0)"  class="groupName">{{ item.name }}</a>
+      </span>
+      <organization-list :treeData="item.children" v-if="item.children"
+      @button-clicked:treeData="newItems => item.children = newItems"/>
     </li>       
   </ul>
 </template>
   
-  <script>
-  import { mapState, mapActions } from 'vuex'
+<script>
+  import { mapState, mapActions } from 'vuex';
+
   export default {
     name: "OrganizationList",
     props: {
@@ -22,26 +23,43 @@
       className: {
         type: String,
         default: () => ''
-      }
+      },
+      callApi: {
+        type: Boolean,
+        default: false
+      },
+      // onSelected: {
+      //   type: Function,
+        
+      // }
     },
-    data() {
+    // computed: {
+    //   ...mapState('members', ['members'])
+    // },
+    emits: ['button-clicked:treeData'],
+    setup(props, {emit}) {
+      
+      const onItemClick = (item) => {
+        // let _this = this;
+        // if(props.callApi){
+        //   context.getMembersByOrg(item.id);
+        // }else{
+        // }else {
+          // console.log(props.treeData);
+          // _this.onSelected();
+          emit('button-clicked:treeData', props.treeData);
+        // }
+        
+      };
       return {
-        // isActive: false,
+        onItemClick
       }
-    },
-    computed: {
-      ...mapState('members', ['members'])
     },
     methods: {
-      ...mapActions('members', ['getMembersByOrg']),
-      getMembersByOrganization(item){
-        this.getMembersByOrg(item.id);
-
-      },
-      
+      // ...mapActions('members', ['getMembersByOrg']),
     }
   };
-  </script>
+</script>
 <style scope lang="scss">
 .subGroup {
   padding-left: 0;

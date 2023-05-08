@@ -1,14 +1,34 @@
+import { authHeader } from '../helpers';
 export const positionService = {
-    getAll
+    getAll,
+    getLevels,
+    getTypes
 };
 
 const apiUrl = 'http://dev.yunwootech.com:52304';
 function getAll() {
     const requestOptions = {
-        method: 'GET'
+        method: 'GET',
+        headers: authHeader()
     };
 
     return fetch(`${apiUrl}/code-management/positions`, requestOptions).then(handleResponse);
+}
+function getLevels() {
+  const requestOptions = {
+      method: 'GET',
+      headers: authHeader()
+  };
+
+  return fetch(`${apiUrl}/code-management/levels`, requestOptions).then(handleResponse);
+}
+function getTypes() {
+  const requestOptions = {
+      method: 'GET',
+      headers: authHeader()
+  };
+
+  return fetch(`${apiUrl}/code-management/types`, requestOptions).then(handleResponse);
 }
 function handleResponse(response) {
     return response.text().then(text => {

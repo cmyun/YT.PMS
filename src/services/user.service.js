@@ -1,3 +1,5 @@
+import { authHeader } from '../helpers';
+
 export const userService = {
     login,
     logout,
@@ -19,12 +21,13 @@ function login(id, password) {
         body: JSON.stringify({ id, password })
     };
 
-    return fetch(`${apiUrl}/user-management/login`, requestOptions)
+    return fetch(`${apiUrl}/account-management/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            // if (user.token) {
+            console.log(user)
+            if (user.token) {
                 localStorage.setItem('user', JSON.stringify(user));
-            // }
+            }
             return user;
         });
 }
@@ -46,7 +49,7 @@ function register(user) {
 function getAll() {
     const requestOptions = {
         method: 'GET',
-        // headers: authHeader()
+        headers: authHeader()
     };
 
     return fetch(`${apiUrl}/user-management/users`, requestOptions).then(handleResponse);
@@ -54,7 +57,7 @@ function getAll() {
 function getById(id) {
     const requestOptions = {
         method: 'GET',
-        // headers: authHeader()
+        headers: authHeader()
     };
     // /user-management/organizations/{id}/users
     return fetch(`${apiUrl}/user-management/users/${id}`, requestOptions).then(handleResponse);
@@ -63,7 +66,7 @@ function getById(id) {
 function getInfoById(id) {
     const requestOptions = {
         method: 'GET',
-        // headers: authHeader()
+        headers: authHeader()
     };
     // /user-management/organizations/{id}/users
     return fetch(`${apiUrl}/user-management/users/${id}/details`, requestOptions).then(handleResponse);
@@ -71,7 +74,7 @@ function getInfoById(id) {
 function getByOrg(orgId) {
     const requestOptions = {
         method: 'GET',
-        // headers: authHeader()
+        headers: authHeader()
     };
 
     return fetch(`${apiUrl}/user-management/organizations/${orgId}/users`, requestOptions).then(handleResponse);
@@ -80,7 +83,7 @@ function update(user) {
     const requestOptions = {
         method: 'PUT',
         headers: { 
-            // ...authHeader(), 
+            ...authHeader(), 
             'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
@@ -90,7 +93,7 @@ function update(user) {
 function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
-        // headers: authHeader()
+        headers: authHeader()
     };
 
     return fetch(`${apiUrl}/user-management/users/${id}`, requestOptions).then(handleResponse);

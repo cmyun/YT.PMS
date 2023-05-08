@@ -9,7 +9,7 @@ const state = user
 const actions = {
     login({ dispatch, commit }, { id, password }) {
         commit('loginRequest', { id });
-    
+        console.log(id, password)
         userService.login(id, password)
             .then(
                 user => {

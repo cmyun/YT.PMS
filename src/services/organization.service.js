@@ -1,3 +1,4 @@
+import { authHeader } from '../helpers';
 export const organizationService = {
     getAll
 };
@@ -7,7 +8,9 @@ const apiUrl = 'http://dev.yunwootech.com:52304';
 
 function getAll() {
     const requestOptions = {
-        method: 'GET'
+        method: 'GET',
+        headers: authHeader()
+        // ations 401 (U
     };
 
     return fetch(`${apiUrl}/organization-management/organizations`, requestOptions).then(handleResponse);
