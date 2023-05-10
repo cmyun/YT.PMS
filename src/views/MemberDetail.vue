@@ -93,7 +93,6 @@
           @close="closeModal" 
           @submit="submitForm" 
           :data="member[0]"></modal-edit-form>
-{{ member }}
       </div>
     </div>
   </div>
@@ -142,7 +141,6 @@ export default {
     ...mapActions('positions', ['getPositions']),
     ...mapActions('member', ['updateUser']),
     openModal() {
-      // alert(0)
       this.visible = true;
     },
     closeModal() {

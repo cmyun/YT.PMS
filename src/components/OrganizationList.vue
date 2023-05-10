@@ -1,15 +1,16 @@
 <template>
   <ul :class="className" class="subGroup">
     <li v-for="(item, index) in treeData" :key="index" >
-      <span class="treeItem" :class="computedClasses(item)" @click="onDataUp(item)">
+      <span :id="'id_'+item.id" class="treeItem" @click="onDataUp(item)" :class="getClass(item)" >
         <a href="javascript:void(0)"  class="groupName">{{ item.name }}</a>
       </span>
-      <organization-list :treeData="item.children" v-if="item.children"
+      <organization-list 
+      :treeData="item.children" 
+      v-if="item.children"
       @data-up="onDataUp" />
     </li>       
   </ul> 
 </template>
-<!-- @selectOrg="onSelectOrg" -->
 <script>
   import { mapState, mapActions } from 'vuex';
 
@@ -24,41 +25,21 @@
         type: String,
         default: () => ''
       },
-      // activeTab: {
-      //   type: Number,
-      //   default: 0,
-      // },
-      
-    },
-    setup(){
       
     },
     data(){
       return {
-        classList: ''
+        // currentItem: 0
       }
-    },
-    created: {
-
     },
     methods: {
       onDataUp(data) {
         this.$emit('data-up', data);
-        data.isActive = true;
-        this.computedClasses(data);
-        console.log(data);
       },
-      computedClasses(item){
-        // console.log(0);
-        const classes = [];
-        if (item.isActive) {
-          classes.push('selected');
+      getClass(item){
+        if(item.id==0){
+          return 'corp selected';
         }
-        if (item.id==0) {
-          classes.push('corp');
-        }
-        // this.classList = classes.join(' ');
-        return classes.join(' ');
       }
     },
   };
@@ -108,7 +89,17 @@
       display: flex;
       margin-bottom: 2px;
       border-radius: 2px;
-      
+      &.selected {
+        background-color: #e7f2fe;
+        .groupName {
+          color: #157efb;
+          font-weight: 700;
+          &:before {
+            background-image: url(../assets/icon_group_active.svg)
+          }
+        }
+        
+      }
       &.corp {
         .groupName {
           &:before {

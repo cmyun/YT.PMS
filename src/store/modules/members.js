@@ -32,9 +32,6 @@ const actions = {
               user => {
                   commit('addMemberSuccess', user);
               },
-              // error => {
-              //     commit('registerFailure', error);
-              // }
           );
     },
 };

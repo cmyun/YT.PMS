@@ -266,6 +266,7 @@ export default {
     background-color: #fff;
     border: 1px solid #989898;
     display: none;
+    z-index: 1000;
     &.active {
         display: block;
     }

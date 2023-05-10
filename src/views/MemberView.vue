@@ -88,7 +88,6 @@
         </modal-form>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -181,7 +180,6 @@ export default {
     handleDelete(){
       this.selected.forEach(element => {
         userService.delete(element);
-        
       });
       setTimeout(()=>{
         location.reload(true)
@@ -195,12 +193,25 @@ export default {
       this.visible = false;
     },
     submitForm(data){
-      console.log(data)
       this.addMember(data);
       this.closeModal()
     },
     onDataUp(data){
-      this.getMembersByOrg(data.id)
+      const a = '.main .orgTree #id_'+data.id;
+      document.querySelector(a).className="treeItem selected";
+      const arr = document.querySelectorAll('.main .orgTree .treeItem');
+      arr.forEach(element => {
+
+        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
+          element.className = "treeItem";
+
+        }
+        if(element.id=='id_0'){
+          element.classList.add('corp');
+        }
+      });
+
+      this.getMembersByOrg(data.id);
     }
     
   }
@@ -349,9 +360,6 @@ a {
     li {
       position: relative;
     }
-    ul {
-      // padding-left: 0;
-    }
     .treeItem {
       position: relative;
       display: flex;
@@ -365,7 +373,6 @@ a {
           &:before {
             background-image: url(../assets/icon_group_active.svg)
           }
-          
         }
         
       }

@@ -4,7 +4,6 @@
     <div class="modal-container">
       <div class="modal-header">
         <h2>Add members</h2>
-        <!-- <button class="modal-close" @click="close">X</button> -->
       </div>
       <div class="modal-body">
         <Form @submit="submitForm">
@@ -94,8 +93,7 @@
                         <div class="field">
                           <i class="hd"><em class="emp">Required field</em>Organization</i>
                           <div class="box">
-                              <Field name="organization_ID" type="text" class="lw_input" placeholder="Organization" v-model="form.organization_ID"/>
-                              <ErrorMessage name="organization_ID" class="text_error"/>
+                              <Field name="organization_ID" type="text" class="lw_input" placeholder="Organization" readonly v-model="form.organization_ID"/>
                               <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
                           </div>
                         </div>
@@ -242,8 +240,8 @@ export default {
         remark: '',
         note: ''
       },
+      // organization_name: '',
       visibleOrg: false,
-      // selectedOrg: {}
     }
   },
   computed: {
@@ -257,7 +255,6 @@ export default {
     this.getTypes();
     this.getOrganizations();
     this.getPositions();
-    // this.form = this.data;
   },
   methods: {
     ...mapActions('levels', ['getLevels']),
