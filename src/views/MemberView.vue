@@ -98,7 +98,7 @@ import Sidebar from "@/components/Sidebar.vue";
 import ModalForm from '@/components/ModalForm.vue';
 import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
-import { userService } from '../services';
+// import { userService } from '../services';
 
 export default {
   name: "MemberView",
@@ -137,6 +137,7 @@ export default {
     ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('positions', ['getPositions']),
     ...mapActions('members', ['addMember']),
+    ...mapActions('members', ['deleteMember']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -178,12 +179,13 @@ export default {
       return tree;
     },
     handleDelete(){
-      this.selected.forEach(element => {
-        userService.delete(element);
-      });
-      setTimeout(()=>{
-        location.reload(true)
-      }, 3000)
+      // this.selected.forEach(element => {
+      console.log(this.selected)
+      this.deleteMember(this.selected);
+      // });
+      // setTimeout(()=>{
+      //   location.reload(true)
+      // }, 3000)
 
     },
     openModal() {
@@ -204,7 +206,6 @@ export default {
 
         if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
           element.className = "treeItem";
-
         }
         if(element.id=='id_0'){
           element.classList.add('corp');

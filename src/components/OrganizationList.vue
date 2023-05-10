@@ -27,11 +27,6 @@
       },
       
     },
-    data(){
-      return {
-        // currentItem: 0
-      }
-    },
     methods: {
       onDataUp(data) {
         this.$emit('data-up', data);

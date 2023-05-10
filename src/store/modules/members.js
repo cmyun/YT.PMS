@@ -34,6 +34,14 @@ const actions = {
               },
           );
     },
+    deleteMember({ dispatch, commit }, id) {
+      userService.delete(id)
+          .then(
+              user => {
+                  commit('deleteMemberSuccess', id);
+              },
+          );
+    },
 };
 
 const mutations = {
@@ -44,6 +52,11 @@ const mutations = {
         let members = state.members;
         members.push(member);
         state.members = members;
+    },
+    deleteMemberSuccess(state, id) {
+      let members = state.members;
+      const filteredData = members.filter(item => !id.includes(item.id));
+      state.members = filteredData;
     },
     getMembersFailure(state) {
       state.members = [];
