@@ -4,20 +4,23 @@
     <div class="modal-container">
       <div class="modal-header">
         <h2>{{ title }}</h2>
-        <button class="modal-close" @click="close">X</button>
       </div>
       <div class="modal-body">
-        <oganization-list :treeData="newOrganizations" :className="'orgTree'" :callApi="false" @button-clicked:treeData="onItemClick"/>
+        <organization-list 
+        :treeData="newOrganizations" 
+        :className="'orgTree'"
+        @data-up="onDataUp" 
+        />
       </div>
       <div class="btn_box">
-        <button type="button" class="lw_btn">Cancel</button>
-        <button type="button" class="lw_btn_point">Add</button>
+        <button type="button" class="lw_btn" @click="close">Cancel</button>
+        <button type="button" class="lw_btn_point" @click="onSelectOrg">Add</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import OganizationList from "@/components/OganizationList.vue";
+import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
 export default {
   name: "OrgModal",
@@ -31,8 +34,13 @@ export default {
       default: false
     }
   },
+  data(){
+    return {
+      selectedOrg: {}
+    }
+  },
   components: {
-    OganizationList
+    OrganizationList
   },
   computed: {
     ...mapState('organizations', ['organizations']),
@@ -74,12 +82,14 @@ export default {
     submitForm() {
       this.$emit('submit');
     },
-    test(item){
-      console.log(22222222)
-      console.log(item)
-    },
     onItemClick(newItems) {
       this.newOrganizations = newItems;
+    },
+    onDataUp(data) {
+      this.selectedOrg = data;
+    },
+    onSelectOrg(){
+      this.$emit('selectedOrg', this.selectedOrg)
     }
   }
 }

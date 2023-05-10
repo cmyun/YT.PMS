@@ -17,7 +17,12 @@
           <div class="contentsBody">
             <div class="memberView">
               <div class="organization">
-                <oganization-list :treeData="newOrganizations" :className="'orgTree'" :callApi="true" @button-clicked="()=>{console.log(1)}"></oganization-list>/>
+                <organization-list 
+                :treeData="newOrganizations" 
+                :className="'orgTree'"
+                @data-up="onDataUp" 
+              >
+              </organization-list>
               </div>
               <div class="memberList">
                 <div class="listHead">
@@ -78,7 +83,8 @@
             </div>
           </div>
         </div>
-        <modal-form :title="title" :visible="visible" @close="closeModal" @submit="submitForm" >
+        <modal-form :title="title" :visible="visible" @close="closeModal" 
+        @submit="submitForm" >
         </modal-form>
       </div>
     </div>
@@ -91,7 +97,7 @@
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ModalForm from '@/components/ModalForm.vue';
-import OganizationList from "@/components/OganizationList.vue";
+import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
 import { userService } from '../services';
 
@@ -100,7 +106,7 @@ export default {
   components: {
     Header,
     Sidebar,
-    OganizationList,
+    OrganizationList,
     ModalForm
   },
   data(){
@@ -131,6 +137,7 @@ export default {
     ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('positions', ['getPositions']),
+    ...mapActions('members', ['addMember']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -187,10 +194,14 @@ export default {
     closeModal() {
       this.visible = false;
     },
-    handleSelected(item){
-      
+    submitForm(data){
+      console.log(data)
+      this.addMember(data);
+      this.closeModal()
+    },
+    onDataUp(data){
+      this.getMembersByOrg(data.id)
     }
-
     
   }
 };

@@ -11,22 +11,31 @@ const actions = {
             .then(
                 members => {
                     commit('setMembers', members);
-                }
+                },
+
             );
     },
-    // const actions = {
-    //     login({ dispatch, commit }, { id, password }) {
-    //         commit('loginRequest', { id });
-        
-    //         userService.login(id, password)
     getMembersByOrg({ commit }, orgId) {
-        console.log(orgId)
         userService.getByOrg(orgId)
             .then(
                 members => {
                     commit('setMembers', members);
+                },
+                error => {
+                  commit('getMembersFailure', error);
                 }
             );
+    },
+    addMember({ dispatch, commit }, user) {
+      userService.register(user)
+          .then(
+              user => {
+                  commit('addMemberSuccess', user);
+              },
+              // error => {
+              //     commit('registerFailure', error);
+              // }
+          );
     },
 };
 
@@ -34,10 +43,13 @@ const mutations = {
     setMembers(state, members) {
         state.members = members
     },
-    addMember(state, member) {
+    addMemberSuccess(state, member) {
         let members = state.members;
         members.push(member);
         state.members = members;
+    },
+    getMembersFailure(state) {
+      state.members = [];
     },
 };
 

@@ -181,7 +181,8 @@
         </form>
       </div>
       
-      <org-modal :title="'Select Organization'" :visible="visibleOrg" 
+      <org-modal :title="'Select Organization'" 
+      :visible="visibleOrg" 
       @close="closeModalOrg" 
       @selectedOrg="onSelectedOrg">
       </org-modal>
@@ -206,7 +207,7 @@ configure({
 });
 
 export default {
-  name: 'ModalForm',
+  name: 'ModalEditForm',
   props: {
     title: {
       type: String,
@@ -215,6 +216,10 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -257,7 +262,7 @@ export default {
     this.getTypes();
     this.getOrganizations();
     this.getPositions();
-    // this.form = this.data;
+    this.form = this.data;
   },
   methods: {
     ...mapActions('levels', ['getLevels']),
@@ -268,6 +273,7 @@ export default {
       this.$emit('close');
     },
     submitForm() {
+      console.log(this.form)
       this.$emit('submit', this.form);
     },
     closeModalOrg() {

@@ -1,15 +1,15 @@
 <template>
   <ul :class="className" class="subGroup">
-    <li v-for="(item, index) in treeData" :key="index" :data-value="item.id" >
-      <span class="treeItem" :class="(item.pid == -1) ? 'selected corp' : ''" @click="onItemClick(item)">
+    <li v-for="(item, index) in treeData" :key="index" >
+      <span class="treeItem" :class="computedClasses(item)" @click="onDataUp(item)">
         <a href="javascript:void(0)"  class="groupName">{{ item.name }}</a>
       </span>
       <organization-list :treeData="item.children" v-if="item.children"
-      @button-clicked:treeData="newItems => item.children = newItems"/>
+      @data-up="onDataUp" />
     </li>       
-  </ul>
+  </ul> 
 </template>
-  
+<!-- @selectOrg="onSelectOrg" -->
 <script>
   import { mapState, mapActions } from 'vuex';
 
@@ -24,40 +24,43 @@
         type: String,
         default: () => ''
       },
-      callApi: {
-        type: Boolean,
-        default: false
-      },
-      // onSelected: {
-      //   type: Function,
-        
-      // }
-    },
-    // computed: {
-    //   ...mapState('members', ['members'])
-    // },
-    emits: ['button-clicked:treeData'],
-    setup(props, {emit}) {
+      // activeTab: {
+      //   type: Number,
+      //   default: 0,
+      // },
       
-      const onItemClick = (item) => {
-        // let _this = this;
-        // if(props.callApi){
-        //   context.getMembersByOrg(item.id);
-        // }else{
-        // }else {
-          // console.log(props.treeData);
-          // _this.onSelected();
-          emit('button-clicked:treeData', props.treeData);
-        // }
-        
-      };
+    },
+    setup(){
+      
+    },
+    data(){
       return {
-        onItemClick
+        classList: ''
       }
     },
+    created: {
+
+    },
     methods: {
-      // ...mapActions('members', ['getMembersByOrg']),
-    }
+      onDataUp(data) {
+        this.$emit('data-up', data);
+        data.isActive = true;
+        this.computedClasses(data);
+        console.log(data);
+      },
+      computedClasses(item){
+        // console.log(0);
+        const classes = [];
+        if (item.isActive) {
+          classes.push('selected');
+        }
+        if (item.id==0) {
+          classes.push('corp');
+        }
+        // this.classList = classes.join(' ');
+        return classes.join(' ');
+      }
+    },
   };
 </script>
 <style scope lang="scss">
@@ -82,23 +85,30 @@
     }
     li {
       position: relative;
+      &.selected {
+        background-color: #e7f2fe;
+        &>.treeItem{
+          .groupName {
+            color: #157efb;
+            font-weight: 700;
+            &:before {
+              background-image: url(../assets/icon_group_active.svg)
+            }
+            &.corp {
+              &:before {
+                background-image: url(../assets/icon_organization_active.svg);
+              }
+            }
+          }
+        }
+      }
     }
     .treeItem {
       position: relative;
       display: flex;
       margin-bottom: 2px;
       border-radius: 2px;
-      &.selected {
-        background-color: #e7f2fe;
-        .groupName {
-          color: #157efb;
-          font-weight: 700;
-          &:before {
-            background-image: url(../assets/icon_group_active.svg)
-          }
-        }
-        
-      }
+      
       &.corp {
         .groupName {
           &:before {
@@ -106,13 +116,7 @@
           }
           
         }
-        &.selected {
-          .groupName {
-            &:before {
-              background-image: url(../assets/icon_organization_active.svg);
-            }
-          }
-        }
+        
       }
       
       .groupName {

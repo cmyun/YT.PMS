@@ -9,7 +9,7 @@
             <h3 class="title"><span class="txt">Member Information</span></h3>
             <div class="taskArea">
               <div class="btnGroup">
-                <button type="button" class="btn btn-primary w-10 btnEditMember">Edit member information</button>
+                <button type="button" class="btn btn-primary w-10 btnEditMember" @click="openModal">Edit member information</button>
               </div>
             </div>
           </div>
@@ -88,6 +88,12 @@
             </div>
           </div>
         </div>
+        <modal-edit-form :title="'title'" 
+          :visible="visible" 
+          @close="closeModal" 
+          @submit="submitForm" 
+          :data="member[0]"></modal-edit-form>
+{{ member }}
       </div>
     </div>
   </div>
@@ -96,6 +102,8 @@
 <script>
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import ModalEditForm from '@/components/ModalEditForm.vue';
+// import ModalForm from '@/components/ModalForm.vue';
 import { mapState, mapActions } from 'vuex'
 export default {
   name: "MemberDetail",
@@ -105,9 +113,15 @@ export default {
       required: true
     }
   },
+  data(){
+    return {
+      visible: false
+    }
+  },
   components: {
     Header,
-    Sidebar
+    Sidebar,
+    ModalEditForm
   },
   computed: {
     ...mapState('member', ['member']),
@@ -121,10 +135,23 @@ export default {
   created() {
     this.getMemberInfo(this.id);
     this.getPositions();
+    
   },
   methods: {
     ...mapActions('member', ['getMemberInfo']),
     ...mapActions('positions', ['getPositions']),
+    ...mapActions('member', ['updateUser']),
+    openModal() {
+      // alert(0)
+      this.visible = true;
+    },
+    closeModal() {
+      this.visible = false;
+    },
+    submitForm(data){
+      this.updateUser(data);
+      this.closeModal()
+    }
   }
 }
 </script>

@@ -6,19 +6,6 @@ const state = {
 }
 
 const actions = {
-    // getMember({ commit }) {
-    //     userService.getAll()
-    //         .then(
-    //             member => {
-    //                 commit('setMember', member);
-    //             }
-    //         );
-    // },
-    // const actions = {
-    //     login({ dispatch, commit }, { id, password }) {
-    //         commit('loginRequest', { id });
-        
-    //         userService.login(id, password)
     getMemberInfo({ commit }, id) {
         console.log(id)
         userService.getInfoById(id)

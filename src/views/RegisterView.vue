@@ -103,7 +103,6 @@ export default {
     ...mapActions('account', ['register']),
     handleSubmit(e) {
         const user = this;
-        console.log(user)
         this.submitted = true;
         this.register(this.user);
     }
