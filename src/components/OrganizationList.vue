@@ -98,9 +98,19 @@
       &.corp {
         .groupName {
           &:before {
-            background-image: url(../assets/icon_organization.svg)
+            background-image: url(../assets/icon_organization.svg);
+            
           }
           
+        }
+        &.selected {
+          .groupName {
+            &:before {
+              background-image: url(../assets/icon_organization_active.svg);
+              
+            }
+            
+          }
         }
         
       }

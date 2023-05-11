@@ -40,6 +40,9 @@ const actions = {
               user => {
                   commit('deleteMemberSuccess', id);
               },
+              error => {
+                commit('deleteMemberFailure', error)
+              }
           );
     },
 };
@@ -57,6 +60,9 @@ const mutations = {
       let members = state.members;
       const filteredData = members.filter(item => !id.includes(item.id));
       state.members = filteredData;
+    },
+    deleteMemberFailure(state, error) {
+      state.status = error;
     },
     getMembersFailure(state) {
       state.members = [];

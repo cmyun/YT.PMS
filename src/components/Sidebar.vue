@@ -4,19 +4,19 @@
             <div class="menuBox">
                 <ul class="menuList">
                     <li>
-                        <router-link to="member" class="item">
+                        <router-link to="/member" class="item">
                             <span class="icon iconMember"></span>
                             <span class="itemTxt">Member</span>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="organization" class="item">
+                        <router-link to="/organization" class="item">
                             <span class="icon iconOrganization"></span>
                             <span class="itemTxt">Organization</span>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="group" class="item">
+                        <router-link to="/group" class="item">
                             <span class="icon iconGroup"></span>
                             <span class="itemTxt">Group</span>
                         </router-link>

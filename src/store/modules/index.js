@@ -9,6 +9,7 @@ import { positions } from './modules/positions';
 import { types } from './modules/types';
 import { levels } from './modules/levels';
 import { organizations } from './modules/organizations';
+import { groups } from './modules/groups';
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export const store = new Vuex.Store({
     positions,
     types,
     levels,
-    organizations
+    organizations,
+    groups
   }
 });

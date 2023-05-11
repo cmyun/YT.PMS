@@ -7,6 +7,7 @@ import { positions } from './modules/positions';
 import { types } from './modules/types';
 import { levels } from './modules/levels';
 import { organizations } from './modules/organizations';
+import { groups } from './modules/groups';
 
 export default createStore({
   modules: {
@@ -17,7 +18,8 @@ export default createStore({
     positions,
     types,
     levels,
-    organizations
+    organizations,
+    groups
   }
 });
 

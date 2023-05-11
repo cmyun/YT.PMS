@@ -6,27 +6,19 @@
       <div id="content" class="fixLayout">
         <div class="main">
           <div class="contentsHead">
-            <h3 class="title"><span class="txt">Member</span></h3>
+            <h3 class="title"><span class="txt">Group</span></h3>
             <div class="taskArea">
               <div class="btnGroup">
-                <button type="button" class="btn btn-danger w-10 btnDeleteMember" @click="openConf" :disabled="!selected.length">Delete</button>
-                <button type="button" class="btn w-10 btnAddMember ms-3" @click="openModal">Add members</button>
+                <button type="button" class="btn btn-danger w-10 btnDeleteGroup" @click="openConf" :disabled="!selected.length">Delete</button>
+                <button type="button" class="btn w-10 btnAddGroup ms-3" @click="openModal">Add group</button>
               </div>
             </div>
           </div>
           <div class="contentsBody">
             <div class="memberView">
-              <div class="organization">
-                <organization-list 
-                :treeData="newOrganizations" 
-                :className="'orgTree'"
-                @data-up="onDataUp" 
-              >
-              </organization-list>
-              </div>
               <div class="memberList">
                 <div class="listHead">
-                  <h1><span class="groupName">{{user.name}}</span><em class="cnt">{{members.length}}</em></h1>
+                  <h1><span class="groupName">Total</span><em class="cnt">{{groups.length}}</em></h1>
                   <div class="taskArea">
                     <button type="button" class="btnSearch">
                       <i class="bi bi-search"></i>
@@ -46,35 +38,32 @@
                         <label for="default-id-3-all"></label>
                       </div>
                       <div class="lwTh profile"></div>
-                      <div class="lwTh userName">First name</div>
-                      <div class="lwTh title">Level</div>
-                      <div class="lwTh status">Account Status</div>
-                      <div class="lwTh detail">Remark</div>
+                      <div class="lwTh userName">Group name</div>
+                      <div class="lwTh title">Master(s)</div>
+                      <div class="lwTh status">Group created on</div>
                     </div>
                   </div>
                   <div class="tableScoll">
-                    <div class="memberlistTable" v-if="members.length">
-                      <div class="lwTr" v-for="member in members" :key="member.id">
+                    <div class="memberlistTable" v-if="groups.length">
+                      <div class="lwTr" v-for="group in groups" :key="group.id">
                           <div class="lwTd check">
-                            <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
+                            <input :name="group.id" :value="group.id" type="checkbox" class="lw_checkbox" :id="group.id" v-model="selected" @change='updateCheckall()'>
                           </div>
                           <div class="lwTd profile">
-                            <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
+                            <span class="thumb_cover"><img src="../assets/img_group.png" alt=""></span>
                           </div>
                           <div class="lwTd userName">
                             <span class="nameCover">
-                              <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
+                              <a href="javascript:void(0)" @click="openGroupDetail(group.id)" class="name">{{ group.name }}</a>
                               <span class="name_en"></span>
                             </span>
-                            <span class="team"></span>
                           </div>
                           <div class="lwTd title">
-                            <span class="ellipsis_element">{{ member.position_ID }}</span>
+                            <span class="ellipsis_element">{{ group.userName }}</span>
                           </div>
                           <div class="lwTd status">
-                            <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
+                            <span class="msg using">{{group.cDate}}</span>
                           </div>
-                          <div class="lwTd detail"></div>
                         </div>
                     </div>
                   </div>
@@ -86,10 +75,17 @@
         <modal-form :title="title" :visible="visible" @close="closeModal" 
         @submit="submitForm" >
         </modal-form>
-        <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
+        <confirmation-box :visible="visibleConf" :index="getGroupName()" @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
-        <!-- <alert-box :visible="status!=null" :type="status!=null?'alert-danger':'alert-success'" :message="status" @close="closeAlert" /> -->
+        <group-detail-modal
+          :visible="visibleDetail"
+          :id="detailIdActive"
+          @close="closeGroupDetail"
+        >
+
+        </group-detail-modal>
       </div>
+      {{ group }}
     </div>
   </div>
 </template>
@@ -100,21 +96,20 @@ import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ModalForm from '@/components/ModalForm.vue';
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
+// visibleDetail
+import GroupDetailModal from '@/components/GroupDetailModal.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
-import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
-// import { userService } from '../services';
 
 export default {
-  name: "MemberView",
+  name: "GroupView",
   components: {
     Header,
     Sidebar,
-    OrganizationList,
     ModalForm,
     ConfirmationBox,
-    // ElMessageBox,
-    // AlertBox
+    GroupDetailModal,
+    
   },
   data(){
     return {
@@ -123,14 +118,30 @@ export default {
       title: 'Modal Form',
       visible: false,
       visibleConf: false,
+      visibleDetail: false,
+      detailIdActive: null,
+      // groups: [
+      //   {
+      //     "id": 0,
+      //     "name": "string",
+      //     "description": "string",
+      //     "no": 0,
+      //     "isUse": true,
+      //     "note": "string",
+      //     "cDate": "2023-05-11T04:35:50.938Z",
+      //     "cUser_ID": 0,
+      //     "mDate": "2023-05-11T04:35:50.938Z",
+      //     "mUser_ID": 0
+      //   }
+      // ]
     }
   },
   computed: {
-    ...mapState('members', ['members']),
+    ...mapState('groups', ['groups']),
     ...mapState('organizations', ['organizations']),
     ...mapState('positions', ['positions']),
     ...mapState('account', ['user']),
-    ...mapState('members', ['status']),
+    // ...mapState('groups', ['status']),
 
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
@@ -138,26 +149,26 @@ export default {
     },
   },
   created() {
-    this.getMembersByOrg(0);
+    this.getAll();
     this.getOrganizations();
     this.getPositions();
   },
   methods: {
-    ...mapActions('members', ['getMembersByOrg']),
+    ...mapActions('groups', ['getAll']),
     ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('positions', ['getPositions']),
-    ...mapActions('members', ['addMember']),
-    ...mapActions('members', ['deleteMember']),
+    // ...mapActions('groups', ['addGroup']),
+    // ...mapActions('groups', ['deleteGroup']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
-        for (let i in this.members) {
-          this.selected.push(this.members[i].id);
+        for (let i in this.groups) {
+          this.selected.push(this.groups[i].id);
         }
       }
     },
     updateCheckall(){
-      if(this.members.length == this.selected.length){
+      if(this.groups.length == this.selected.length){
         this.selectAll = true;
       }else{
         this.selectAll = false;
@@ -190,7 +201,7 @@ export default {
     },
     handleDelete(conf){
       if(conf){
-        this.deleteMember(this.selected);  
+        // this.deleteGroup(this.selected);  
         this.closeConf();
         this.selected = [];
       }
@@ -203,7 +214,7 @@ export default {
       this.visible = false;
     },
     submitForm(data){
-      this.addMember(data);
+      // this.addGroup(data);
       this.closeModal()
     },
     onDataUp(data){
@@ -219,7 +230,7 @@ export default {
         }
       });
 
-      this.getMembersByOrg(data.id);
+      this.getGroupsByOrg(data.id);
     },
     closeConf(){
       this.visibleConf = false;
@@ -228,10 +239,10 @@ export default {
       
       this.visibleConf = true;
     },
-    getMemberName(){
+    getGroupName(){
       const nameList = [];
       this.selected.forEach((id) => {
-        const obj = this.members.find((item) => item.id === id);
+        const obj = this.groups.find((item) => item.id === id);
         if (obj) {
           nameList.push(obj.name);
         }
@@ -242,6 +253,13 @@ export default {
       this.status = null;
       this.visibleAlert = false;
     },
+    openGroupDetail(id){
+      this.visibleDetail = true;
+      this.detailIdActive = id;
+    },
+    closeGroupDetail(){
+      this.visibleDetail = false;
+    }
   }
 };
 </script>
@@ -257,7 +275,7 @@ a {
     padding: 18px 0 0;
     margin-bottom: 30px;
   }
-  .btnAddMember {
+  .btnAddGroup {
     background-color: #07B53B;
     color: #FFF;
     transition: all .3s;
@@ -287,7 +305,7 @@ a {
       }
     }
     .memberList {
-      width: calc(100% - 240px);
+      width: 100%;
       box-sizing: border-box;
       border: 1px solid #e5e5e6;
     }
@@ -296,7 +314,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px 16px 40px;
+    padding: 16px 20px;
     .taskArea {
       display: flex;
       align-items: center;
@@ -346,6 +364,7 @@ a {
       }
       &.userName {
         width: auto;
+        text-align: left;
       }
       &.title {
         width: 18.5%;
@@ -540,4 +559,5 @@ a {
     margin: -1px;
     overflow: hidden;
   }
+  
 </style>

@@ -77,7 +77,7 @@
                         </router-link>
                     </li>
                     <li v-show="user.isAdmin">
-                        <router-link to="member">
+                        <router-link to="/member">
                             Member
                         </router-link>
                     </li>
@@ -87,7 +87,7 @@
                         </router-link>
                     </li>
                     <li v-show="user.isAdmin">
-                        <router-link to="#">
+                        <router-link to="/group">
                             Group
                         </router-link>
                     </li>

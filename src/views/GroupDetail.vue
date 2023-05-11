@@ -105,7 +105,7 @@ import ModalEditForm from '@/components/ModalEditForm.vue';
 // import ModalForm from '@/components/ModalForm.vue';
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: "MemberDetail",
+  name: "GroupDetail",
   props: {
     id: {
       type: String,

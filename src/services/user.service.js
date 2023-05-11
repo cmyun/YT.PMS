@@ -96,11 +96,11 @@ function update(user) {
 function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
-        headers: authHeader(),
+        headers: authHeader(),  
         body: JSON.stringify(id)
     };
 
-    return fetch(`${apiUrl}/user-management/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${apiUrl}/user-management/users`, requestOptions).then(handleResponse);
 }
 function handleResponse(response) {
     return response.text().then(text => {
