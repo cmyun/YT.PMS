@@ -13,7 +13,7 @@
               <h3 class="tit">Group info</h3>
               <div class="btn_box full">
                 <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
-                <button type="button" class="lw_btn_text">Change master</button>
+                <button type="button" class="lw_btn_text" @click="openGroupMasterModal">Change master</button>
               </div>
               <div class="scroller">
                 <div class="member main">
@@ -33,14 +33,20 @@
                   </div>
                 </div>
                 <div class="tab_menu">
-                  <span class="menu selected">
+                  <span class="menu" 
+                  v-bind:class="{ selected: activeTab === 'tab1' }"
+                  @click="activeTab = 'tab1'"
+                  >
                     <a href="#" class="txt">Group info</a>
                   </span>
-                  <span class="menu">
+                  <span class="menu"
+                  v-bind:class="{ selected: activeTab === 'tab2' }"
+                  @click="activeTab = 'tab2'"
+                  >
                     <a class="txt" href="#">Members (4)</a>
                   </span>
                 </div>
-                <div class="tab_cont">
+                <div class="tab_cont" v-show="activeTab === 'tab1'">
                   <div class="detail_item">
                     <i class="hd">Group name</i>
                     <p>
@@ -84,7 +90,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="tab_cont">
+                <div class="tab_cont" v-show="activeTab === 'tab2'">
                   <ul class="member_list">
                     <li class="has_thmb">
                       <div class="thumb">
@@ -169,25 +175,37 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" class="btn_close">Close</button>
+              <button type="button" class="btn_close" @click="close">Close</button>
             </div>
           </div>
-          <!-- <edit-group-modal :title="'title'" 
+          <edit-group-modal :title="'title'" 
           :visible="visibleEdit" 
           @close="closeEditGroup" 
           @submit="submitEditGroup" 
-          :data="member[0]"></edit-group-modal> -->
+          
+          >
+          </edit-group-modal>
+          <group-master-modal :title="'title'" 
+            :visible="visibleMasterModal" 
+            @close="closeGroupMasterModal" 
+            
+            
+            >
+          </group-master-modal>
+          <group-master-modal :title="'title'" 
+            :visible="visibleMasterModal" 
+            @close="closeGroupMasterModal" 
+            
+            
+            >
+          </group-master-modal>
         </div>
       </div>
-      <!-- <div class="btn_box">
-        <button type="button" class="lw_btn" @click="close">Cancel</button>
-        <button type="button" class="lw_btn_point">Add</button>
-      </div> -->
-    <!-- </div> -->
   </div>
 </template>
 <script>
 import EditGroupModal from '@/components/EditGroupModal.vue';
+import GroupMasterModal from '@/components/GroupMasterModal.vue';
 export default {
   name: 'GroupDetailModal',
   props: {
@@ -198,11 +216,14 @@ export default {
     }
   },
   components: {
-    // EditGroupModal
+    EditGroupModal,
+    GroupMasterModal
   },
   data(){
     return {
       visibleEdit: false,
+      activeTab: 'tab1',
+      visibleMasterModal: false,
       group: [
         {
           id: 0,
@@ -228,12 +249,25 @@ export default {
     },
     closeEditGroup(){
       this.visibleEdit = false;
+      // this.$emit('close');
+    },
+    openGroupMasterModal(){
+      this.visibleMasterModal = true;
+    },
+    closeGroupMasterModal(){
+      this.visibleMasterModal = false;
     }
   }
 }
 </script>
 
 <style scope>
+.modal-overlay {
+  z-index: 9;
+}
+#modal-root {
+  z-index: 10;
+}
 h4 {
   margin-bottom: 0;
 }
@@ -241,7 +275,7 @@ p {
   margin-bottom: 0;
 }
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 .ly_common .btn_close:before {
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
@@ -291,9 +325,6 @@ a {
     max-width: 100%;
     word-wrap: normal;
     margin: 0 0 8px;
-}
-.ly_wrap.dimmed:last-of-type {
-    background-color: rgba(0,0,0,.4);
 }
 
 .ly_common {
@@ -422,7 +453,7 @@ a {
 
 .ly_common .desc a {
     color: inherit;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .ly_common .desc a.point {
@@ -562,7 +593,7 @@ a {
 
 .ly_common .link {
     display: inline-block;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     color: #157efb;
 }
 
@@ -756,7 +787,7 @@ a {
 }
 
 .ly_common.ly_page .btn_box .btn_text_aside:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 @media screen and (max-width: 767px) {
@@ -1007,7 +1038,7 @@ a {
 
 .ly_loading .btn_close:before {
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
     background-position: -967px -525px;
@@ -1103,7 +1134,7 @@ a {
 
 .basic_calendar .move_month .calendar-btn-prev-mon:before,.basic_calendar .move_month .calendar-btn-prev-year:before {
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
 }
@@ -1118,7 +1149,7 @@ a {
 
 .basic_calendar .move_month .calendar-btn-next-mon:before,.basic_calendar .move_month .calendar-btn-next-year:before {
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
 }
@@ -1189,7 +1220,7 @@ a {
 .ly_member_detail .empty:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
     background-position: -340px -828px;
@@ -1267,7 +1298,7 @@ a {
 .ly_member_detail .member .thumb .f_pic a:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
     background-position: -993px -563px;
@@ -1305,8 +1336,8 @@ a {
 .ly_member_detail .member.main {
     min-height: 80px;
     max-width: none;
-    min-width: none;
-    padding: 0;
+    min-width: 0 !important;
+    padding: 0 !important;
     margin-left: 0;
 }
 .ly_member_detail .member .infor button em {
@@ -1447,6 +1478,7 @@ a {
 
 .ly_member_detail .detail_item p {
     margin-top: 8px;
+    margin-bottom: 0;
 }
 
 .ly_member_detail .detail_item .retire {
@@ -1463,7 +1495,7 @@ a {
 
 .ly_member_detail .detail_item a {
     color: inherit;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .ly_member_detail .detail_item .ellipsis {

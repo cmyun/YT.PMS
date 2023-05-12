@@ -10,7 +10,7 @@
             <div class="taskArea">
               <div class="btnGroup">
                 <button type="button" class="btn btn-danger w-10 btnDeleteGroup" @click="openConf" :disabled="!selected.length">Delete</button>
-                <button type="button" class="btn w-10 btnAddGroup ms-3" @click="openModal">Add group</button>
+                <button type="button" class="btn w-10 btnAddGroup ms-3" @click="openAddGroupModal">Add group</button>
               </div>
             </div>
           </div>
@@ -72,9 +72,12 @@
             </div>
           </div>
         </div>
-        <modal-form :title="title" :visible="visible" @close="closeModal" 
-        @submit="submitForm" >
-        </modal-form>
+        <add-group-modal :title="title" 
+        :visible="visible" 
+        @close="closeAddGroupModal" 
+        
+        >
+        </add-group-modal>
         <confirmation-box :visible="visibleConf" :index="getGroupName()" @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
         <group-detail-modal
@@ -94,10 +97,11 @@
 
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
-import ModalForm from '@/components/ModalForm.vue';
+// import ModalForm from '@/components/ModalForm.vue';
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
 // visibleDetail
 import GroupDetailModal from '@/components/GroupDetailModal.vue';
+import AddGroupModal from '@/components/AddGroupModal.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
 import { mapState, mapActions } from 'vuex';
 
@@ -106,9 +110,10 @@ export default {
   components: {
     Header,
     Sidebar,
-    ModalForm,
+    // ModalForm,
     ConfirmationBox,
     GroupDetailModal,
+    AddGroupModal
     
   },
   data(){
@@ -207,10 +212,10 @@ export default {
       }
 
     },
-    openModal() {
+    openAddGroupModal() {
       this.visible = true;
     },
-    closeModal() {
+    closeAddGroupModal() {
       this.visible = false;
     },
     submitForm(data){
@@ -236,7 +241,6 @@ export default {
       this.visibleConf = false;
     },
     openConf(){
-      
       this.visibleConf = true;
     },
     getGroupName(){
@@ -264,6 +268,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+
 a {
   text-decoration: none;
   color: #2c3e50;

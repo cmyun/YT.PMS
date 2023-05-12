@@ -161,7 +161,9 @@ $color_4: #157efb;
 $color_5: #fd472b;
 $background-color_1: #f2f2f2;
 $background-color_2: #fff;
-
+.srch_member .results li .infor {
+    width: 100%;
+  }
 ul {
 	padding-left: 0;
 }
@@ -331,7 +333,7 @@ ul {
 		}
 		a.link {
 			color: $color_4;
-			text-decoration: underline;
+			// text-decoration: underline;
 			word-break: break-all;
 		}
 		.hd {
