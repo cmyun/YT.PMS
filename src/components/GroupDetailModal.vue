@@ -192,13 +192,7 @@
             
             >
           </group-master-modal>
-          <group-master-modal :title="'title'" 
-            :visible="visibleMasterModal" 
-            @close="closeGroupMasterModal" 
-            
-            
-            >
-          </group-master-modal>
+          
         </div>
       </div>
   </div>
