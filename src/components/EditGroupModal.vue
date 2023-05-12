@@ -53,7 +53,7 @@
                         <div class="box srch_member">
                           <div class="task">
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
-                            <button type="button">Contacts</button>
+                            <button type="button" @click="openSelectMembersModal">Contacts</button>
                           </div>
                           <ul class="member_list results">
                             <li class="has_thmb">
@@ -269,24 +269,31 @@
           </div>
         </Form>
       </div>
+      
   </div>
+  <select-members-modal
+        :visible="visibleSelectMembers"
+        @close="closeSelectMembersModal"
+      >
+
+      </select-members-modal>
 </template>
   
 <script>
 import { mapState, mapActions } from 'vuex';
-import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
-import OrgModal from '@/components/OrgModal.vue';
-import { required } from '@vee-validate/rules';
-defineRule('required', required);
-configure({
-  generateMessage: (ctx) => {
-    const messages = {
-      required: "You can't leave this empty.",
-    };
-    const message = messages[ctx.rule.name] || `Invalid ${ctx.field} field.`;
-    return message;
-  },
-});
+// import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
+import SelectMembersModal from '@/components/SelectMembersModal.vue';
+// import { required } from '@vee-validate/rules';
+// defineRule('required', required);
+// configure({
+//   generateMessage: (ctx) => {
+//     const messages = {
+//       required: "You can't leave this empty.",
+//     };
+//     const message = messages[ctx.rule.name] || `Invalid ${ctx.field} field.`;
+//     return message;
+//   },
+// });
 
 export default {
   name: 'EditGroupModal',
@@ -301,28 +308,28 @@ export default {
     },
   },
   components: {
+    SelectMembersModal
   },
   data(){
     return {
-      form: {
-        name: '',
-        login_ID: '',
-        login_PW: '',
-        level_ID: 0,
-        position_ID: 0,
-        type_ID: 0,
-        organization_ID: 0,
-        office: '',
-        mobile: '',
-        email: '',
-        nickname: '',
-        isUse: true,
-        isAdmin: false,
-        remark: '',
-        note: ''
-      },
-      visibleOrg: false,
-      // selectedOrg: {}
+      // form: {
+      //   name: '',
+      //   login_ID: '',
+      //   login_PW: '',
+      //   level_ID: 0,
+      //   position_ID: 0,
+      //   type_ID: 0,
+      //   organization_ID: 0,
+      //   office: '',
+      //   mobile: '',
+      //   email: '',
+      //   nickname: '',
+      //   isUse: true,
+      //   isAdmin: false,
+      //   remark: '',
+      //   note: ''
+      // },
+      visibleSelectMembers: false
     }
   },
   computed: {
@@ -346,6 +353,13 @@ export default {
     close() {
       this.$emit('close');
     },
+    openSelectMembersModal(){
+      // alert(0)
+      this.visibleSelectMembers = true;
+    },
+    closeSelectMembersModal(){
+      this.visibleSelectMembers = false;
+    }
   }
 };
 </script>

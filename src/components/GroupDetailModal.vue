@@ -2,208 +2,121 @@
 <template>
   <div class="modal1" v-if="visible">
     <div class="modal-overlay" @click="close"></div>
-    <!-- <div class="modal-container"> -->
-      <!-- <div class="modal-header">
-        <h2> title </h2>
-      </div> -->
-      <div class="modal-body">
-        <div id="modal-root">
-          <div class="ly_wrap dimmed en_US ua_win">
-            <div class="ly_common ly_page ly_member_detail freeplan">
-              <h3 class="tit">Group info</h3>
-              <div class="btn_box full">
-                <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
-                <button type="button" class="lw_btn_text" @click="openGroupMasterModal">Change master</button>
-              </div>
-              <div class="scroller">
-                <div class="member main">
-                  <div class="thumb">
-                    <span class="thmb_area">
-                      <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile_group2.png" alt="thumbnail">
-                    </span>
-                  </div>
-                  <div class="infor">
-                    <div class="name_box">
-                      <h4 class="name">1</h4>
-                    </div>
-                    <p class="caption">1</p>
-                    <button type="button">
-                      <em>Delete group</em>
-                    </button>
-                  </div>
-                </div>
-                <div class="tab_menu">
-                  <span class="menu" 
-                  v-bind:class="{ selected: activeTab === 'tab1' }"
-                  @click="activeTab = 'tab1'"
-                  >
-                    <a href="#" class="txt">Group info</a>
-                  </span>
-                  <span class="menu"
-                  v-bind:class="{ selected: activeTab === 'tab2' }"
-                  @click="activeTab = 'tab2'"
-                  >
-                    <a class="txt" href="#">Members (4)</a>
-                  </span>
-                </div>
-                <div class="tab_cont" v-show="activeTab === 'tab1'">
-                  <div class="detail_item">
-                    <i class="hd">Group name</i>
-                    <p>
-                      <strong>1</strong>
-                    </p>
-                  </div>
-                  <div class="detail_item">
-                    <i class="hd">Description</i>
-                    <p>1</p>
-                  </div>
-                  <div class="detail_item">
-                    <i class="hd">Function(0 GB)</i>
-                    <p class="has_tit">
-                      <span class="s_tit">Message</span>0 GB
-                    </p>
-                    <p class="has_tit">
-                      <span class="s_tit">Note</span>0 GB
-                    </p>
-                    <p class="has_tit">
-                      <span class="s_tit">Calendar</span>0 GB
-                    </p>
-                    <p class="has_tit">
-                      <span class="s_tit">Task</span>0 GB
-                    </p>
-                    <p class="has_tit">
-                      <span class="s_tit">Folder</span>0 GB
-                    </p>
-                  </div>
-                  <div class="detail_item">
-                    <i class="hd">Mailing list</i>
-                    <p>Not used</p>
-                  </div>
-                  <div class="detail_item">
-                    <i class="hd">Settings</i>
-                    <div class="txt">
-                      <p>Master cannot set the group feature</p>
-                      <p>Notify all members when any group change occurs</p>
-                      <p>Displayed in groups list and auto-complete</p>
-                      <p class="point">[Message] Do not disclose previous conversations to newly added members</p>
-                      <p class="point">[Folder] Disable link sharing</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="tab_cont" v-show="activeTab === 'tab2'">
-                  <ul class="member_list">
-                    <li class="has_thmb">
-                      <div class="thumb">
-                        <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="">
-                        </span>
-                      </div>
-                      <div class="infor" style="cursor: pointer;">
-                        <div class="name_box">
-                          <strong class="name">test2 test2</strong>
-                        </div>
-                        <div class="txt">
-                          <span class="email">test2@test-5380</span>
-                        </div>
-                      </div>
-                      <span class="master">Master(s)</span>
-                    </li>
-                    <li class="has_thmb">
-                      <div class="thumb">
-                        <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="">
-                        </span>
-                      </div>
-                      <div class="infor" style="cursor: pointer;">
-                        <div class="name_box">
-                          <strong class="name">test test</strong>
-                        </div>
-                        <div class="txt">
-                          <span class="email">test.test@test-5380</span>
-                        </div>
-                      </div>
-                      <span class="master">Master(s)</span>
-                    </li>
-                    <li class="has_thmb">
-                      <div class="thumb">
-                        <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="">
-                        </span>
-                      </div>
-                      <div class="infor" style="cursor: pointer;">
-                        <div class="name_box">
-                          <strong class="name">test04 test04</strong>
-                        </div>
-                        <div class="txt">
-                          <span class="email">test04@test-5380</span>
-                        </div>
-                      </div>
-                      <span class="master">Master(s)</span>
-                    </li>
-                    <li class="has_thmb">
-                      <div class="thumb">
-                        <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="">
-                        </span>
-                      </div>
-                      <div class="infor" style="cursor: pointer;">
-                        <div class="name_box">
-                          <strong class="name">test03 test03</strong>
-                        </div>
-                        <div class="txt">
-                          <span class="email">test03@test-5380</span>
-                        </div>
-                      </div>
-                      <span class="master">Master(s)</span>
-                    </li>
-                    <li class="has_thmb">
-                      <div class="thumb">
-                        <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile_group2.png" alt="">
-                        </span>
-                        <i class="ico_groups">group</i>
-                      </div>
-                      <div class="infor">
-                        <div class="name_box">
-                          <strong class="name">New organization (1)</strong>
-                        </div>
-                        <div class="txt">
-                          <span class="email">t_512br@test-5380</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <button type="button" class="btn_close" @click="close">Close</button>
+    <div class="modal-body">
+      <div id="modal-root">
+        <div class="ly_wrap dimmed en_US ua_win">
+          <div class="ly_common ly_page ly_member_detail freeplan">
+            <h3 class="tit">Group info</h3>
+            <div class="btn_box full">
+              <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
+              <button type="button" class="lw_btn_text" @click="openGroupMasterModal(group.id)">Change master</button>
             </div>
+            <div class="scroller">
+              <div class="member main">
+                <div class="thumb">
+                  <span class="thmb_area">
+                    <img src="../assets/img_group.png" alt="thumbnail">
+                  </span>
+                </div>
+                <div class="infor">
+                  <div class="name_box">
+                    <h4 class="name">{{ group.name }}</h4>
+                  </div>
+                  <p class="caption">1</p>
+                  <button type="button">
+                    <em>Delete group</em>
+                  </button>
+                </div>
+              </div>
+              <div class="tab_menu">
+                <span class="menu" 
+                v-bind:class="{ selected: activeTab === 'tab1' }"
+                @click="activeTab = 'tab1'"
+                >
+                  <a href="#" class="txt">Group info</a>
+                </span>
+                <span class="menu"
+                v-bind:class="{ selected: activeTab === 'tab2' }"
+                @click="activeTab = 'tab2'"
+                >
+                  <a class="txt" href="#">Members ({{ groupMembers.length }})</a>
+                </span>
+              </div>
+              <div class="tab_cont" v-show="activeTab === 'tab1'">
+                <div class="detail_item">
+                  <i class="hd">Group name</i>
+                  <p>
+                    <strong>{{ group.name }}</strong>
+                  </p>
+                </div>
+                <div class="detail_item">
+                  <i class="hd">Description</i>
+                  <p>{{ group.description }}</p>
+                </div>
+                
+              </div>
+              <div class="tab_cont" v-show="activeTab === 'tab2'">
+                <ul class="member_list">
+                  <li class="has_thmb" v-for="member in groupMembers" :key="member">
+                    <div class="thumb">
+                      <span class="thmb_area">
+                        <img src="../assets/img_profile.png" alt="">
+                      </span>
+                    </div>
+                    <div class="infor" style="cursor: pointer;">
+                      <div class="name_box">
+                        <strong class="name">{{ member.userName }}</strong>
+                      </div>
+                      <div class="txt">
+                        <span class="email">{{ member.position + '/ ' + member.level }}</span>
+                      </div>
+                    </div>
+                    <span class="master">{{ member.isMaster ? 'Master(s)' : '' }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" class="btn_close" @click="close">Close</button>
           </div>
-          <edit-group-modal :title="'title'" 
-          :visible="visibleEdit" 
-          @close="closeEditGroup" 
-          @submit="submitEditGroup" 
-          
-          >
-          </edit-group-modal>
-          <group-master-modal :title="'title'" 
-            :visible="visibleMasterModal" 
-            @close="closeGroupMasterModal" 
-            
-            
-            >
-          </group-master-modal>
-          
         </div>
+        <edit-group-modal :title="'title'" 
+        :visible="visibleEdit" 
+        @close="closeEditGroup" 
+        @submit="submitEditGroup"
+        >
+        </edit-group-modal>
+        <group-master-modal :title="'title'" 
+          :visible="visibleMasterModal" 
+          :groupMasters = "groupMasters"
+          :selected = "groupMasters.map(obj => obj.id)"
+          @close="closeGroupMasterModal" 
+          @submit="handleSubmitMasters"
+          >
+        </group-master-modal>
+        
       </div>
+    </div>
   </div>
 </template>
 <script>
 import EditGroupModal from '@/components/EditGroupModal.vue';
 import GroupMasterModal from '@/components/GroupMasterModal.vue';
+import {mapState, mapActions} from 'vuex';
 export default {
   name: 'GroupDetailModal',
   props: {
-    id: Number,
+    group: {
+      type: Object,
+      required: true
+    },
+    groupMembers: {
+      type: Array,
+      required: true
+    },
+    groupWhole: {
+      type: Array,
+      required: true
+    },
     visible: {
       type: Boolean,
       default: false
@@ -213,28 +126,20 @@ export default {
     EditGroupModal,
     GroupMasterModal
   },
+  computed: {
+    ...mapState('group', ['groupMasters']),
+  },
   data(){
     return {
       visibleEdit: false,
       activeTab: 'tab1',
       visibleMasterModal: false,
-      group: [
-        {
-          id: 0,
-          name: "string",
-          description: "string",
-          no: 0,
-          isUse: true,
-          note: "string",
-          cDate: "2023-05-11T07:01:27.425Z",
-          cUser_ID: 0,
-          mDate: "2023-05-11T07:01:27.425Z",
-          mUser_ID: 0
-        }
-      ]
+      // groupMasters: []
     }
   },
   methods: {
+    ...mapActions('group', ['updateGroupMasters']),
+    ...mapActions('group', ['getGroupMasters']),
     close() {
       this.$emit('close');
     },
@@ -243,13 +148,18 @@ export default {
     },
     closeEditGroup(){
       this.visibleEdit = false;
-      // this.$emit('close');
     },
-    openGroupMasterModal(){
+    openGroupMasterModal(id){
+      this.getGroupMasters(id);
       this.visibleMasterModal = true;
+      
     },
     closeGroupMasterModal(){
       this.visibleMasterModal = false;
+    },
+    handleSubmitMasters(selected){
+      console.log(selected)
+      this.updateGroupMasters(this.group.id,selected)
     }
   }
 }
@@ -273,7 +183,6 @@ a {
 }
 .ly_common .btn_close:before {
     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    /* background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
     background-size: 1013px 983px;
     background-position: -967px -525px;
@@ -376,9 +285,6 @@ a {
 }
 
 .ly_common .btn_close:before {
-    /* background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-size: 1013px 983px;
     background-position: -967px -525px;
     width: 16px;
@@ -447,7 +353,6 @@ a {
 
 .ly_common .desc a {
     color: inherit;
-    /* text-decoration: underline; */
 }
 
 .ly_common .desc a.point {
@@ -546,9 +451,6 @@ a {
 
 .ly_common .alert_text:before {
     content: "";
-    /* background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
     background-size: 1013px 983px;
     background-position: -967px -477px;
     width: 16px;
@@ -587,7 +489,6 @@ a {
 
 .ly_common .link {
     display: inline-block;
-    /* text-decoration: underline; */
     color: #157efb;
 }
 
@@ -727,9 +628,6 @@ a {
     }
 
     .ly_common.ly_page .btn_close:before {
-        /* background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-        background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-        background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg); */
         background-size: 1013px 983px;
         background-position: -495px -876px;
         width: 24px;
@@ -780,9 +678,6 @@ a {
     padding: 8px 0;
 }
 
-.ly_common.ly_page .btn_box .btn_text_aside:hover {
-    /* text-decoration: underline; */
-}
 
 @media screen and (max-width: 767px) {
     .ly_common.ly_page .btn_box {

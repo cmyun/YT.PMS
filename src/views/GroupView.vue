@@ -75,20 +75,20 @@
         <add-group-modal :title="title" 
         :visible="visible" 
         @close="closeAddGroupModal" 
-        
         >
         </add-group-modal>
         <confirmation-box :visible="visibleConf" :index="getGroupName()" @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
         <group-detail-modal
           :visible="visibleDetail"
-          :id="detailIdActive"
+          :group="group"
+          :groupMembers = groupMembers
+          :groupWhole = groupWhole
           @close="closeGroupDetail"
         >
 
         </group-detail-modal>
       </div>
-      {{ group }}
     </div>
   </div>
 </template>
@@ -97,9 +97,7 @@
 
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
-// import ModalForm from '@/components/ModalForm.vue';
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
-// visibleDetail
 import GroupDetailModal from '@/components/GroupDetailModal.vue';
 import AddGroupModal from '@/components/AddGroupModal.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
@@ -110,7 +108,6 @@ export default {
   components: {
     Header,
     Sidebar,
-    // ModalForm,
     ConfirmationBox,
     GroupDetailModal,
     AddGroupModal
@@ -124,46 +121,25 @@ export default {
       visible: false,
       visibleConf: false,
       visibleDetail: false,
-      detailIdActive: null,
-      // groups: [
-      //   {
-      //     "id": 0,
-      //     "name": "string",
-      //     "description": "string",
-      //     "no": 0,
-      //     "isUse": true,
-      //     "note": "string",
-      //     "cDate": "2023-05-11T04:35:50.938Z",
-      //     "cUser_ID": 0,
-      //     "mDate": "2023-05-11T04:35:50.938Z",
-      //     "mUser_ID": 0
-      //   }
-      // ]
+      groupDetail: null,
     }
   },
   computed: {
     ...mapState('groups', ['groups']),
-    ...mapState('organizations', ['organizations']),
-    ...mapState('positions', ['positions']),
-    ...mapState('account', ['user']),
-    // ...mapState('groups', ['status']),
-
-    newOrganizations(){
-      const tree = this.buildTree(this.organizations, -1, 0);
-      return tree;
-    },
+    ...mapState('group', ['group']),
+    ...mapState('group', ['groupMembers']),
+    // ...mapState('group', ['groupMasters']),
+    ...mapState('group', ['groupWhole']),
   },
   created() {
     this.getAll();
-    this.getOrganizations();
-    this.getPositions();
   },
   methods: {
     ...mapActions('groups', ['getAll']),
-    ...mapActions('organizations', ['getOrganizations']),
-    ...mapActions('positions', ['getPositions']),
-    // ...mapActions('groups', ['addGroup']),
-    // ...mapActions('groups', ['deleteGroup']),
+    ...mapActions('group', ['getGroupInfo']),
+    // ...mapActions('group', ['getGroupMasters']),
+    ...mapActions('group', ['getGroupMembers']),
+    ...mapActions('group', ['getGroupWhole']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -179,34 +155,8 @@ export default {
         this.selectAll = false;
       }
     },
-    buildTree(data, parent, level) {
-      const tree = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].pid === parent) {
-          const node = {
-            id: data[i].id,
-            name: data[i].name,
-            no: data[i].no,
-            type: data[i].type,
-            isUse: data[i].isUse,
-            note: data[i].note,
-            pid: data[i].pid,
-            level: level,
-            isActive: false,
-            children: []
-          };
-          const children = this.buildTree(data, data[i].id, level + 1);
-          if (children.length) {
-            node.children = children;
-          }
-          tree.push(node);
-        }
-      }
-      return tree;
-    },
     handleDelete(conf){
       if(conf){
-        // this.deleteGroup(this.selected);  
         this.closeConf();
         this.selected = [];
       }
@@ -219,23 +169,7 @@ export default {
       this.visible = false;
     },
     submitForm(data){
-      // this.addGroup(data);
       this.closeModal()
-    },
-    onDataUp(data){
-      const a = '.main .orgTree #id_'+data.id;
-      document.querySelector(a).className="treeItem selected";
-      const arr = document.querySelectorAll('.main .orgTree .treeItem');
-      arr.forEach(element => {
-        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-          element.className = "treeItem";
-        }
-        if(element.id=='id_0'){
-          element.classList.add('corp');
-        }
-      });
-
-      this.getGroupsByOrg(data.id);
     },
     closeConf(){
       this.visibleConf = false;
@@ -259,7 +193,10 @@ export default {
     },
     openGroupDetail(id){
       this.visibleDetail = true;
-      this.detailIdActive = id;
+      this.getGroupInfo(id);
+      
+      this.getGroupMembers(id);
+      this.getGroupWhole(id);
     },
     closeGroupDetail(){
       this.visibleDetail = false;

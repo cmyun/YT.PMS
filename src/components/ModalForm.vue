@@ -240,7 +240,6 @@ export default {
         remark: '',
         note: ''
       },
-      // organization_name: '',
       visibleOrg: false,
     }
   },

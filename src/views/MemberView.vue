@@ -88,7 +88,6 @@
         </modal-form>
         <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
-        <!-- <alert-box :visible="status!=null" :type="status!=null?'alert-danger':'alert-success'" :message="status" @close="closeAlert" /> -->
       </div>
     </div>
   </div>

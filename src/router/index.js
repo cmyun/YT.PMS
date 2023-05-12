@@ -5,7 +5,6 @@ import RegisterView from "../views/RegisterView.vue";
 import MemberView from "../views/MemberView.vue";
 import GroupView from "../views/GroupView.vue";
 import MemberDetail from "../views/MemberDetail.vue";
-import GroupDetail from "../views/GroupDetail.vue";
 import UserInfo from "../views/UserInfo.vue";
 
 const routes = [
@@ -39,12 +38,6 @@ const routes = [
     path: "/group",
     name: "group",
     component: GroupView,
-  },
-  { 
-    path: '/group/:id', 
-    name: "GroupDetail",
-    component: GroupDetail,
-    props: true
   },
   { 
     path: '/settings', 

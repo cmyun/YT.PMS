@@ -138,11 +138,6 @@
                               </button>
                             </li>
                           </ul>
-                          <!-- <p class="caption ft">
-                          <p class="acption ft">
-                            <strong>test2 test2</strong> and <strong>3</strong> more
-                          </p>
-                          </p> -->
                         </div>
                       </div>
                       <div class="field">
@@ -269,7 +264,6 @@
           </div>
         </Form>
       </div>
-    <!-- </div> -->
   </div>
 </template>
   
