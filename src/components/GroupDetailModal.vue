@@ -80,20 +80,19 @@
           </div>
         </div>
         <edit-group-modal :title="'title'" 
-        :visible="visibleEdit" 
+        :visible="visibleEdit"
+        :group = "group" 
         @close="closeEditGroup" 
         @submit="submitEditGroup"
         >
         </edit-group-modal>
         <group-master-modal :title="'title'" 
           :visible="visibleMasterModal" 
-          :groupMasters = "groupMasters"
-          :selected = "groupMasters.map(obj => obj.id)"
+          :masterIds="groupMasters.map(obj => obj.id)"
           @close="closeGroupMasterModal" 
           @submit="handleSubmitMasters"
           >
         </group-master-modal>
-        
       </div>
     </div>
   </div>
@@ -105,18 +104,6 @@ import {mapState, mapActions} from 'vuex';
 export default {
   name: 'GroupDetailModal',
   props: {
-    group: {
-      type: Object,
-      required: true
-    },
-    groupMembers: {
-      type: Array,
-      required: true
-    },
-    groupWhole: {
-      type: Array,
-      required: true
-    },
     visible: {
       type: Boolean,
       default: false
@@ -127,7 +114,10 @@ export default {
     GroupMasterModal
   },
   computed: {
+    ...mapState('group', ['group']),
+    ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
+    ...mapState('group', ['groupWhole']),
   },
   data(){
     return {
@@ -139,7 +129,7 @@ export default {
   },
   methods: {
     ...mapActions('group', ['updateGroupMasters']),
-    ...mapActions('group', ['getGroupMasters']),
+    // ...mapActions('group', ['getGroupMasters']),
     close() {
       this.$emit('close');
     },
@@ -150,7 +140,7 @@ export default {
       this.visibleEdit = false;
     },
     openGroupMasterModal(id){
-      this.getGroupMasters(id);
+      // this.getGroupMasters(id);
       this.visibleMasterModal = true;
       
     },
@@ -1713,5 +1703,11 @@ a {
         -webkit-transform:translateZ(0);
         transform: translateZ(0);
     }
+}
+.selected_list_box {
+    padding: 0 0 0 111px;
+    position: relative;
+    border-width: 1px 0 0;
+    overflow: hidden;
 }
 </style>

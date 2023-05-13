@@ -79,12 +79,6 @@ export default {
     close() {
       this.$emit('close');
     },
-    submitForm() {
-      this.$emit('submit');
-    },
-    onItemClick(newItems) {
-      this.newOrganizations = newItems;
-    },
     onDataUp(data) {
       const a = '.modal1 .orgTree #id_'+data.id;
       document.querySelector(a).className="treeItem selected";

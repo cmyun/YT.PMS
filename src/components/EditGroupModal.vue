@@ -20,12 +20,12 @@
                     <div class="member">
                       <div class="thumb">
                         <span class="thmb_area">
-                          <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile_group2.png" alt="">
+                          <img src="../assets/img_group.png" alt="">
                         </span>
                         <span class="f_pic">
                           <a href="#">Register</a>
                         </span>
-                        <input class="blind" type="file" name="file" accept="image/x-png, image/jpeg" style="display: none;">
+                        <!-- <input class="blind" type="file" name="file" accept="image/x-png, image/jpeg" style="display: none;"> -->
                       </div>
                       <div class="infor">
                         <p class="txt">
@@ -33,7 +33,7 @@
                             <em class="emp">Required fields</em>Group name </span>
                         </p>
                         <div class="name_box">
-                          <input type="text" class="lw_input" placeholder="Group name" value="1">
+                          <input type="text" class="lw_input" placeholder="Group name" v-model="form.name">
                         </div>
                         <p class="msg_alert">
                           <em></em>
@@ -42,7 +42,7 @@
                           <span>Description</span>
                         </p>
                         <div class="name_box">
-                          <input type="text" class="lw_input" placeholder="Description" value="1">
+                          <input type="text" class="lw_input" placeholder="Description" v-model="form.description">
                         </div>
                       </div>
                     </div>
@@ -53,84 +53,24 @@
                         <div class="box srch_member">
                           <div class="task">
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
-                            <button type="button" @click="openSelectMembersModal">Contacts</button>
+                            <button type="button" @click="openSelectMembersModal('master')">Contacts</button>
                           </div>
+                          {{ groupMasters }}
                           <ul class="member_list results">
-                            <li class="has_thmb">
+                            <li class="has_thmb" v-for="master in groupMasters" :key="master">
                               <div class="thumb">
                                 <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
+                                  <img src="../assets/img_group.png" alt="" loading="lazy">
                                 </span>
                               </div>
                               <div class="infor">
                                 <div class="name_box">
-                                  <strong class="name">test2 test2</strong>
+                                  <strong class="name">{{ master.userName }}</strong>
                                 </div>
                                 <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test2@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test test</strong>
-                                  <span class="nick">[222222]</span>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Management</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test.test@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test04 test04</strong>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test04@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test03 test03</strong>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test03@test-5380</span>
+                                  <strong class="position">{{ master.position }}</strong>
+                                  <span class="corp">{{ group.name }}</span>
+                                  <!-- <span class="email">test2@test-5380</span> -->
                                 </div>
                               </div>
                               <button type="button" class="remove">
@@ -138,11 +78,6 @@
                               </button>
                             </li>
                           </ul>
-                          <!-- <p class="caption ft">
-                          <p class="acption ft">
-                            <strong>test2 test2</strong> and <strong>3</strong> more
-                          </p>
-                          </p> -->
                         </div>
                       </div>
                       <div class="field">
@@ -175,90 +110,13 @@
                                 <i>Deselect member</i>
                               </button>
                             </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test03 test03</strong>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test03@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test04 test04</strong>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test04@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">test2 test2</strong>
-                                </div>
-                                <div class="txt">
-                                  <strong class="position">Part-time Employee</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test2@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
-                            <li class="has_thmb">
-                              <div class="thumb">
-                                <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile_group2.png" alt="" loading="lazy">
-                                </span>
-                              </div>
-                              <div class="infor">
-                                <div class="name_box">
-                                  <strong class="name">New organization (1)</strong>
-                                </div>
-                                <div class="txt">
-                                  <span class="corp">test</span>
-                                  <span class="email">t_512br@test-5380</span>
-                                </div>
-                              </div>
-                              <button type="button" class="remove">
-                                <i>Deselect member</i>
-                              </button>
-                            </li>
+                            
                           </ul>
                           <p class="caption ft">
                             <span class="txt">Total <strong>4</strong> people </span>
                           </p>
                         </div>
+                        {{ group }}
                       </div>
                     </div>
                   </div>
@@ -266,17 +124,17 @@
                 <button type="button" class="btn_close" @click="close">Close</button>
               </div>
             </div>
+            
+            <select-members-modal
+              :visible="visibleSelectMembers"
+              :data="selectMembersData"
+              @close="closeSelectMembersModal"
+            >
+            </select-members-modal>
           </div>
         </Form>
       </div>
-      
   </div>
-  <select-members-modal
-        :visible="visibleSelectMembers"
-        @close="closeSelectMembersModal"
-      >
-
-      </select-members-modal>
 </template>
   
 <script>
@@ -306,61 +164,75 @@ export default {
       type: Boolean,
       default: false
     },
+    group: {
+      type: Object,
+      default: ()=>{}
+    }
   },
   components: {
     SelectMembersModal
   },
   data(){
     return {
-      // form: {
-      //   name: '',
-      //   login_ID: '',
-      //   login_PW: '',
-      //   level_ID: 0,
-      //   position_ID: 0,
-      //   type_ID: 0,
-      //   organization_ID: 0,
-      //   office: '',
-      //   mobile: '',
-      //   email: '',
-      //   nickname: '',
-      //   isUse: true,
-      //   isAdmin: false,
-      //   remark: '',
-      //   note: ''
-      // },
-      visibleSelectMembers: false
+      form: {
+        name: '',
+        description: '',
+        no: 0,
+        isUse: true,
+        note: '',
+        cDate: '',
+        cUser_ID: null,
+        mUser_ID: 0
+      },
+      visibleSelectMembers: false,
+      selectMembersData: []
     }
   },
   computed: {
-    ...mapState('levels', ['levels']),
-    ...mapState('organizations', ['organizations']),
-    ...mapState('positions', ['positions']),
-    ...mapState('types', ['types']),
+    // ...mapState('group', ['group']),
+    ...mapState('group', ['groupMembers']),
+    ...mapState('group', ['groupMasters']),
+    ...mapState('group', ['groupWhole']),
   },
-  created() {
-    this.getLevels();
-    this.getTypes();
-    this.getOrganizations();
-    this.getPositions();
-    this.form = this.data;
-  },
+  // created() {
+  //   this.form = this.group;
+  //   console.log(this.form)
+  // },
   methods: {
-    ...mapActions('levels', ['getLevels']),
-    ...mapActions('organizations', ['getOrganizations']),
-    ...mapActions('positions', ['getPositions']),
-    ...mapActions('types', ['getTypes']),
+    // ...mapActions('levels', ['getLevels']),
+    // ...mapActions('organizations', ['getOrganizations']),
+    // ...mapActions('positions', ['getPositions']),
+    // ...mapActions('types', ['getTypes']),
     close() {
       this.$emit('close');
     },
-    openSelectMembersModal(){
+    openSelectMembersModal(value){
       // alert(0)
       this.visibleSelectMembers = true;
+      if (value === 'member') {
+        this.selectMembersData = this.groupMembers
+      } else if (value === 'master') {
+        this.selectMembersData = this.groupMasters
+      }
     },
     closeSelectMembersModal(){
       this.visibleSelectMembers = false;
+      
+    },
+    changeData(value) {
+      // Set different data based on which button was clicked
+      if (value === 'member') {
+        this.selectMembersData = this.groupMembers
+      } else if (value === 'master') {
+        this.selectMembersData = this.groupMasters
+      }
     }
-  }
+  },
+  watch: {
+    group(newVal) {
+      this.form = newVal
+    }
+  },
 };
 </script>
 <style scope lang="scss">

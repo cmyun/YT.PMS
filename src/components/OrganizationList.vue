@@ -56,6 +56,7 @@
     min-width: 100%;
     min-height: 100%;
     box-sizing: border-box;
+    margin-bottom: 0;
     a {
       text-decoration: none;
     }

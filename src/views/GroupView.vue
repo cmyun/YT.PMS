@@ -81,9 +81,6 @@
         @confirm="handleDelete"></confirmation-box>
         <group-detail-modal
           :visible="visibleDetail"
-          :group="group"
-          :groupMembers = groupMembers
-          :groupWhole = groupWhole
           @close="closeGroupDetail"
         >
 
@@ -111,7 +108,6 @@ export default {
     ConfirmationBox,
     GroupDetailModal,
     AddGroupModal
-    
   },
   data(){
     return {
@@ -128,7 +124,7 @@ export default {
     ...mapState('groups', ['groups']),
     ...mapState('group', ['group']),
     ...mapState('group', ['groupMembers']),
-    // ...mapState('group', ['groupMasters']),
+    ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
   },
   created() {
@@ -137,7 +133,7 @@ export default {
   methods: {
     ...mapActions('groups', ['getAll']),
     ...mapActions('group', ['getGroupInfo']),
-    // ...mapActions('group', ['getGroupMasters']),
+    ...mapActions('group', ['getGroupMasters']),
     ...mapActions('group', ['getGroupMembers']),
     ...mapActions('group', ['getGroupWhole']),
     checkAll(){
@@ -192,9 +188,10 @@ export default {
       this.visibleAlert = false;
     },
     openGroupDetail(id){
+      console.log('opendetail');
       this.visibleDetail = true;
       this.getGroupInfo(id);
-      
+      this.getGroupMasters(id);
       this.getGroupMembers(id);
       this.getGroupWhole(id);
     },

@@ -33,13 +33,10 @@
                         </div>
                       </div>
                       <span class="slct">
-                        <input :name="master.id" type="checkbox" class="lw_checkbox" :value="master.id" :id="master.id" :checked="master.isMas" v-model="form.selected">
+                        <input :name="master.id" type="checkbox" class="lw_checkbox" :value="master.id" :id="master.id" v-model="selected">
                       </span>
                     </li>
                   </ul>
-                  {{ form.selected }}
-                  {{ selected }}
-                  {{ groupMasters }}
                 </div>
               </div>
               <button type="button" class="btn_close" @click="close">Close</button>
@@ -51,6 +48,8 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
+import store from "../store";
 export default {
   name: "GroupMasterModal",
   props: {
@@ -62,28 +61,32 @@ export default {
       type: Boolean,
       default: false
     },
-    groupMasters: {
-      type: Array,
-      default: () => []
-    },
-    selected: {
+    masterIds: {
       type: Array,
       default: () => []
     }
   },
   data(){
     return {
-      form: {
-        selected: this.selected
-      }
+      selected: this.masterIds
     }
   },
+  computed: {
+    ...mapState('group', ['group']),
+    ...mapState('group', ['groupMasters']),
+  },
+  watch: {
+    masterIds(newVal) {
+        this.selected = newVal
+    }
+  },
+  
   methods: {
     close() {
       this.$emit('close');
     },
     submitForm(){
-      this.$emit('submit', this.form.selected);
+      this.$emit('submit', this.selected);
     }
   }
 }
