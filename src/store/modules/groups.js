@@ -26,6 +26,14 @@ const actions = {
               }
           );
     },
+    addGroup({ dispatch, commit }, group) {
+      groupService.addGroup(group)
+          .then(
+              user => {
+                  commit('addGroupSuccess', group);
+              },
+          );
+    },
 };
 
 const mutations = {
@@ -34,7 +42,7 @@ const mutations = {
     },
     addGroupSuccess(state, group) {
         let groups = state.groups;
-        groups.push(group);
+        groups.push(group.group);
         state.groups = groups;
     },
     deleteGroupSuccess(state, id) {

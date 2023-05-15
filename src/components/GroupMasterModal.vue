@@ -86,7 +86,7 @@ export default {
       this.$emit('close');
     },
     submitForm(){
-      this.$emit('submit', this.selected);
+      this.$emit('submitMaster', this.selected);
     }
   }
 }

@@ -1,7 +1,8 @@
 <template>
   <div class="backdrop" v-if="visible" @click="hideConfirmation"></div>
   <div class="confirmation" v-if="visible">
-    <h2>Are you sure you want to delete these members: {{ index.join(", ") }}</h2>
+    <!-- <h2>Are you sure you want to delete these members: {{ index.join(", ") }}</h2> -->
+    <h2>Are you sure you want to delete the selected item?</h2>
     <div class="btn_box">
       <button type="button" class="lw_btn"  @click="hideConfirmation">Cancel</button>
       <button type="button" class="lw_btn_point" @click="deleteItem">Delete</button>

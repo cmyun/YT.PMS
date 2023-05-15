@@ -41,11 +41,20 @@ const actions = {
               }
           );
     },
-    updateGroupMasters({ dispatch, commit }, {groupId, ids}) {
-      groupService.updateGroupMasters(groupId, ids)
+    updateGroupMasters({ dispatch, commit }, {group, ids}) {
+      console.log(ids)
+      groupService.updateGroupMasters(group, ids)
           .then(
-              ids => {
-                  commit('updateGroupMastersSuccess', ids);
+              group => {
+                  commit('updateGroupMastersSuccess', group);
+              }
+          );
+    },
+    updateGroup({ dispatch, commit }, group) {
+      groupService.updateGroup(group)
+          .then(
+              group => {
+                  commit('updateGroupSuccess', group);
               }
           );
     }
@@ -64,8 +73,14 @@ const mutations = {
     setGroupWhole(state, groupWhole) {
       state.groupWhole = groupWhole
     },
-    updateGroupMastersSuccess(state, ids) {
-        // state.group.userName = ids
+    updateGroupMastersSuccess(state, group) {
+        state.groupMasters = group
+    },
+    updateGroupMembersSuccess(state, group) {
+      state.groupMembers = group
+    },
+    updateGroupSuccess(state, group) {
+      state.group = group
     },
 };
 

@@ -75,9 +75,11 @@
         <add-group-modal :title="title" 
         :visible="visible" 
         @close="closeAddGroupModal" 
+        @submit="submitEditGroup"
         >
         </add-group-modal>
-        <confirmation-box :visible="visibleConf" :index="getGroupName()" @close="closeConf" 
+        <confirmation-box :visible="visibleConf" 
+        :index="getGroupName()" @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
         <group-detail-modal
           :visible="visibleDetail"
@@ -126,16 +128,22 @@ export default {
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
+    ...mapState('organizations', ['organizations']),
   },
   created() {
     this.getAll();
+    this.getMembersByOrg(0);
+    this.getOrganizations();
   },
   methods: {
     ...mapActions('groups', ['getAll']),
+    ...mapActions('groups', ['deleteGroup']),
     ...mapActions('group', ['getGroupInfo']),
     ...mapActions('group', ['getGroupMasters']),
     ...mapActions('group', ['getGroupMembers']),
     ...mapActions('group', ['getGroupWhole']),
+    ...mapActions('members', ['getMembersByOrg']),
+    ...mapActions('organizations', ['getOrganizations']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -153,6 +161,7 @@ export default {
     },
     handleDelete(conf){
       if(conf){
+        this.deleteGroup(this.selected);
         this.closeConf();
         this.selected = [];
       }

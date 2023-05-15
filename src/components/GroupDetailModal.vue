@@ -90,7 +90,7 @@
           :visible="visibleMasterModal" 
           :masterIds="groupMasters.map(obj => obj.id)"
           @close="closeGroupMasterModal" 
-          @submit="handleSubmitMasters"
+          @submitMaster="handleSubmitMasters"
           >
         </group-master-modal>
       </div>
@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     ...mapActions('group', ['updateGroupMasters']),
-    // ...mapActions('group', ['getGroupMasters']),
+    // ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
     },
@@ -149,7 +149,12 @@ export default {
     },
     handleSubmitMasters(selected){
       console.log(selected)
-      this.updateGroupMasters(this.group.id,selected)
+      const group = this.group
+      this.updateGroupMasters({
+        group: group, 
+        ids: selected})
+      // console.log(this.group)
+      this.closeGroupMasterModal();
     }
   }
 }

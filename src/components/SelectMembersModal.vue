@@ -1,13 +1,16 @@
 <template>
   <div class="modal1" v-if="visible">
     <div class="modal-overlay" @click="close"></div>
-    <form>
+    <form @submit.prevent="submitForm">
       <div class="modal-body">
         <div id="modal-root">
           <div class="ly_wrap dimmed en_US ua_win">
             <div class="ly_common ly_page ly_organization freeplan">
               <div class="tit_box"><h3 class="tit">Select master(s)</h3></div>
-              <div class="btn_box"><button type="button" class="lw_btn" @click="close">Cancel</button><button type="button" class="lw_btn_point">OK</button></div>
+              <div class="btn_box">
+                <button type="button" class="lw_btn" @click="close">Cancel</button>
+                <button class="lw_btn_point">OK</button>
+              </div>
               <div class="org_container">
                 <div class="member_view">
                   <section class="organization">
@@ -22,19 +25,20 @@
                       <div class="list_head">
                         <h1>
                           <span class="check_cover">
-                            <input type="checkbox" class="lw_checkbox" id="default-id-5-all" v-model="selectAll" @click="checkAll()">
+                            <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
                           </span>
-                          <span class="group_name">test</span>
-                          <em class="cnt">4</em>
+                          <span class="group_name">{{ group.name }}</span>
+                          <em class="cnt">{{ members.length }}</em>
                         </h1>
                       </div>
                     </div>
                     <div class="fix_body">
                       <div class="lw_table_scoll">
                         <div class="lw_table tb_cols_memberlist">
-                          <div class="lw_tr selected">
+                          <div class="lw_tr" :class="{selected: selected.includes(item.id)}" v-for="item in members" :key="item">
+                            
                             <div class="lw_td check">
-                              <input name="DOMAIN_USER-400253934-110002506932338" type="checkbox" class="lw_checkbox" id="default-id-5-DOMAIN_USER-400253934-110002506932338" checked="">
+                              <input type="checkbox" class="lw_checkbox" :name="item.id" :value="item.id" :id="item.id" v-model="selected" @change='updateCheckall()'>
                             </div>
                             <div class="lw_td profile">
                               <span class="thumb_cover">
@@ -43,57 +47,9 @@
                             </div>
                             <div class="lw_td user_name">
                               <span class="name_cover">
-                                <span class="name">test test</span>
+                                <span class="name">{{ item.name + ' ' + item.id }}</span>
                               </span>
-                              <span class="team"></span>
-                            </div>
-                          </div>
-                          <div class="lw_tr selected">
-                            <div class="lw_td check">
-                              <input name="DOMAIN_USER-400253934-110002506999105" type="checkbox" class="lw_checkbox" id="default-id-5-DOMAIN_USER-400253934-110002506999105" checked="">
-                            </div>
-                            <div class="lw_td profile">
-                              <span class="thumb_cover">
-                                <img src="../assets/img_profile.png" alt="">
-                              </span>
-                            </div>
-                            <div class="lw_td user_name">
-                              <span class="name_cover">
-                                <span class="name">test03 test03</span>
-                              </span>
-                              <span class="team"></span>
-                            </div>
-                          </div>
-                          <div class="lw_tr selected">
-                            <div class="lw_td check">
-                              <input name="DOMAIN_USER-400253934-110002506999096" type="checkbox" class="lw_checkbox" id="default-id-5-DOMAIN_USER-400253934-110002506999096" checked="">
-                            </div>
-                            <div class="lw_td profile">
-                              <span class="thumb_cover">
-                                <img src="../assets/img_profile.png" alt="">
-                              </span>
-                            </div>
-                            <div class="lw_td user_name">
-                              <span class="name_cover">
-                                <span class="name">test04 test04</span>
-                              </span>
-                              <span class="team"></span>
-                            </div>
-                          </div>
-                          <div class="lw_tr selected">
-                            <div class="lw_td check">
-                              <input name="DOMAIN_USER-400253934-110002506998668" type="checkbox" class="lw_checkbox" id="default-id-5-DOMAIN_USER-400253934-110002506998668" checked="">
-                            </div>
-                            <div class="lw_td profile">
-                              <span class="thumb_cover">
-                                <img src="../assets/img_profile.png" alt="">
-                              </span>
-                            </div>
-                            <div class="lw_td user_name">
-                              <span class="name_cover">
-                                <span class="name">test2 test2</span>
-                              </span>
-                              <span class="team"></span>
+                              <!-- <span class="team">{{ item.organization }}</span> -->
                             </div>
                           </div>
                         </div>
@@ -101,44 +57,25 @@
                     </div>
                   </section>
                 </div>
-                <div class="selected_list_box">
+                <div class="selected_list_box" v-if="selectedArr.length">
                   <div class="count">
-                    <span>select 5</span>
-                    <button type="button" class="btn_remove_all">
+                    <span>select {{ selectedArr.length }}</span>
+                    <button type="button" class="btn_remove_all" @click="removeAll">
                       <!-- <i class="blind">Deselect all </i> -->
                     </button>
                   </div>
-                  {{ data }}
                   <ul class="selected_list">
-                    <li>
-                      <span class="item">test test</span>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <span class="item">test03 test03</span>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <span class="item">test04 test04</span>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <span class="item">test2 test2</span>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <span class="item groups">New organization (1)</span>
-                      <button type="button" class="btn_delete">Delete</button>
+                    <li v-for="item in selectedArr" :key="item">
+                      <span class="item">{{ item.name }}</span>
+                      <button type="button" class="btn_delete" @click="deleteIem(item.id)">Delete</button>
                     </li>
                   </ul>
-                  
                 </div>
               </div>
               <button type="button" class="btn_close" @click="close">Close</button>
             </div>
           </div>
         </div>
-        
       </div>
     </form>
   </div>
@@ -152,13 +89,19 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    dataSelected: {
+      type: Array,
+      default: ()=>[]
     }
   },
   data(){
     return {
-      selectedOrg: {},
+      // selectedOrg: {},
       selected: [],
-      selectAll: true
+      selectedArr: [],
+      selectAll: false,
+      dataIds: []
     }
   },
   components: {
@@ -166,13 +109,32 @@ export default {
   },
   computed: {
     ...mapState('organizations', ['organizations']),
+    ...mapState('group', ['group']),
+    ...mapState('members', ['members']),
+    ...mapState('organizations', ['organizations']),
+    ...mapState('group', ['groupMembers']),
+    ...mapState('group', ['groupMasters']),
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;
     },
   },
+  watch: {
+    dataSelected(newVal) {
+    //   this.selectAll = this.members.length == this.selected.length ? true : false;
+    //   this.selected = newVal.map(obj => obj.id)
+    //   // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
+    this.selectAll = this.members.length == this.selected.length ? true : false;
+    this.selected = newVal.map(obj => obj.user_ID)
+    this.selectedArr = this.getCommonElements(this.members, newVal)
+  },
+    // members(newVal) {
+    //   this.selectedArr = newVal.filter(item => this.selected.includes(item.id));
+    // }
+  },
   methods: {
-    ...mapActions('organizations', ['getOrganizations']),
+    // ...mapActions('organizations', ['getOrganizations']),
+    ...mapActions('members', ['getMembersByOrg']),
     buildTree(data, parent, level) {
       const tree = [];
       for (let i = 0; i < data.length; i++) {
@@ -201,9 +163,11 @@ export default {
     close() {
       this.$emit('close');
     },
-    // submitForm() {
-    //   this.$emit('submit');
-    // },
+    submitForm() {
+      // console.log(this.selected);
+      
+      this.$emit('submitData', this.selected);
+    },
     onDataUp(data) {
       const a = '.modal1 .orgTree #id_'+data.id;
       document.querySelector(a).className="treeItem selected";
@@ -217,22 +181,51 @@ export default {
           element.classList.add('corp');
         }
       });
-      this.selectedOrg = data;
+      // this.selectedOrg = data;
+      this.getMembersByOrg(data.id);
+
     },
     checkAll(){
       this.selected = [];
+      this.selectedArr = [];
       if (!this.selectAll) {
         for (let i in this.members) {
           this.selected.push(this.members[i].id);
+          // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
+          // this.selected = newVal.map(obj => obj.id)
         }
+        this.selectedArr = this.members;
       }
     },
     updateCheckall(){
       if(this.members.length == this.selected.length){
         this.selectAll = true;
+        this.selectedArr = this.members;
       }else{
         this.selectAll = false;
+        this.selectedArr = this.members.filter(item => this.selected.includes(item.id));
+        // newVal.filter(item => this.selected.includes(item.id))
       }
+    },
+    deleteIem(id){
+      const selected = this.selected.filter(item => item !== id);
+      this.selected = selected;
+      const selectedArr = this.selectedArr.filter(item => item.id !== id);
+      this.selectedArr = selectedArr;
+      this.updateCheckall();
+    },
+    removeAll(){
+      this.selectAll = false
+      this.selected = []
+      this.selectedArr = []
+    },
+    getCommonElements(A, B) {
+      let commonElements = A.filter(function(elementA) {
+        return B.some(function(elementB) {
+          return elementB.user_ID === elementA.id;
+        });
+      });
+      return commonElements;
     }
   }
 }

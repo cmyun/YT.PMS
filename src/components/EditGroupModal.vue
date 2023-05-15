@@ -1,7 +1,7 @@
 <template>
   <div class="modal1" v-if="visible">
       <div class="modal-body">
-        <Form @submit="submitForm">
+        <Form @submit.prevent="submitForm">
           <div id="modal-root">
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
-                  <button type="button" class="lw_btn_point">Save</button>
+                  <button class="lw_btn_point">Save</button>
                 </div>
                 <div class="scroller">
                   <p class="noti">
@@ -25,7 +25,6 @@
                         <span class="f_pic">
                           <a href="#">Register</a>
                         </span>
-                        <!-- <input class="blind" type="file" name="file" accept="image/x-png, image/jpeg" style="display: none;"> -->
                       </div>
                       <div class="infor">
                         <p class="txt">
@@ -55,22 +54,20 @@
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
                             <button type="button" @click="openSelectMembersModal('master')">Contacts</button>
                           </div>
-                          {{ groupMasters }}
-                          <ul class="member_list results">
+                          <ul class="member_list results" v-if="groupMasters.length">
                             <li class="has_thmb" v-for="master in groupMasters" :key="master">
                               <div class="thumb">
                                 <span class="thmb_area">
-                                  <img src="../assets/img_group.png" alt="" loading="lazy">
+                                  <img src="../assets/img_profile.png" alt="" loading="lazy">
                                 </span>
                               </div>
                               <div class="infor">
                                 <div class="name_box">
-                                  <strong class="name">{{ master.userName }}</strong>
+                                  <strong class="name">{{ master.userName + ' ' + master.user_ID }}</strong>
                                 </div>
                                 <div class="txt">
                                   <strong class="position">{{ master.position }}</strong>
                                   <span class="corp">{{ group.name }}</span>
-                                  <!-- <span class="email">test2@test-5380</span> -->
                                 </div>
                               </div>
                               <button type="button" class="remove">
@@ -78,6 +75,11 @@
                               </button>
                             </li>
                           </ul>
+                          <div class="caption ft">
+                            <p class="acption ft"><strong>{{ groupMasters[0].userName }}</strong>
+                              <template v-if="groupMasters.length > 1"> and <strong>{{ groupMasters.length - 1 }}</strong> more</template>
+                            </p>
+                          </div>
                         </div>
                       </div>
                       <div class="field">
@@ -86,37 +88,33 @@
                         <div class="box srch_member">
                           <div class="task">
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
-                            <button type="button">Contacts</button>
+                            <button type="button" @click="openSelectMembersModal('member')">Contacts</button>
                           </div>
-                          <ul class="member_list results">
-                            <li class="has_thmb">
+                          <ul class="member_list results" v-if="groupMembers.length">
+                            <li class="has_thmb" v-for="member in groupMembers" :key="member">
                               <div class="thumb">
                                 <span class="thmb_area">
-                                  <img src="https://static.worksmobile.net/static/pwe/wm/common/img_profile2.png" alt="" loading="lazy">
+                                  <img src="../assets/img_profile.png" alt="" loading="lazy">
                                 </span>
                               </div>
                               <div class="infor">
                                 <div class="name_box">
-                                  <strong class="name">test test</strong>
-                                  <span class="nick">[222222]</span>
+                                  <strong class="name">{{ member.userName + ' ' + member.user_ID }}</strong>
                                 </div>
                                 <div class="txt">
-                                  <strong class="position">Management</strong>
-                                  <span class="corp">test</span>
-                                  <span class="email">test.test@test-5380</span>
+                                  <span class="corp">{{ member.organization }}</span>
+                                  <span class="email">{{ member.position + '/ ' + member.level }}</span>
                                 </div>
                               </div>
                               <button type="button" class="remove">
                                 <i>Deselect member</i>
                               </button>
                             </li>
-                            
                           </ul>
                           <p class="caption ft">
-                            <span class="txt">Total <strong>4</strong> people </span>
+                            <span class="txt">Total <strong>{{ groupMembers.length }}</strong> people </span>
                           </p>
                         </div>
-                        {{ group }}
                       </div>
                     </div>
                   </div>
@@ -124,11 +122,11 @@
                 <button type="button" class="btn_close" @click="close">Close</button>
               </div>
             </div>
-            
             <select-members-modal
               :visible="visibleSelectMembers"
-              :data="selectMembersData"
+              :dataSelected="selectMembersData"
               @close="closeSelectMembersModal"
+              @submitData="handleSubmitMembers"
             >
             </select-members-modal>
           </div>
@@ -138,7 +136,7 @@
 </template>
   
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 // import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
 import SelectMembersModal from '@/components/SelectMembersModal.vue';
 // import { required } from '@vee-validate/rules';
@@ -185,53 +183,95 @@ export default {
         mUser_ID: 0
       },
       visibleSelectMembers: false,
-      selectMembersData: []
+      selectMembersData: [],
+      memberModalType: '',
+      master: [],
+      member: []
     }
   },
   computed: {
-    // ...mapState('group', ['group']),
+    ...mapState('group', ['group']),
+    ...mapState('members', ['members']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
   },
-  // created() {
-  //   this.form = this.group;
-  //   console.log(this.form)
-  // },
   methods: {
-    // ...mapActions('levels', ['getLevels']),
-    // ...mapActions('organizations', ['getOrganizations']),
-    // ...mapActions('positions', ['getPositions']),
-    // ...mapActions('types', ['getTypes']),
+    ...mapActions('group', ['updateGroup']),
     close() {
       this.$emit('close');
     },
     openSelectMembersModal(value){
-      // alert(0)
       this.visibleSelectMembers = true;
       if (value === 'member') {
         this.selectMembersData = this.groupMembers
+        this.memberModalType = 'member'
       } else if (value === 'master') {
         this.selectMembersData = this.groupMasters
+        this.memberModalType = 'master'
       }
     },
     closeSelectMembersModal(){
       this.visibleSelectMembers = false;
       
     },
-    changeData(value) {
-      // Set different data based on which button was clicked
-      if (value === 'member') {
-        this.selectMembersData = this.groupMembers
-      } else if (value === 'master') {
-        this.selectMembersData = this.groupMasters
+    handleSubmitMembers(data){
+      console.log(data)
+      console.log(this.memberModalType);
+      if(this.memberModalType=='master'){
+        this.masters = data;
+        // let newMasters = this.members.filter(item =>data.includes(item.id));
+        // newMasters = newMasters.map(obj => this.renameProperty(obj, 'name', 'userName'));
+        // newMasters = newMasters.map(obj => this.renameProperty(obj, 'id', 'user_ID'));
+        // this.$store.commit('group/updateGroupMastersSuccess', newMasters);
+      }else {
+        this.members = data;
+        // let newMembers = this.members.filter(item =>data.includes(item.id));
+        // newMembers = newMembers.map(obj => this.renameProperty(obj, 'name', 'userName'));
+        // newMembers = newMembers.map(obj => this.renameProperty(obj, 'id', 'user_ID'));
+        // this.$store.commit('group/updateGroupMembersSuccess', newMembers);
+        // console.log(this.groupMembers);
       }
+      this.closeSelectMembersModal();
+      // updateGroupMasters()
+    },
+    submitForm(){
+      const group = {
+        group: {
+          ...this.form,
+          note: ""
+        },
+        masters: this.master,
+        members: this.member
+      }
+      console.log(group);
+      this.updateGroup(group);
+    },
+    renameProperty(obj, oldName, newName) {
+      if (oldName === newName) {
+        return obj; // Tránh thay đổi nếu tên mới và tên cũ giống nhau
+      }
+      
+      if (Object.prototype.hasOwnProperty.call(obj, oldName)) {
+        obj[newName] = obj[oldName]; // Gán giá trị từ thuộc tính cũ sang thuộc tính mới
+        delete obj[oldName]; // Xóa thuộc tính cũ
+      }
+      
+      return obj;
     }
+    
   },
   watch: {
     group(newVal) {
-      this.form = newVal
-    }
+      this.form = newVal;
+    },
+    groupMasters(newVal) {
+      this.master = newVal.map(obj => obj.user_ID);
+    },
+    groupMembers(newVal) {
+      this.member = newVal.map(obj => obj.id);
+    },
+
   },
 };
 </script>

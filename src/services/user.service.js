@@ -96,7 +96,10 @@ function update(user) {
 function _delete(id) {
     const requestOptions = {
         method: 'DELETE',
-        headers: authHeader(),  
+        headers: {
+          ...authHeader(),
+          'Content-Type': 'application/json'
+        },  
         body: JSON.stringify(id)
     };
 
