@@ -82,7 +82,7 @@
                         </router-link>
                     </li>
                     <li v-show="user.isAdmin">
-                        <router-link to="#">
+                        <router-link to="/organization">
                             Organization
                         </router-link>
                     </li>

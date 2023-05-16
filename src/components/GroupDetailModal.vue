@@ -23,7 +23,7 @@
                     <h4 class="name">{{ group.name }}</h4>
                   </div>
                   <p class="caption">1</p>
-                  <button type="button">
+                  <button type="button" @click="deleteGroup(group.id)">
                     <em>Delete group</em>
                   </button>
                 </div>
@@ -155,6 +155,9 @@ export default {
         ids: selected})
       // console.log(this.group)
       this.closeGroupMasterModal();
+    },
+    deleteGroup(id){
+      this.$emit('delete', id);
     }
   }
 }

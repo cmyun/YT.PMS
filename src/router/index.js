@@ -4,6 +4,7 @@ import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import MemberView from "../views/MemberView.vue";
 import GroupView from "../views/GroupView.vue";
+import OrganizationView from "../views/OrganizationView.vue";
 import MemberDetail from "../views/MemberDetail.vue";
 import UserInfo from "../views/UserInfo.vue";
 
@@ -38,6 +39,11 @@ const routes = [
     path: "/group",
     name: "group",
     component: GroupView,
+  },
+  {
+    path: "/organization",
+    name: "organization",
+    component: OrganizationView,
   },
   { 
     path: '/settings', 

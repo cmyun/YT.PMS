@@ -5,74 +5,115 @@
       <div class="modal-body">
         <div id="modal-root">
           <div class="ly_wrap dimmed en_US ua_win">
-            <div class="ly_common ly_page ly_organization ly_organization02 freeplan">
-              <div class="tit_box"><h3 class="tit">Select master(s)</h3></div>
+            <div class="ly_common ly_page ly_org_tree freeplan">
+              <div class="tit_box">
+                <h3 class="tit">Move</h3>
+              </div>
               <div class="btn_box">
-                <button type="button" class="lw_btn" @click="close">Cancel</button>
-                <button class="lw_btn_point">OK</button>
+                <button type="button" class="lw_btn">Cancel</button>
+                <button type="button" class="lw_btn_point" disabled="">Save</button>
+                <button type="button" class="lw_btn_text">Add</button>
               </div>
               <div class="org_container">
-                <div class="member_view">
-                  <section class="organization">
-                    <organization-list 
-                    :treeData="newOrganizations" 
-                    :className="'orgTree'"
-                    @data-up="onDataUp" 
-                    />
-                  </section>
-                  <section class="fix_contents member_list">
-                    <div class="fix_head memlist_head">
-                      <div class="list_head">
-                        <h1>
-                          <span class="check_cover">
-                            <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
+                <section class="organization">
+                  <h1 class="corp_name"></h1>
+                  <ul class="org_tree">
+                    <li class="fold" data-id="230000002194697">
+                      <span class="tree_item">
+                        <span class="check_cover">
+                          <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002194697" value="230000002194697">
+                          <!-- <label for="default-id-3-230000002194697"></label> -->
+                        </span>
+                        <button type="button" class="btn_toggle_tree">
+                          <!-- <i class="blind">Expand/Close</i> -->
+                        </button>
+                        <a class="group_name" href="#">
+                          <span class="txt">New organization</span>
+                        </a>
+                      </span>
+                      <ul class="sub_group">
+                        <li class="fold" data-id="230000002232828">
+                          <span class="tree_item">
+                            <span class="check_cover">
+                              <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232828" value="230000002232828">
+                              <!-- <label for="default-id-3-230000002232828"></label> -->
+                            </span>
+                            <a class="group_name" href="#">
+                              <span class="txt">fieldsOrganization</span>
+                            </a>
                           </span>
-                          <span class="group_name">{{ group.name }}</span>
-                          <em class="cnt">{{ members.length }}</em>
-                        </h1>
-                      </div>
-                    </div>
-                    <div class="fix_body">
-                      <div class="lw_table_scoll">
-                        <div class="lw_table tb_cols_memberlist">
-                          <div class="lw_tr" :class="{selected: selected.includes(item.id)}" v-for="item in members" :key="item">
-                            
-                            <div class="lw_td check">
-                              <input type="checkbox" class="lw_checkbox" :name="item.id" :value="item.id" :id="item.id" v-model="selected" @change='updateCheckall()'>
-                            </div>
-                            <div class="lw_td profile">
-                              <span class="thumb_cover">
-                                <img src="../assets/img_profile.png" alt="">
+                        </li>
+                        <li class="fold" data-id="230000002232819">
+                          <span class="tree_item">
+                            <span class="check_cover">
+                              <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232819" value="230000002232819">
+                              <!-- <label for="default-id-3-230000002232819"></label> -->
+                            </span>
+                            <button type="button" class="btn_toggle_tree">
+                              <!-- <i class="blind">Expand/Close</i> -->
+                            </button>
+                            <a class="group_name" href="#">
+                              <span class="txt">fieldsOrganization</span>
+                            </a>
+                          </span>
+                          <ul class="sub_group">
+                            <li class="fold" data-id="230000002232835">
+                              <span class="tree_item">
+                                <span class="check_cover">
+                                  <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232835" value="230000002232835">
+                                  <!-- <label for="default-id-3-230000002232835"></label> -->
+                                </span>
+                                <a class="group_name" href="#">
+                                  <span class="txt">fieldsOrganization</span>
+                                </a>
                               </span>
-                            </div>
-                            <div class="lw_td user_name">
-                              <span class="name_cover">
-                                <span class="name">{{ item.name + ' ' + item.id }}</span>
+                            </li>
+                            <li class="fold" data-id="230000002195103">
+                              <span class="tree_item">
+                                <span class="check_cover">
+                                  <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002195103" value="230000002195103">
+                                  <!-- <label for="default-id-3-230000002195103"></label> -->
+                                </span>
+                                <button type="button" class="btn_toggle_tree">
+                                  <!-- <i class="blind">Expand/Close</i> -->
+                                </button>
+                                <a class="group_name" href="#">
+                                  <span class="txt">New organization (1)</span>
+                                </a>
                               </span>
-                              <!-- <span class="team">{{ item.organization }}</span> -->
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="selected_list_box selected_list_box02" v-if="selectedArr.length">
-                  <div class="count">
-                    <span>select {{ selectedArr.length }}</span>
-                    <button type="button" class="btn_remove_all" @click="removeAll">
-                      <!-- <i class="blind">Deselect all </i> -->
-                    </button>
-                  </div>
-                  <ul class="selected_list">
-                    <li v-for="item in selectedArr" :key="item">
-                      <span class="item">{{ item.name }}</span>
-                      <button type="button" class="btn_delete" @click="deleteIem(item.id)">Delete</button>
+                              <ul class="sub_group">
+                                <li class="fold" data-id="230000002232830">
+                                  <span class="tree_item">
+                                    <span class="check_cover">
+                                      <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232830" value="230000002232830">
+                                      <!-- <label for="default-id-3-230000002232830"></label> -->
+                                    </span>
+                                    <a class="group_name" href="#">
+                                      <span class="txt">fieldsOrganization</span>
+                                    </a>
+                                  </span>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="fold" data-id="230000002232840">
+                      <span class="tree_item closed">
+                        <span class="check_cover">
+                          <input name="SELECTION" disabled="" type="radio" class="lw_radio" id="default-id-3-230000002232840" value="230000002232840">
+                          <!-- <label for="default-id-3-230000002232840"></label> -->
+                        </span>
+                        <a class="group_name" href="#">
+                          <span class="txt">fieldsOrganization</span>
+                        </a>
+                      </span>
                     </li>
                   </ul>
-                </div>
+                </section>
               </div>
-              <button type="button" class="btn_close" @click="close">Close</button>
+              <button type="button" class="btn_close">Close</button>
             </div>
           </div>
         </div>
@@ -81,10 +122,10 @@
   </div>
 </template>
 <script>
-import OrganizationList from "@/components/OrganizationList.vue";
+// import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
 export default {
-  name: "SelectMembersModal",
+  name: "SelectOrganizationModal",
   props: {
     visible: {
       type: Boolean,
@@ -104,9 +145,9 @@ export default {
       dataIds: []
     }
   },
-  components: {
-    OrganizationList
-  },
+  // components: {
+  //   OrganizationList
+  // },
   computed: {
     ...mapState('organizations', ['organizations']),
     ...mapState('group', ['group']),
@@ -317,12 +358,6 @@ export default {
     flex: 1 1 auto;
     min-width: 0
 }
-.ly_organization02 {
-  padding-bottom: 84px !important;
-}
-.selected_list_box02 {
-    padding: 0 0 0 111px !important;
-}
 .fix_contents {
     -webkit-box-flex: 1;
     -webkit-flex: 1 1 auto;
@@ -378,8 +413,8 @@ export default {
     line-height: 0;
 }
 .tb_cols_memberlist .lw_td.check, .tb_cols_memberlist .lw_th.check, .tb_cols_memberlist_drop .lw_td.check, .tb_cols_memberlist_drop .lw_th.check, .tb_cols_memberlist_head .lw_td.check, .tb_cols_memberlist_head .lw_th.check {
-    padding-right: 20px;
-    padding-left: 24px;
+    // padding-right: 20px;
+    // padding-left: 24px;
     width: 63px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -844,5 +879,66 @@ export default {
 
 .fix_contents .editing_bar .pos_right {
     float: right;
+}
+@media screen and (min-width: 768px){
+  .ly_org_tree .org_container {
+    max-height: 500px;
+    height: 500px;
+  }
+}
+.ly_org_tree .tit_box {
+    margin-bottom: 15px;
+}
+.ly_org_tree .org_container {
+    display: flex;
+    flex-direction: column;
+}
+.ly_org_tree .organization {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+.ly_org_tree {
+    width: 460px;
+    box-sizing: border-box;
+    padding-bottom: 84px;
+}
+// .lw_radio:before {
+//     content: "";
+//     position: absolute;
+//     top: 50%;
+//     left: 0;
+//     -webkit-transform: translateY(-50%);
+//     transform: translateY(-50%);
+//     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
+//     background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+//     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
+//     background-size: 1013px 983px;
+//     background-position: -993px -467px;
+//     width: 16px;
+//     height: 16px;
+//     display: inline-block;
+// }
+
+.modal1 .org_tree .check_cover {
+    position: relative;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+}
+
+.modal1 .org_tree .check_cover .lw_checkbox, 
+.modal1 .org_tree .check_cover .lw_radio {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(0);
+    clip: unset;
+}
+
+.modal1 .org_tree .tree_item, .org_tree .tree_item .group_name {
+  align-items: center;
+}
+.modal1 .lw_radio:checked {
+    color: #157efb;
 }
 </style>

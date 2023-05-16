@@ -76,17 +76,20 @@
         :visible="visible" 
         @close="closeAddGroupModal" 
         @submit="submitEditGroup"
+        
         >
         </add-group-modal>
-        <confirmation-box :visible="visibleConf" 
-        :index="getGroupName()" @close="closeConf" 
-        @confirm="handleDelete"></confirmation-box>
+        
         <group-detail-modal
           :visible="visibleDetail"
           @close="closeGroupDetail"
+          @delete="deleteGroup02"
         >
 
         </group-detail-modal>
+        <confirmation-box :visible="visibleConf" 
+        :index="getGroupName()" @close="closeConf" 
+        @confirm="handleDelete"></confirmation-box>
       </div>
     </div>
   </div>
@@ -159,11 +162,25 @@ export default {
         this.selectAll = false;
       }
     },
+    deleteGroup02(id){
+      this.selected = [id];
+      this.openConf();
+      
+      // if(conf){
+      //   this.deleteGroup(this.selected);
+      //   this.closeConf();
+      //   this.selected = [];
+      // }
+    },
     handleDelete(conf){
+      console.log(conf);
       if(conf){
         this.deleteGroup(this.selected);
         this.closeConf();
         this.selected = [];
+        if(this.visibleDetail){
+          this.closeGroupDetail();
+        }
       }
 
     },
