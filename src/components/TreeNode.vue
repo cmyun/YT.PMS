@@ -1,19 +1,34 @@
 <template>
-  <template v-for="childNode in node" :key="childNode.id" >
-    <li :class="'depth_'+childNode.lv"  >
-      <span draggable="false" class="tree_item">
+  <!-- <template > -->
+    
+    <li :class="['depth_'+node.lv, { 'fold': !expanded}]">
+      <span draggable="false" class="tree_item" :class="{selected: selectedIds.includes(node.id)}">
         <span class="check_cover">
-          <input type="checkbox" class="lw_checkbox" id="org_tree_230000002194697">
+          <input type="checkbox" class="lw_checkbox" 
+          :name="node.id" 
+          :value="node.id" 
+          :id="node.id" 
+          v-model="selectedIds" 
+          @change='handleCheck(node)'>
         </span>
+        <button type="button" class="btn_toggle_tree" v-if="node.children.length"
+          @click="toggleNode"
+        ></button>
         <a href="#" class="group_name">
-          <span class="txt">{{ childNode.name }}</span>
-          <span class="cnt">{{ childNode.count }}</span>
+          <span class="txt">{{ node.name + ' - ' + node.id }}</span>
+          <span class="cnt">{{ node.count }}</span>
         </a>
-        <span class="leader">{{ childNode.hUserName }}</span>
+        <span class="leader">{{ node.hUserName }}</span>
       </span>
     </li>
-    <tree-node :node="childNode.children"></tree-node>
-  </template>
+    <div v-show="expanded">
+      <tree-node 
+      v-for="(child, index) in node.children"
+        :key="index"
+      :node="child" @child-check="handleCheck" :selected="selected"></tree-node>
+    </div>
+      
+  <!-- </template> -->
 </template>
 <script>
 
@@ -24,7 +39,39 @@ export default {
       type: Object,
       required: true,
     },
+    selected: {
+      type: Array,
+      required: true
+    }
   },
+  data(){
+    return {
+      selectedIds: [],
+      expanded: false
+    }
+  },
+  watch: {
+    selected(newVal) {
+      this.selectedIds = newVal;
+    }
+  },
+  methods: {
+    handleCheck(item){
+      console.log(item)
+      this.$emit('child-check', item)
+    },
+    toggleAccordion(item) {
+      console.log(this.activeIndex, item.id);
+      if (this.activeIndex === item.id) {
+        this.activeIndex = null;
+      } else {
+        this.activeIndex = item.id;
+      }
+    },
+    toggleNode() {
+      this.expanded = !this.expanded;
+    }
+  }
 };
 </script>
 <style scope lang="scss">
@@ -564,6 +611,7 @@ export default {
 
 .lw_table_scoll .org_tree {
     width: 100%;
+    margin-bottom: 0;
 }
 
 .lw_table_scoll .org_tree .tree_item {

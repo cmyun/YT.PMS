@@ -14,7 +14,7 @@
               </div> -->
               <div class="task_area">
                 <button type="button" class="btn_delete02">Delete</button>
-                <button type="button" class="btn_cancel">Move</button>
+                <button type="button" class="btn_cancel" @click="openSelectOrgModal">Move</button>
                 <button type="button" class="btn_save">Add</button>
               </div>
             </div>
@@ -41,44 +41,36 @@
                 <div class="lw_table tb_cols_memberlist_head">
                   <div class="lw_tr thead">
                     <div class="lw_th check">
-                      <input type="checkbox" class="lw_checkbox" id="check_all01">
-                      
+                      <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
                     </div>
                     <div class="lw_th">Organization</div>
                     <div class="lw_th leader">Head of Organization</div>
                   </div>
                 </div>
                 <div class="lw_table_scoll">
+                  <!-- {{ newOrganizations }} -->
                   <ul class="org_tree">
                     <tree-node 
-                      :node="newOrganizations" 
+                      v-for="(node, index) in newOrganizations"
+                      :node="node" 
+                      :key="index"
+                      :selected="selected"
+                      @child-check="updateCheckall"
+                      
                     >
                     </tree-node>
                   </ul>
                 </div>
                 <div class="selected_list_box selected_list_box02">
                   <div class="count">
-                    <span>Select 4</span>
+                    <span>Select {{ selectedOrgs.length }}</span>
                     <button type="button" class="btn_remove_all">
-                      <!-- <i class="blind">Deselect all</i> -->
                     </button>
                   </div>
-                  <ul class="selected_list">
-                    <li>
-                      <a href="#" class="item groups">fieldsOrganization</a>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <a href="#" class="item groups">New organization (1)</a>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <a href="#" class="item groups">fieldsOrganization</a>
-                      <button type="button" class="btn_delete">Delete</button>
-                    </li>
-                    <li>
-                      <a href="#" class="item groups">fieldsOrganization</a>
-                      <button type="button" class="btn_delete">Delete</button>
+                  <ul class="selected_list" v-if="selectedOrgs.length">
+                    <li v-for="org in selectedOrgs" :key="org.id">
+                      <a href="#" class="item groups">{{ org.name }}</a>
+                      <button type="button" class="btn_delete" @click="unchecked(org)">Delete</button>
                     </li>
                   </ul>
                 </div>
@@ -93,7 +85,8 @@
         >
         </add-group-modal>
         <confirmation-box :visible="visibleConf" 
-        :index="getGroupName()" @close="closeConf" 
+        
+        @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
         <group-detail-modal
           :visible="visibleDetail"
@@ -101,7 +94,7 @@
         >
 
         </group-detail-modal>
-        <select-organization-modal :visible="visibleSelectOrg">
+        <select-organization-modal :visible="visibleSelectOrg" @close="closeSelectOrgModal">
 
         </select-organization-modal>
       </div>
@@ -128,7 +121,6 @@ export default {
     Sidebar,
     ConfirmationBox,
     GroupDetailModal,
-    // AddGroupModal,
     TreeNode,
     SelectOrganizationModal
   },
@@ -141,45 +133,46 @@ export default {
       visibleConf: false,
       visibleDetail: false,
       groupDetail: null,
-      visibleSelectOrg: true
+      visibleSelectOrg: false,
+      selectedOrgs: []
     }
   },
   computed: {
-    // ...mapState('groups', ['groups']),
-    // ...mapState('group', ['group']),
-    // ...mapState('group', ['groupMembers']),
-    // ...mapState('group', ['groupMasters']),
-    // ...mapState('group', ['groupWhole']),
     ...mapState('organizations', ['organizations']),
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;
     },
+    
   },
   created() {
-    // this.getAll();
-    // this.getMembersByOrg(0);
     this.getOrganizations();
   },
   methods: {
-    // ...mapActions('organizations', ['getAll']),
-    // ...mapActions('groups', ['deleteGroup']),
-    // ...mapActions('group', ['getGroupInfo']),
-    // ...mapActions('group', ['getGroupMasters']),
-    // ...mapActions('group', ['getGroupMembers']),
-    // ...mapActions('group', ['getGroupWhole']),
-    // ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
+    
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
-        for (let i in this.groups) {
-          this.selected.push(this.groups[i].id);
+        for (let i in this.organizations) {
+          this.selected.push(this.organizations[i].id);
         }
       }
+      this.selectedOrgs = this.organizations.filter(item => this.selected.includes(item.id));
     },
-    updateCheckall(){
-      if(this.groups.length == this.selected.length){
+    updateCheckall(item){
+        const ids = this.findAllIds(item);
+      if(this.selected.includes(item.id)){
+        const newArray = this.removeElementsFromArrayA(this.selected, ids)
+        this.selected = newArray;
+      }else{
+        const newArray = this.selected.concat(ids);
+        this.selected = newArray.filter((value, index) => {
+          return newArray.indexOf(value) === index;
+        });
+      }
+      this.selectedOrgs = this.organizations.filter(item => this.selected.includes(item.id));
+      if(this.organizations.length == this.selected.length){
         this.selectAll = true;
       }else{
         this.selectAll = false;
@@ -191,7 +184,6 @@ export default {
         this.closeConf();
         this.selected = [];
       }
-
     },
     openAddGroupModal() {
       this.visible = true;
@@ -264,7 +256,54 @@ export default {
       }
       return tree;
     },
-  }
+    closeSelectOrgModal(){
+      this.visibleSelectOrg = false;
+    },
+    openSelectOrgModal(){
+      this.visibleSelectOrg = true;
+    },
+    findAllIds(node) {
+      var ids = [];
+      
+      if (node.id !== 'undefined') {
+        ids.push(node.id);
+      }
+      if (node.children && node.children.length > 0) {
+        for (let i = 0; i < node.children.length; i++) {
+          var childIds = this.findAllIds(node.children[i]);
+          ids = ids.concat(childIds);
+        }
+      }
+      return ids;
+    },
+    removeElementsFromArrayA(arrA, arrB) {
+      return arrA.filter(function(elementA) {
+        return !arrB.includes(elementA);
+      });
+    },
+    findElementById(nodes, id) {
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        if (node.id === id) {
+          return node;
+        }
+
+        if (node.children && node.children.length > 0) {
+          const foundNode = this.findElementById(node.children, id);
+          if (foundNode) {
+            return foundNode;
+          }
+        }
+      }
+
+      return null;
+    },
+    unchecked(org){
+      const item = this.findElementById(this.newOrganizations, org.id);
+      this.updateCheckall(item);
+    }
+  },
+  
 };
 </script>
 <style scoped lang="scss">
@@ -448,5 +487,42 @@ a {
 .fix_contents .fix_head {
     padding: 16px 20px;
 }
-
+.fix_contents .fix_body .lw_table_scoll {
+    flex: 1 1 auto;
+    overflow: scroll;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    -ms-overflow-style: auto;
+}
+.fix_contents {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e6;
+}
+.selected_list_box li .item.groups {
+    border-color: #f1d69c;
+    background-color: #f8eac8;
+    transition: all .3s;
+    &:hover {
+      opacity: .7;
+    }
+}
 </style>

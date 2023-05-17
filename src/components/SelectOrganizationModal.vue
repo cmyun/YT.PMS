@@ -10,7 +10,7 @@
                 <h3 class="tit">Move</h3>
               </div>
               <div class="btn_box">
-                <button type="button" class="lw_btn">Cancel</button>
+                <button type="button" class="lw_btn" @click="close">Cancel</button>
                 <button type="button" class="lw_btn_point" disabled="">Save</button>
                 <button type="button" class="lw_btn_text">Add</button>
               </div>
@@ -113,7 +113,7 @@
                   </ul>
                 </section>
               </div>
-              <button type="button" class="btn_close">Close</button>
+              <button type="button" class="btn_close" @click="close">Close</button>
             </div>
           </div>
         </div>
