@@ -3,7 +3,7 @@
   <li :data-id="node.id" :class="{ 'fold': !expanded}">
     <span class="tree_item" :class="{closed: selected.includes(node.id)}">
       <span class="check_cover">
-        <input type="radio" class="lw_radio" 
+        <input type="radio" class="lw_radio" :disabled="selected.includes(node.id)"
         name="SELECTION" 
         :value="node.id" 
         :id="node.id" 
@@ -20,14 +20,14 @@
       <span class="leader">{{ node.hUserName }}</span>
     </span>
     <ul class="sub_group pl0" v-show="expanded">
-      <change-org-head-modal 
+      <change-org-target-modal 
         v-for="(child, index) in node.children"
         :key="index"
         :node="child"
         @child-check="handleCheck"
         :selected="selected"
       >
-      </change-org-head-modal>
+      </change-org-target-modal>
     </ul>
   </li>
   
@@ -35,7 +35,7 @@
 <script>
 
 export default {
-  name: 'ChangeOrgHeadModal',
+  name: 'ChangeOrgTargetModal',
   props: {
     node: {
       type: Object,

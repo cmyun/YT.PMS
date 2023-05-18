@@ -50,7 +50,7 @@
                       :key="index"
                       :selected="selected"
                       @child-check="updateCheckall"
-                      
+                      @openDetail="openOrgDetail"
                     >
                     </tree-node>
                   </ul>
@@ -82,12 +82,12 @@
         
         @close="closeConf" 
         @confirm="handleDelete"></confirmation-box>
-        <group-detail-modal
+        <org-detail-modal
           :visible="visibleDetail"
-          @close="closeGroupDetail"
+          @close="closeOrgDetail"
         >
 
-        </group-detail-modal>
+        </org-detail-modal>
         <select-organization-modal 
           :visible="visibleSelectOrg"
           :data="newOrganizations"
@@ -104,7 +104,7 @@
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
-import GroupDetailModal from '@/components/GroupDetailModal.vue';
+import OrgDetailModal from '@/components/OrgDetailModal.vue';
 import AddGroupModal from '@/components/AddGroupModal.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
 import TreeNode from "@/components/TreeNode.vue";
@@ -117,7 +117,7 @@ export default {
     Header,
     Sidebar,
     ConfirmationBox,
-    GroupDetailModal,
+    OrgDetailModal,
     TreeNode,
     SelectOrganizationModal
   },
@@ -140,6 +140,8 @@ export default {
   },
   computed: {
     ...mapState('organizations', ['organizations']),
+    ...mapState('organization', ['organization']),
+    ...mapState('organization', ['orgMembers']),
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;
@@ -150,6 +152,9 @@ export default {
     this.getOrganizations();
   },
   methods: {
+    ...mapActions('organizations', ['deleteOrg']),
+    ...mapActions('organization', ['getOrganizationInfo']),
+    ...mapActions('organization', ['getOrgMembers']),
     ...mapActions('organizations', ['getOrganizations']),
     closeMove(){
       this.visibleEdittingBar = false;
@@ -226,14 +231,12 @@ export default {
       this.status = null;
       this.visibleAlert = false;
     },
-    openGroupDetail(id){
+    openOrgDetail(id){
       this.visibleDetail = true;
-      this.getGroupInfo(id);
-      this.getGroupMasters(id);
-      this.getGroupMembers(id);
-      this.getGroupWhole(id);
+      this.getOrganizationInfo(id);
+      this.getOrgMembers(id);
     },
-    closeGroupDetail(){
+    closeOrgDetail(){
       this.visibleDetail = false;
     },
     buildTree(data, parent, level) {

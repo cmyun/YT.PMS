@@ -5,6 +5,7 @@ export const organizationService = {
     updateOrganization,
     addOrganization,
     moveOrg,
+    getOrgMembers,
     delete: _delete
 };
 
@@ -25,6 +26,13 @@ function getById(id) {
       headers: authHeader()
   };
   return fetch(`${apiUrl}/organization-management/organizations/${id}`, requestOptions).then(handleResponse);
+}
+function getOrgMembers(id) {
+  const requestOptions = {
+      method: 'GET',
+      headers: authHeader()
+  };
+  return fetch(`${apiUrl}/organization-management/organizations/${id}/members`, requestOptions).then(handleResponse);
 }
 function updateOrganization(organization) {
   const requestOptions = {

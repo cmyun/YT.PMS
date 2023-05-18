@@ -13,7 +13,8 @@
         @click="toggleNode"
       ></button>
       <a href="#" class="group_name">
-        <span class="txt">{{ node.name }}</span>
+        <a href="javascript:void(0)" class="txt" @click="openGroupDetail(node.id)">{{ node.name }}</a>
+        
         <span class="cnt">{{ node.count }}</span>
       </a>
       <span class="leader">{{ node.hUserName }}</span>
@@ -25,6 +26,8 @@
       :key="index"
       :node="child"
       @child-check="handleCheck"
+      @openDetail="openGroupDetail"
+      
       :selected="selected"
     >
     </tree-node>
@@ -68,6 +71,9 @@ export default {
     },
     toggleNode() {
       this.expanded = !this.expanded;
+    },
+    openGroupDetail(id){
+      this.$emit('openDetail', id);
     }
   }
 };

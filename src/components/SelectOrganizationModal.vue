@@ -19,14 +19,14 @@
                 <section class="organization">
                   <h1 class="corp_name"></h1>
                   <ul class="org_tree">
-                    <change-org-head-modal 
+                    <change-org-target-modal 
                         v-for="(node, index) in data"
                         :node="node" 
                         :key="index"
                         :selected="selected2"
                         @child-check="updateTargetOrg"
                     >
-                    </change-org-head-modal>
+                    </change-org-target-modal>
                   </ul>
                 </section>
               </div>
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import ChangeOrgHeadModal from "@/components/ChangeOrgHeadModal.vue";
+import ChangeOrgTargetModal from "@/components/ChangeOrgTargetModal.vue";
 import { mapState, mapActions } from 'vuex';
 export default {
   name: "SelectOrganizationModal",
@@ -59,7 +59,7 @@ export default {
     selectedId: null
   },
   components: {
-    ChangeOrgHeadModal
+    ChangeOrgTargetModal
   },
   data(){
     return {

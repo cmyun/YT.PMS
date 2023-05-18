@@ -208,7 +208,6 @@ export default {
       this.visibleAlert = false;
     },
     openGroupDetail(id){
-      console.log('opendetail');
       this.visibleDetail = true;
       this.getGroupInfo(id);
       this.getGroupMasters(id);

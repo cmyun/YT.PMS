@@ -6,10 +6,11 @@
       <div id="modal-root">
         <div class="ly_wrap dimmed en_US ua_win">
           <div class="ly_common ly_page ly_member_detail freeplan">
-            <h3 class="tit">Group info</h3>
+            <h3 class="tit">Organizational profile</h3>
+            {{ organization }}
             <div class="btn_box full">
-              <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
-              <button type="button" class="lw_btn_text" @click="openGroupMasterModal(group.id)">Change master</button>
+              <button type="button" class="lw_btn_point" @click="openEditOrg">Modify</button>
+              <button type="button" class="lw_btn_text" @click="openGroupMasterModal(organization.id)">Change organizational head</button>
             </div>
             <div class="scroller">
               <div class="member main">
@@ -20,11 +21,11 @@
                 </div>
                 <div class="infor">
                   <div class="name_box">
-                    <h4 class="name">{{ group.name }}</h4>
+                    <h4 class="name">{{ organization.name }}</h4>
                   </div>
-                  <p class="caption">1</p>
-                  <button type="button" @click="deleteGroup(group.id)">
-                    <em>Delete group</em>
+                  <!-- <p class="caption">1</p> -->
+                  <button type="button" @click="deleteGroup(organization.id)">
+                    <em>Delete organization</em>
                   </button>
                 </div>
               </div>
@@ -39,25 +40,26 @@
                 v-bind:class="{ selected: activeTab === 'tab2' }"
                 @click="activeTab = 'tab2'"
                 >
-                  <a class="txt" href="#">Members ({{ groupMembers.length }})</a>
+                  <a class="txt" href="#">Members ({{ orgMembers.length }})</a>
                 </span>
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab1'">
                 <div class="detail_item">
                   <i class="hd">Group name</i>
                   <p>
-                    <strong>{{ group.name }}</strong>
+                    <strong>{{ organization.name }}</strong>
                   </p>
                 </div>
                 <div class="detail_item">
                   <i class="hd">Description</i>
-                  <p>{{ group.description }}</p>
+                  <p>{{ organization.description }}</p>
                 </div>
                 
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab2'">
-                <ul class="member_list">
-                  <li class="has_thmb" v-for="member in groupMembers" :key="member">
+                {{ orgMembers }}
+                <ul class="member_list" v-for="member in orgMembers" :key="member">
+                  <li class="has_thmb">
                     <div class="thumb">
                       <span class="thmb_area">
                         <img src="../assets/img_profile.png" alt="">
@@ -68,10 +70,10 @@
                         <strong class="name">{{ member.userName }}</strong>
                       </div>
                       <div class="txt">
-                        <span class="email">{{ member.position + '/ ' + member.level }}</span>
+                        <span class="email">{{ member.isHead ? 'Organizational head' : '' }}</span>
                       </div>
                     </div>
-                    <span class="master">{{ member.isMaster ? 'Master(s)' : '' }}</span>
+                    <span class="master">{{  }}</span>
                   </li>
                 </ul>
               </div>
@@ -79,30 +81,29 @@
             <button type="button" class="btn_close" @click="close">Close</button>
           </div>
         </div>
-        <edit-group-modal :title="'title'" 
+        <edit-org-modal :title="'title'" 
         :visible="visibleEdit"
         :group = "group" 
-        @close="closeEditGroup" 
-        @submit="submitEditGroup"
+        @close="closeEditOrg" 
+        @submit="submitEditOrg"
         >
-        </edit-group-modal>
-        <group-master-modal :title="'title'" 
+        </edit-org-modal>
+        <select-org-head-modal :title="'title'" 
           :visible="visibleMasterModal" 
-          :masterIds="groupMasters.map(obj => obj.id)"
           @close="closeGroupMasterModal" 
           @submitMaster="handleSubmitMasters"
           >
-        </group-master-modal>
+        </select-org-head-modal>
       </div>
     </div>
   </div>
 </template>
 <script>
-import EditGroupModal from '@/components/EditGroupModal.vue';
-import GroupMasterModal from '@/components/GroupMasterModal.vue';
+import EditOrgModal from '@/components/EditOrgModal.vue';
+import SelectOrgHeadModal from '@/components/SelectOrgHeadModal.vue';
 import {mapState, mapActions} from 'vuex';
 export default {
-  name: 'GroupDetailModal',
+  name: 'OrgDetailModal',
   props: {
     visible: {
       type: Boolean,
@@ -110,14 +111,12 @@ export default {
     }
   },
   components: {
-    EditGroupModal,
-    GroupMasterModal
+    EditOrgModal,
+    SelectOrgHeadModal
   },
   computed: {
-    ...mapState('group', ['group']),
-    ...mapState('group', ['groupMembers']),
-    ...mapState('group', ['groupMasters']),
-    ...mapState('group', ['groupWhole']),
+    ...mapState('organization', ['organization']),
+    ...mapState('organization', ['orgMembers']),
   },
   data(){
     return {
@@ -128,16 +127,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions('group', ['updateGroupMasters']),
+    ...mapActions('organization', ['updateOrganization']),
     // ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
     },
-    openEditGroup() {
+    openEditOrg() {
       this.visibleEdit = true;
     },
-    closeEditGroup(){
+    closeEditOrg(){
       this.visibleEdit = false;
+    },
+    submitEditGroup(){
+
     },
     openGroupMasterModal(id){
       // this.getGroupMasters(id);
@@ -150,17 +152,16 @@ export default {
     handleSubmitMasters(selected){
       console.log(selected)
       const group = this.group
-      this.updateGroupMasters({
-        group: group, 
-        ids: selected})
+      this.updateOrganization(
+        {
+        // group: group, 
+        // ids: selected
+      })
       // console.log(this.group)
       this.closeGroupMasterModal();
     },
     deleteGroup(id){
       this.$emit('delete', id);
-    },
-    submitEditGroup(){
-      
     }
   }
 }
@@ -1303,7 +1304,7 @@ a {
     display: block;
     width: 100%;
     font-size: 16px;
-    text-align: center;
+    /* text-align: left; */
 }
 
 .ly_common .tab_menu .menu .txt {
