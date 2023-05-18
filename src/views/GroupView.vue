@@ -165,12 +165,6 @@ export default {
     deleteGroup02(id){
       this.selected = [id];
       this.openConf();
-      
-      // if(conf){
-      //   this.deleteGroup(this.selected);
-      //   this.closeConf();
-      //   this.selected = [];
-      // }
     },
     handleDelete(conf){
       console.log(conf);

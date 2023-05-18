@@ -4,6 +4,7 @@ export const organizationService = {
     getById,
     updateOrganization,
     addOrganization,
+    moveOrg,
     delete: _delete
 };
 
@@ -57,6 +58,17 @@ function _delete(id) {
   };
 
   return fetch(`${apiUrl}/organization-management/organizations`, requestOptions).then(handleResponse);
+}
+function moveOrg(targetId, ids){
+  const requestOptions = {
+      method: 'PUT',
+      headers: { 
+          ...authHeader(), 
+          'Content-Type': 'application/json' },
+      body: JSON.stringify(ids)
+  };
+
+  return fetch(`${apiUrl}/organization-management/organizations/movements`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

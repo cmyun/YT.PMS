@@ -778,13 +778,13 @@ export default {
   }
 }
 .fix_contents .editing_bar {
-    display: none;
+    // display: none;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     background-color: #e7f2fe;
-    padding: 9px 25px;
+    padding: 10px 25px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     z-index: 70;

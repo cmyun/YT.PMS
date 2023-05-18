@@ -1,6 +1,7 @@
 <template>
-  <div class="modal1" v-if="visible">
+  <div class="modal2" v-if="visible">
     <div class="modal-overlay" @click="close"></div>
+    <!-- {{ data }} -->
     <form @submit.prevent="submitForm">
       <div class="modal-body">
         <div id="modal-root">
@@ -11,105 +12,21 @@
               </div>
               <div class="btn_box">
                 <button type="button" class="lw_btn" @click="close">Cancel</button>
-                <button type="button" class="lw_btn_point" disabled="">Save</button>
+                <button class="lw_btn_point" :disabled="targetOrgId==null">Save</button>
                 <button type="button" class="lw_btn_text">Add</button>
               </div>
               <div class="org_container">
                 <section class="organization">
                   <h1 class="corp_name"></h1>
                   <ul class="org_tree">
-                    <li class="fold" data-id="230000002194697">
-                      <span class="tree_item">
-                        <span class="check_cover">
-                          <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002194697" value="230000002194697">
-                          <!-- <label for="default-id-3-230000002194697"></label> -->
-                        </span>
-                        <button type="button" class="btn_toggle_tree">
-                          <!-- <i class="blind">Expand/Close</i> -->
-                        </button>
-                        <a class="group_name" href="#">
-                          <span class="txt">New organization</span>
-                        </a>
-                      </span>
-                      <ul class="sub_group">
-                        <li class="fold" data-id="230000002232828">
-                          <span class="tree_item">
-                            <span class="check_cover">
-                              <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232828" value="230000002232828">
-                              <!-- <label for="default-id-3-230000002232828"></label> -->
-                            </span>
-                            <a class="group_name" href="#">
-                              <span class="txt">fieldsOrganization</span>
-                            </a>
-                          </span>
-                        </li>
-                        <li class="fold" data-id="230000002232819">
-                          <span class="tree_item">
-                            <span class="check_cover">
-                              <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232819" value="230000002232819">
-                              <!-- <label for="default-id-3-230000002232819"></label> -->
-                            </span>
-                            <button type="button" class="btn_toggle_tree">
-                              <!-- <i class="blind">Expand/Close</i> -->
-                            </button>
-                            <a class="group_name" href="#">
-                              <span class="txt">fieldsOrganization</span>
-                            </a>
-                          </span>
-                          <ul class="sub_group">
-                            <li class="fold" data-id="230000002232835">
-                              <span class="tree_item">
-                                <span class="check_cover">
-                                  <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232835" value="230000002232835">
-                                  <!-- <label for="default-id-3-230000002232835"></label> -->
-                                </span>
-                                <a class="group_name" href="#">
-                                  <span class="txt">fieldsOrganization</span>
-                                </a>
-                              </span>
-                            </li>
-                            <li class="fold" data-id="230000002195103">
-                              <span class="tree_item">
-                                <span class="check_cover">
-                                  <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002195103" value="230000002195103">
-                                  <!-- <label for="default-id-3-230000002195103"></label> -->
-                                </span>
-                                <button type="button" class="btn_toggle_tree">
-                                  <!-- <i class="blind">Expand/Close</i> -->
-                                </button>
-                                <a class="group_name" href="#">
-                                  <span class="txt">New organization (1)</span>
-                                </a>
-                              </span>
-                              <ul class="sub_group">
-                                <li class="fold" data-id="230000002232830">
-                                  <span class="tree_item">
-                                    <span class="check_cover">
-                                      <input name="SELECTION" type="radio" class="lw_radio" id="default-id-3-230000002232830" value="230000002232830">
-                                      <!-- <label for="default-id-3-230000002232830"></label> -->
-                                    </span>
-                                    <a class="group_name" href="#">
-                                      <span class="txt">fieldsOrganization</span>
-                                    </a>
-                                  </span>
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="fold" data-id="230000002232840">
-                      <span class="tree_item closed">
-                        <span class="check_cover">
-                          <input name="SELECTION" disabled="" type="radio" class="lw_radio" id="default-id-3-230000002232840" value="230000002232840">
-                          <!-- <label for="default-id-3-230000002232840"></label> -->
-                        </span>
-                        <a class="group_name" href="#">
-                          <span class="txt">fieldsOrganization</span>
-                        </a>
-                      </span>
-                    </li>
+                    <change-org-head-modal 
+                        v-for="(node, index) in data"
+                        :node="node" 
+                        :key="index"
+                        :selected="selected2"
+                        @child-check="updateTargetOrg"
+                    >
+                    </change-org-head-modal>
                   </ul>
                 </section>
               </div>
@@ -122,7 +39,7 @@
   </div>
 </template>
 <script>
-// import OrganizationList from "@/components/OrganizationList.vue";
+import ChangeOrgHeadModal from "@/components/ChangeOrgHeadModal.vue";
 import { mapState, mapActions } from 'vuex';
 export default {
   name: "SelectOrganizationModal",
@@ -131,142 +48,35 @@ export default {
       type: Boolean,
       default: false
     },
-    dataSelected: {
+    data: {
       type: Array,
       default: ()=>[]
-    }
+    },
+    selected2: {
+      type: Array,
+      default: ()=>[]
+    },
+    selectedId: null
+  },
+  components: {
+    ChangeOrgHeadModal
   },
   data(){
     return {
-      // selectedOrg: {},
-      selected: [],
-      selectedArr: [],
-      selectAll: false,
-      dataIds: []
+      targetOrgId: null
     }
   },
-  // components: {
-  //   OrganizationList
-  // },
-  computed: {
-    ...mapState('organizations', ['organizations']),
-    ...mapState('group', ['group']),
-    ...mapState('members', ['members']),
-    ...mapState('organizations', ['organizations']),
-    ...mapState('group', ['groupMembers']),
-    ...mapState('group', ['groupMasters']),
-    newOrganizations(){
-      const tree = this.buildTree(this.organizations, -1, 0);
-      return tree;
-    },
-  },
-  watch: {
-    dataSelected(newVal) {
-    //   this.selectAll = this.members.length == this.selected.length ? true : false;
-    //   this.selected = newVal.map(obj => obj.id)
-    //   // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
-    this.selectAll = this.members.length == this.selected.length ? true : false;
-    this.selected = newVal.map(obj => obj.user_ID)
-    this.selectedArr = this.getCommonElements(this.members, newVal)
-  },
-    // members(newVal) {
-    //   this.selectedArr = newVal.filter(item => this.selected.includes(item.id));
-    // }
-  },
   methods: {
-    // ...mapActions('organizations', ['getOrganizations']),
-    ...mapActions('members', ['getMembersByOrg']),
-    buildTree(data, parent, level) {
-      const tree = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].pid === parent) {
-          const node = {
-            id: data[i].id,
-            name: data[i].name,
-            no: data[i].no,
-            type: data[i].type,
-            isUse: data[i].isUse,
-            note: data[i].note,
-            pid: data[i].pid,
-            level: level,
-            isActive: false,
-            children: []
-          };
-          const children = this.buildTree(data, data[i].id, level + 1);
-          if (children.length) {
-            node.children = children;
-          }
-          tree.push(node);
-        }
-      }
-      return tree;
-    },
+    ...mapActions('organizations', ['moveOrg']),
     close() {
       this.$emit('close');
     },
     submitForm() {
-      // console.log(this.selected);
-      
-      this.$emit('submitData', this.selected);
+      this.moveOrg({targetId:this.targetOrgId, ids:this.selected2});
+      this.close();
     },
-    onDataUp(data) {
-      const a = '.modal1 .orgTree #id_'+data.id;
-      document.querySelector(a).className="treeItem selected";
-      const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
-      arr.forEach(element => {
-        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-          element.className = "treeItem";
-
-        }
-        if(element.id=='id_0'){
-          element.classList.add('corp');
-        }
-      });
-      // this.selectedOrg = data;
-      this.getMembersByOrg(data.id);
-
-    },
-    checkAll(){
-      this.selected = [];
-      this.selectedArr = [];
-      if (!this.selectAll) {
-        for (let i in this.members) {
-          this.selected.push(this.members[i].id);
-          // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
-          // this.selected = newVal.map(obj => obj.id)
-        }
-        this.selectedArr = this.members;
-      }
-    },
-    updateCheckall(){
-      if(this.members.length == this.selected.length){
-        this.selectAll = true;
-        this.selectedArr = this.members;
-      }else{
-        this.selectAll = false;
-        this.selectedArr = this.members.filter(item => this.selected.includes(item.id));
-        // newVal.filter(item => this.selected.includes(item.id))
-      }
-    },
-    deleteIem(id){
-      const selected = this.selected.filter(item => item !== id);
-      this.selected = selected;
-      const selectedArr = this.selectedArr.filter(item => item.id !== id);
-      this.selectedArr = selectedArr;
-      this.updateCheckall();
-    },
-    removeAll(){
-      this.selectAll = false
-      this.selected = []
-      this.selectedArr = []
-    },
-    getCommonElements(A, B) {
-      let commonElements = A.filter(function(elementA) {
-        return B.some(function(elementB) {
-          return elementB.user_ID === elementA.id;
-        });
-      });
-      return commonElements;
+    updateTargetOrg(item){
+      this.targetOrgId = item.id
     }
   }
 }
@@ -274,9 +84,8 @@ export default {
 <style scope lang="scss">
 #modal-root .ly_common {
   z-index: 22;
-  // background: #FFF;
 }
-.modal1 {
+.modal2 {
   position: fixed;
   top: 0;
   left: 0;
@@ -791,9 +600,6 @@ export default {
     padding: 0 !important;
 }
 @media screen and (min-width: 768px){
-  // .fix_contents .fix_body {
-  //   height: 1px;
-  // }
   .fix_contents .fix_body {
       -webkit-box-flex: 1;
       -webkit-flex: 1 1 auto;
@@ -813,7 +619,7 @@ export default {
   }
 }
 .fix_contents .editing_bar {
-    display: none;
+    // display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -919,15 +725,17 @@ export default {
 //     display: inline-block;
 // }
 
-.modal1 .org_tree .check_cover {
-    position: relative;
+.modal2 .org_tree .check_cover {
+    // position: relative;
     display: inline-block;
     width: 13px;
     height: 13px;
+    position: absolute;
+    left: 0;
 }
 
-.modal1 .org_tree .check_cover .lw_checkbox, 
-.modal1 .org_tree .check_cover .lw_radio {
+.modal2 .org_tree .check_cover .lw_checkbox, 
+.modal2 .org_tree .check_cover .lw_radio {
     position: absolute;
     left: 0;
     top: 0;
@@ -935,10 +743,10 @@ export default {
     clip: unset;
 }
 
-.modal1 .org_tree .tree_item, .org_tree .tree_item .group_name {
+.modal2 .org_tree .tree_item, .org_tree .tree_item .group_name {
   align-items: center;
 }
-.modal1 .lw_radio:checked {
+.modal2 .lw_radio:checked {
     color: #157efb;
 }
 </style>

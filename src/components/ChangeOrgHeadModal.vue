@@ -1,39 +1,41 @@
 <template>
-  <li :class="['depth_'+node.lv, { 'fold': !expanded}]">
-    <span draggable="false" class="tree_item" :class="{selected: selectedIds.includes(node.id)}">
+  <!-- {{ findAllIds(node) }} -->
+  <li :data-id="node.id" :class="{ 'fold': !expanded}">
+    <span class="tree_item" :class="{closed: selected.includes(node.id)}">
       <span class="check_cover">
-        <input type="checkbox" class="lw_checkbox" 
-        :name="node.id" 
+        <input type="radio" class="lw_radio" 
+        name="SELECTION" 
         :value="node.id" 
         :id="node.id" 
-        v-model="selectedIds" 
+        v-model="selectedId" 
         @change='handleCheck(node)'>
       </span>
       <button type="button" class="btn_toggle_tree" v-if="node.children.length"
         @click="toggleNode"
       ></button>
       <a href="#" class="group_name">
-        <span class="txt">{{ node.name }}</span>
-        <span class="cnt">{{ node.count }}</span>
+        <span class="txt">{{ node.name + ' - ' + node.id }}</span>
+        <!-- <span class="cnt">{{ node.count }}</span> -->
       </a>
       <span class="leader">{{ node.hUserName }}</span>
     </span>
+    <ul class="sub_group pl0" v-show="expanded">
+      <change-org-head-modal 
+        v-for="(child, index) in node.children"
+        :key="index"
+        :node="child"
+        @child-check="handleCheck"
+        :selected="selected"
+      >
+      </change-org-head-modal>
+    </ul>
   </li>
-  <ul v-show="expanded" class="pl0">
-    <tree-node 
-      v-for="(child, index) in node.children"
-      :key="index"
-      :node="child"
-      @child-check="handleCheck"
-      :selected="selected"
-    >
-    </tree-node>
-  </ul>
+  
 </template>
 <script>
 
 export default {
-  name: 'TreeNode',
+  name: 'ChangeOrgHeadModal',
   props: {
     node: {
       type: Object,
@@ -46,17 +48,18 @@ export default {
   },
   data(){
     return {
-      selectedIds: [],
+      selectedId: null,
       expanded: false
     }
   },
   watch: {
-    selected(newVal) {
-      this.selectedIds = newVal;
-    }
+    // selected(newVal) {
+    //   this.selectedIds= newVal;
+    // }
   },
   methods: {
     handleCheck(item){
+      console.log(item)
       this.$emit('child-check', item)
     },
     toggleAccordion(item) {
@@ -68,11 +71,15 @@ export default {
     },
     toggleNode() {
       this.expanded = !this.expanded;
-    }
+    },
+    
   }
 };
 </script>
 <style scope lang="scss">
+.modal2 .btn_toggle_tree {
+  margin-left: 18px;
+}
 .pl0 {
   padding-left: 0;
 }

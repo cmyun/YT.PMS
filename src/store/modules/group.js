@@ -42,7 +42,7 @@ const actions = {
           );
     },
     updateGroupMasters({ dispatch, commit }, {group, ids}) {
-      console.log(ids)
+      
       groupService.updateGroupMasters(group, ids)
           .then(
               group => {

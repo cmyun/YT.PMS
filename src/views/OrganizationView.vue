@@ -8,24 +8,19 @@
           <div class="contentsHead">
             <h3 class="title"><span class="txt">Organization</span></h3>
             <div class="taskArea">
-              <!-- <div class="btnGroup">
-                <button type="button" class="btn btn-danger w-10 btnDeleteGroup" @click="openConf" :disabled="!selected.length">Delete</button>
-                <button type="button" class="btn w-10 btnAddGroup ms-3" @click="openAddGroupModal">Add group</button>
-              </div> -->
               <div class="task_area">
-                <button type="button" class="btn_delete02">Delete</button>
-                <button type="button" class="btn_cancel" @click="openSelectOrgModal">Move</button>
+                <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar">Delete</button>
+                <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
                 <button type="button" class="btn_save">Add</button>
               </div>
             </div>
           </div>
-          <!-- {{ newOrganizations }} -->
           <div class="contentsBody">
             <div class="fix_contents">
-              <div class="editing_bar">
-                <button type="button">Cancel</button>
-                <button type="button">Save</button>
-                <button type="button" class="pos_right">Move to</button>
+              <div class="editing_bar" v-show="visibleEdittingBar">
+                <button type="button" @click="closeMove">Cancel</button>
+                <button type="button" :disabled="!isMoved">Save</button>
+                <button type="button" class="pos_right" v-show="selected.length" @click="openSelectOrgModal">Move to</button>
               </div>
               <div class="fix_head">
                 <div class="listHead">
@@ -48,7 +43,6 @@
                   </div>
                 </div>
                 <div class="lw_table_scoll">
-                  <!-- {{ newOrganizations }} -->
                   <ul class="org_tree">
                     <tree-node 
                       v-for="(node, index) in newOrganizations"
@@ -64,7 +58,7 @@
                 <div class="selected_list_box selected_list_box02">
                   <div class="count">
                     <span>Select {{ selectedOrgs.length }}</span>
-                    <button type="button" class="btn_remove_all">
+                    <button type="button" class="btn_remove_all" @click="removeAll">
                     </button>
                   </div>
                   <ul class="selected_list" v-if="selectedOrgs.length">
@@ -94,8 +88,11 @@
         >
 
         </group-detail-modal>
-        <select-organization-modal :visible="visibleSelectOrg" @close="closeSelectOrgModal">
-
+        <select-organization-modal 
+          :visible="visibleSelectOrg"
+          :data="newOrganizations"
+          :selected2="selected"
+          @close="closeSelectOrgModal">
         </select-organization-modal>
       </div>
     </div>
@@ -134,7 +131,11 @@ export default {
       visibleDetail: false,
       groupDetail: null,
       visibleSelectOrg: false,
-      selectedOrgs: []
+      selectedOrgs: [],
+      visibleEdittingBar: false,
+      isMoved: false,
+      // visibleDelete: false,
+      // visibleMove: true,
     }
   },
   computed: {
@@ -150,7 +151,17 @@ export default {
   },
   methods: {
     ...mapActions('organizations', ['getOrganizations']),
-    
+    closeMove(){
+      this.visibleEdittingBar = false;
+    },
+    openMove(){
+      this.visibleEdittingBar = true;
+    },
+    removeAll(){
+      this.selectAll = true;
+      this.checkAll();
+      this.selectAll = false;
+    },
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -159,9 +170,10 @@ export default {
         }
       }
       this.selectedOrgs = this.organizations.filter(item => this.selected.includes(item.id));
+      
     },
     updateCheckall(item){
-        const ids = this.findAllIds(item);
+      const ids = this.findAllIds(item);
       if(this.selected.includes(item.id)){
         const newArray = this.removeElementsFromArrayA(this.selected, ids)
         this.selected = newArray;
@@ -215,7 +227,6 @@ export default {
       this.visibleAlert = false;
     },
     openGroupDetail(id){
-      console.log('opendetail');
       this.visibleDetail = true;
       this.getGroupInfo(id);
       this.getGroupMasters(id);
@@ -396,6 +407,12 @@ a {
     color: #fd472b!important;
     // font-weight: 700;
     transition: all .3s;
+    &:disabled {
+      opacity: .4;
+      &:hover {
+        opacity: .4;
+      }
+    }
     &:hover {
       opacity: .7;
     }
@@ -403,7 +420,6 @@ a {
 .btn_cancel {
     font-size: 14px;
     display: inline-block;
-    
     box-sizing: border-box;
     height: 36px;
     border-radius: 2px;
@@ -412,7 +428,6 @@ a {
     vertical-align: middle;
     white-space: nowrap;
     padding: 6px 12px 7px;
-    // cursor: pointer;
     min-width: 64px;
     border: 1px solid #c5c5c6;
     background: #fff;
@@ -422,7 +437,10 @@ a {
       opacity: .7;
     }
     &:disabled {
+      opacity: .4;
+      &:hover {
         opacity: .4;
+      }
     }
 }
 .btn_save {
