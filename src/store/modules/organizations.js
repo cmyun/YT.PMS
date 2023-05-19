@@ -14,12 +14,11 @@ const actions = {
           }
         );
     },
-    moveOrg({ dispatch, commit }, {targetId, ids}) {
-      console.log(targetId, ids)
-      organizationService.moveOrg(targetId, ids)
+    moveOrg({ dispatch, commit }, {tid, ids}) {
+      organizationService.moveOrg(tid, ids)
           .then(
-            (targetId, ids) => {
-                  commit('moveOrgSuccess', targetId, ids);
+            (tid, ids) => {
+                  commit('moveOrgSuccess', tid, ids);
               }
           );
     },

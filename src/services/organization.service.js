@@ -3,6 +3,7 @@ export const organizationService = {
     getAll,
     getById,
     updateOrganization,
+    updateHeadOrganization,
     addOrganization,
     moveOrg,
     getOrgMembers,
@@ -34,6 +35,7 @@ function getOrgMembers(id) {
   };
   return fetch(`${apiUrl}/organization-management/organizations/${id}/members`, requestOptions).then(handleResponse);
 }
+
 function updateOrganization(organization) {
   const requestOptions = {
       method: 'PUT',
@@ -43,6 +45,18 @@ function updateOrganization(organization) {
       body: JSON.stringify(organization)
   };
   return fetch(`${apiUrl}/organization-management/organizations/${organization.organization.id}`, requestOptions).then(handleResponse);
+}
+function updateHeadOrganization(organization, uid) {
+  const requestOptions = {
+      method: 'PUT',
+      headers: { 
+          ...authHeader(), 
+          'Content-Type': 'application/json' },
+      body: JSON.stringify(organization)
+  };
+  return fetch(`${apiUrl}/organization-management/organizations/${organization.id}/head?` + new URLSearchParams({
+    uid: uid
+  }), requestOptions).then(handleResponse);
 }
 function addOrganization(organization) {
   const requestOptions = {
@@ -67,7 +81,7 @@ function _delete(id) {
 
   return fetch(`${apiUrl}/organization-management/organizations`, requestOptions).then(handleResponse);
 }
-function moveOrg(targetId, ids){
+function moveOrg(tid, ids){
   const requestOptions = {
       method: 'PUT',
       headers: { 
@@ -76,7 +90,9 @@ function moveOrg(targetId, ids){
       body: JSON.stringify(ids)
   };
 
-  return fetch(`${apiUrl}/organization-management/organizations/movements`, requestOptions).then(handleResponse);
+  return fetch(`${apiUrl}/organization-management/organizations/movements?` + new URLSearchParams({
+    tid: tid
+  }), requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

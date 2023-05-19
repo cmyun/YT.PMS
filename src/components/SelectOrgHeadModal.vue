@@ -18,7 +18,7 @@
                 </div>
                 <div class="list_cont">
                   <ul class="member_list">
-                    <li class="has_thmb" v-for="master in groupMasters" :key="master">
+                    <li class="has_thmb" v-for="member in orgMembers" :key="member">
                       <div class="thumb">
                         <span class="thmb_area">
                           <img src="../assets/img_profile.png" loading="lazy" alt="">
@@ -26,14 +26,14 @@
                       </div>
                       <div class="infor">
                         <div class="name_box">
-                          <strong class="name">{{ master.userName }}</strong>
+                          <strong class="name">{{ member.userName }}</strong>
                         </div>
                         <div class="txt">
-                          <span class="email">{{ master.position + '/ ' + master.level }}</span>
+                          <span class="email">{{ member.position + '/ ' + member.level }}</span>
                         </div>
                       </div>
                       <span class="slct">
-                        <input :name="master.id" type="checkbox" class="lw_checkbox" :value="master.id" :id="master.id" v-model="selected">
+                        <input :name="member.user_ID" type="checkbox" class="lw_checkbox" :value="member.user_ID" :id="member.user_ID" v-model="selected">
                       </span>
                     </li>
                   </ul>
@@ -61,32 +61,29 @@ export default {
       type: Boolean,
       default: false
     },
-    masterIds: {
-      type: Array,
-      default: () => []
-    }
   },
   data(){
     return {
-      selected: this.masterIds
+      selected: []
     }
   },
   computed: {
-    ...mapState('group', ['group']),
-    ...mapState('group', ['groupMasters']),
+    ...mapState('organization', ['orgMembers']),
   },
   watch: {
-    masterIds(newVal) {
-        this.selected = newVal
-    }
-  },
-  
+    orgMembers(newVal) {
+      this.selected = newVal
+                      .filter(member => member.isHead)
+                      .map(member => member.user_ID);
+      }
+    },
   methods: {
     close() {
       this.$emit('close');
     },
     submitForm(){
-      this.$emit('submitMaster', this.selected);
+      console.log(this.selected)
+      this.$emit('submitHead', this.selected);
     }
   }
 }

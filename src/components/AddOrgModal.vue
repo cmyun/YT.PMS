@@ -6,11 +6,12 @@
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
                 <div class="tit_box">
-                  <h3 class="tit">Edit organization </h3>
+                  <h3 class="tit"> Add </h3>
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
                   <button class="lw_btn_point">Save</button>
+                  <button type="button" class="lw_btn_text" @click="multiSubmitForm">Continue to add after saving</button>
                 </div>
                 <div class="scroller">
                   <p class="noti">
@@ -66,13 +67,6 @@
                 <button type="button" class="btn_close" @click="close">Close</button>
               </div>
             </div>
-            <select-members-modal
-              :visible="visibleSelectMembers"
-              :dataSelected="selectMembersData"
-              @close="closeSelectMembersModal"
-              @submitData="handleSubmitMembers"
-            >
-            </select-members-modal>
           </div>
         </Form>
       </div>
@@ -81,10 +75,9 @@
   
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
-import SelectMembersModal from '@/components/SelectMembersModal.vue';
 
 export default {
-  name: 'EditOrgModal',
+  name: 'AddOrgModal',
   props: {
     title: {
       type: String,
@@ -99,9 +92,6 @@ export default {
       default: ()=>{}
     }
   },
-  components: {
-    SelectMembersModal
-  },
   data(){
     return {
       form: {
@@ -114,25 +104,41 @@ export default {
     }
   },
   computed: {
-    ...mapState('organization', ['organization']),
+    // ...mapState('organization', ['organization']),
   },
   methods: {
-    ...mapActions('organization', ['updateOrganization']),
+    ...mapActions('organizations', ['addOrg']),
     close() {
       this.$emit('close');
     },
     submitForm(){
-      this.updateOrganization(this.form);
-    }
-  },
-  watch: {
-    organization(newVal) {
-      this.form = newVal;
+      // this.updateOrganization(this.form);
+      const form = {
+        ...this.form,
+        note: '',
+        type: ''
+      }
+      this.addOrg(form);
+      this.close();
     },
-  },
+    multiSubmitForm(){
+      const form = {
+        ...this.form,
+        note: '',
+        type: ''
+      }
+      this.addOrg(form);
+      this.form = {
+        name: '',
+        description: '',
+        isNotify: false,
+        isDisclose: false
+      }
+    },
+  }
 };
 </script>
-<style scope lang="scss">
+<style scoped lang="scss">
 .srch_member .results li .infor {
   width: 100%;
 }

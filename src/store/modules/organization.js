@@ -3,7 +3,8 @@ import { organizationService } from '../../services';
 const state = {
     status: null,
     organization: [],
-    orgMembers: []
+    orgMembers: [],
+    
 }
 
 const actions = {
@@ -30,6 +31,14 @@ const actions = {
                   commit('updateOrganizationSuccess', organization);
               }
           );
+    },
+    updateHeadOrganization({ dispatch, commit }, {organization, uid}) {
+      organizationService.updateHeadOrganization(organization, uid)
+          .then(
+              organization => {
+                  commit('updateOrganizationSuccess', organization);
+              }
+          );
     }
 };
 
@@ -42,6 +51,9 @@ const mutations = {
     },
     setOrgMembers(state, orgMembers) {
       state.orgMembers = orgMembers
+    },
+    setOrgHead(state, orgHead) {
+      state.orgHead = orgHead
     },
 };
 

@@ -12,9 +12,8 @@
       <button type="button" class="btn_toggle_tree" v-if="node.children.length"
         @click="toggleNode"
       ></button>
-      <a href="#" class="group_name">
-        <a href="javascript:void(0)" class="txt" @click="openGroupDetail(node.id)">{{ node.name }}</a>
-        
+      <a href="javascript:void(0)" class="group_name" @click="openGroupDetail(node.id)">
+        <span class="txt">{{ node.name }}</span>
         <span class="cnt">{{ node.count }}</span>
       </a>
       <span class="leader">{{ node.hUserName }}</span>

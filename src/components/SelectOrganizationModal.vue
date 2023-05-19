@@ -72,7 +72,8 @@ export default {
       this.$emit('close');
     },
     submitForm() {
-      this.moveOrg({targetId:this.targetOrgId, ids:this.selected2});
+      this.moveOrg({tid:this.targetOrgId, ids:this.selected2});
+      this.$emit('submit');
       this.close();
     },
     updateTargetOrg(item){
@@ -81,7 +82,7 @@ export default {
   }
 }
 </script>
-<style scope lang="scss">
+<style scoped lang="scss">
 #modal-root .ly_common {
   z-index: 22;
 }

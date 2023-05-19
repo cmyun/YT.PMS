@@ -9,9 +9,9 @@
             <h3 class="title"><span class="txt">Organization</span></h3>
             <div class="taskArea">
               <div class="task_area">
-                <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar">Delete</button>
+                <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
                 <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
-                <button type="button" class="btn_save">Add</button>
+                <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
               </div>
             </div>
           </div>
@@ -72,27 +72,30 @@
             </div>
           </div>
         </div>
-        <add-group-modal :title="title" 
+        <add-org-modal :title="title" 
         :visible="visible" 
-        @close="closeAddGroupModal" 
-        @submit="submitEditGroup"
+        @close="closeAddOrgModal" 
         >
-        </add-group-modal>
-        <confirmation-box :visible="visibleConf" 
-        
+        </add-org-modal>
+        <confirmation-box 
+        :visible="visibleConf" 
         @close="closeConf" 
-        @confirm="handleDelete"></confirmation-box>
+        @confirm="handleDelete"
+        >
+        </confirmation-box>
         <org-detail-modal
           :visible="visibleDetail"
           @close="closeOrgDetail"
+          @delete="deleteOrg02"
         >
-
         </org-detail-modal>
         <select-organization-modal 
           :visible="visibleSelectOrg"
           :data="newOrganizations"
           :selected2="selected"
-          @close="closeSelectOrgModal">
+          @close="closeSelectOrgModal"
+          @submit="handleSubmitMoveOrg"
+        >
         </select-organization-modal>
       </div>
     </div>
@@ -105,7 +108,7 @@ import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
 import OrgDetailModal from '@/components/OrgDetailModal.vue';
-import AddGroupModal from '@/components/AddGroupModal.vue';
+import AddOrgModal from '@/components/AddOrgModal.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
 import TreeNode from "@/components/TreeNode.vue";
 import SelectOrganizationModal from "@/components/SelectOrganizationModal.vue";
@@ -119,6 +122,7 @@ export default {
     ConfirmationBox,
     OrgDetailModal,
     TreeNode,
+    AddOrgModal,
     SelectOrganizationModal
   },
   data(){
@@ -133,9 +137,7 @@ export default {
       visibleSelectOrg: false,
       selectedOrgs: [],
       visibleEdittingBar: false,
-      isMoved: false,
-      // visibleDelete: false,
-      // visibleMove: true,
+      isMoved: false
     }
   },
   computed: {
@@ -197,15 +199,25 @@ export default {
     },
     handleDelete(conf){
       if(conf){
-        this.deleteGroup(this.selected);
+        this.deleteOrg(this.selected);
         this.closeConf();
         this.selected = [];
+        this.selectedOrgs = []
+        if(this.visibleDetail){
+          this.closeOrgDetail();
+          location.reload();
+        }
       }
     },
-    openAddGroupModal() {
+    deleteOrg02(id){
+      console.log(id)
+      this.selected = [id];
+      this.openConf();
+    },
+    openAddOrgModal() {
       this.visible = true;
     },
-    closeAddGroupModal() {
+    closeAddOrgModal() {
       this.visible = false;
     },
     submitForm(data){
@@ -315,6 +327,10 @@ export default {
     unchecked(org){
       const item = this.findElementById(this.newOrganizations, org.id);
       this.updateCheckall(item);
+    },
+    handleSubmitMoveOrg(){
+      this.selected = []
+      this.selectedOrgs = []
     }
   },
   

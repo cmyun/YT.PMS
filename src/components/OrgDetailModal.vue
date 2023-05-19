@@ -7,7 +7,7 @@
         <div class="ly_wrap dimmed en_US ua_win">
           <div class="ly_common ly_page ly_member_detail freeplan">
             <h3 class="tit">Organizational profile</h3>
-            {{ organization }}
+            
             <div class="btn_box full">
               <button type="button" class="lw_btn_point" @click="openEditOrg">Modify</button>
               <button type="button" class="lw_btn_text" @click="openGroupMasterModal(organization.id)">Change organizational head</button>
@@ -23,8 +23,8 @@
                   <div class="name_box">
                     <h4 class="name">{{ organization.name }}</h4>
                   </div>
-                  <!-- <p class="caption">1</p> -->
-                  <button type="button" @click="deleteGroup(organization.id)">
+                  
+                  <button type="button" @click="deleteOrg(organization.id)">
                     <em>Delete organization</em>
                   </button>
                 </div>
@@ -34,13 +34,13 @@
                 v-bind:class="{ selected: activeTab === 'tab1' }"
                 @click="activeTab = 'tab1'"
                 >
-                  <a href="#" class="txt">Group info</a>
+                  <a href="#" class="txt">Organizational profile</a>
                 </span>
                 <span class="menu"
                 v-bind:class="{ selected: activeTab === 'tab2' }"
                 @click="activeTab = 'tab2'"
                 >
-                  <a class="txt" href="#">Members ({{ orgMembers.length }})</a>
+                  <a class="txt" href="#">Member ({{ orgMembers.length }})</a>
                 </span>
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab1'">
@@ -57,7 +57,6 @@
                 
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab2'">
-                {{ orgMembers }}
                 <ul class="member_list" v-for="member in orgMembers" :key="member">
                   <li class="has_thmb">
                     <div class="thumb">
@@ -69,11 +68,8 @@
                       <div class="name_box">
                         <strong class="name">{{ member.userName }}</strong>
                       </div>
-                      <div class="txt">
-                        <span class="email">{{ member.isHead ? 'Organizational head' : '' }}</span>
-                      </div>
                     </div>
-                    <span class="master">{{  }}</span>
+                    <span class="master">{{ member.isHead ? 'Organizational head' : '' }}</span>
                   </li>
                 </ul>
               </div>
@@ -83,7 +79,7 @@
         </div>
         <edit-org-modal :title="'title'" 
         :visible="visibleEdit"
-        :group = "group" 
+        :organization = "organization" 
         @close="closeEditOrg" 
         @submit="submitEditOrg"
         >
@@ -91,7 +87,7 @@
         <select-org-head-modal :title="'title'" 
           :visible="visibleMasterModal" 
           @close="closeGroupMasterModal" 
-          @submitMaster="handleSubmitMasters"
+          @submitHead="handleSubmitHead"
           >
         </select-org-head-modal>
       </div>
@@ -117,6 +113,7 @@ export default {
   computed: {
     ...mapState('organization', ['organization']),
     ...mapState('organization', ['orgMembers']),
+    ...mapState('organization', ['orgHead']),
   },
   data(){
     return {
@@ -127,7 +124,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('organization', ['updateOrganization']),
+    ...mapActions('organization', ['updateHeadOrganization']),
     // ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
@@ -138,36 +135,32 @@ export default {
     closeEditOrg(){
       this.visibleEdit = false;
     },
-    submitEditGroup(){
-
-    },
     openGroupMasterModal(id){
       // this.getGroupMasters(id);
       this.visibleMasterModal = true;
-      
     },
     closeGroupMasterModal(){
       this.visibleMasterModal = false;
     },
-    handleSubmitMasters(selected){
+    handleSubmitHead(selected){
       console.log(selected)
-      const group = this.group
-      this.updateOrganization(
+      const organization = this.organization
+      this.updateHeadOrganization(
         {
-        // group: group, 
-        // ids: selected
+        organization: organization, 
+        uid: selected[0]
       })
       // console.log(this.group)
       this.closeGroupMasterModal();
     },
-    deleteGroup(id){
+    deleteOrg(id){
       this.$emit('delete', id);
     }
   }
 }
 </script>
 
-<style scope>
+<style scoped>
 .modal-overlay {
   z-index: 9;
 }

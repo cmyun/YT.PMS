@@ -34,9 +34,6 @@
                         <div class="name_box">
                           <input type="text" class="lw_input" placeholder="Group name" v-model="form.name">
                         </div>
-                        <p class="msg_alert">
-                          <em></em>
-                        </p>
                         <p class="txt">
                           <span>Description</span>
                         </p>
