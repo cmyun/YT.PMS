@@ -1,33 +1,38 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav> -->
+  <div v-if="message" :class="`alert ${type}`">{{message}}</div>
   <router-view />
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
 
 export default {
-    name: 'app',
-    computed: {
-        ...mapState({
-            alert: state => state.alert
-        })
+  name: 'app',
+  computed: {
+    ...mapState('alert', ['message']),
+    ...mapState('alert', ['type'])
+  },
+  methods: {
+    ...mapActions('alert', ['clear'])
+  },
+  watch: {
+    $route (to, from){
+      this.clear();
     },
-    methods: {
-        ...mapActions({
-            clearAlert: 'alert/clear' 
-        })
-    },
-    watch: {
-        $route (to, from){
-            this.clearAlert();
-        }
-    } 
+    message(newVal, oldVal){
+      setTimeout(() => {
+        this.clear()
+      }, 3000);
+    }
+  }
 };
 </script>
 <style lang="scss">
+.alert {
+  position: fixed !important;
+  right: 15px;
+  bottom: 15px;
+  z-index: 999999;
+}
 #app {
   font-family: -apple-system,BlinkMacSystemFont,Helvetica,Arial,Dotum,sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,9 +73,6 @@ ul, ol, menu { list-style:none; }
     display: flex;
     justify-content: center;
     .main {
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-between;
       max-width: 1250px;
       min-width: 1000px;
       padding: 0 50px;

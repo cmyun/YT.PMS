@@ -11,6 +11,7 @@
               <div class="btnGroup">
                 <button type="button" class="btn btn-danger w-10 btnDeleteMember" @click="openConf" :disabled="!selected.length">Delete</button>
                 <button type="button" class="btn w-10 btnAddMember ms-3" @click="openModal">Add members</button>
+                <button type="button" class="btn w-10 ms-3 btn_approve">Approval</button>
               </div>
             </div>
           </div>
@@ -102,7 +103,6 @@ import ConfirmationBox from '@/components/ConfirmationBox.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
 import OrganizationList from "@/components/OrganizationList.vue";
 import { mapState, mapActions } from 'vuex';
-// import { userService } from '../services';
 
 export default {
   name: "MemberView",
@@ -112,8 +112,6 @@ export default {
     OrganizationList,
     ModalForm,
     ConfirmationBox,
-    // ElMessageBox,
-    // AlertBox
   },
   data(){
     return {

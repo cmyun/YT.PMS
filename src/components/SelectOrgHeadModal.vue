@@ -33,7 +33,7 @@
                         </div>
                       </div>
                       <span class="slct">
-                        <input :name="member.user_ID" type="checkbox" class="lw_checkbox" :value="member.user_ID" :id="member.user_ID" v-model="selected">
+                        <input name="lw_checkbox" type="checkbox" class="lw_checkbox" :value="member.user_ID" :id="member.user_ID" v-model="selected">
                       </span>
                     </li>
                   </ul>
@@ -64,7 +64,7 @@ export default {
   },
   data(){
     return {
-      selected: []
+      selected: null
     }
   },
   computed: {
@@ -73,8 +73,8 @@ export default {
   watch: {
     orgMembers(newVal) {
       this.selected = newVal
-                      .filter(member => member.isHead)
-                      .map(member => member.user_ID);
+        .filter(member => member.isHead)
+        .map(member => member.user_ID);
       }
     },
   methods: {
@@ -82,7 +82,6 @@ export default {
       this.$emit('close');
     },
     submitForm(){
-      console.log(this.selected)
       this.$emit('submitHead', this.selected);
     }
   }

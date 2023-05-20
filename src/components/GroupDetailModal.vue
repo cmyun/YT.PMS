@@ -123,13 +123,11 @@ export default {
     return {
       visibleEdit: false,
       activeTab: 'tab1',
-      visibleMasterModal: false,
-      // groupMasters: []
+      visibleMasterModal: false
     }
   },
   methods: {
     ...mapActions('group', ['updateGroupMasters']),
-    // ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
     },
@@ -140,7 +138,6 @@ export default {
       this.visibleEdit = false;
     },
     openGroupMasterModal(id){
-      // this.getGroupMasters(id);
       this.visibleMasterModal = true;
       
     },
@@ -148,12 +145,10 @@ export default {
       this.visibleMasterModal = false;
     },
     handleSubmitMasters(selected){
-      console.log(selected)
       const group = this.group
       this.updateGroupMasters({
         group: group, 
         ids: selected})
-      // console.log(this.group)
       this.closeGroupMasterModal();
     },
     deleteGroup(id){

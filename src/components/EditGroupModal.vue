@@ -137,19 +137,7 @@
   
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
-// import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
 import SelectMembersModal from '@/components/SelectMembersModal.vue';
-// import { required } from '@vee-validate/rules';
-// defineRule('required', required);
-// configure({
-//   generateMessage: (ctx) => {
-//     const messages = {
-//       required: "You can't leave this empty.",
-//     };
-//     const message = messages[ctx.rule.name] || `Invalid ${ctx.field} field.`;
-//     return message;
-//   },
-// });
 
 export default {
   name: 'EditGroupModal',
@@ -216,24 +204,12 @@ export default {
       
     },
     handleSubmitMembers(data){
-      console.log(data)
-      console.log(this.memberModalType);
       if(this.memberModalType=='master'){
         this.masters = data;
-        // let newMasters = this.members.filter(item =>data.includes(item.id));
-        // newMasters = newMasters.map(obj => this.renameProperty(obj, 'name', 'userName'));
-        // newMasters = newMasters.map(obj => this.renameProperty(obj, 'id', 'user_ID'));
-        // this.$store.commit('group/updateGroupMastersSuccess', newMasters);
       }else {
         this.members = data;
-        // let newMembers = this.members.filter(item =>data.includes(item.id));
-        // newMembers = newMembers.map(obj => this.renameProperty(obj, 'name', 'userName'));
-        // newMembers = newMembers.map(obj => this.renameProperty(obj, 'id', 'user_ID'));
-        // this.$store.commit('group/updateGroupMembersSuccess', newMembers);
-        // console.log(this.groupMembers);
       }
       this.closeSelectMembersModal();
-      // updateGroupMasters()
     },
     submitForm(){
       const group = {
@@ -244,17 +220,16 @@ export default {
         masters: this.master,
         members: this.member
       }
-      console.log(group);
       this.updateGroup(group);
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {
-        return obj; // Tránh thay đổi nếu tên mới và tên cũ giống nhau
+        return obj;
       }
       
       if (Object.prototype.hasOwnProperty.call(obj, oldName)) {
-        obj[newName] = obj[oldName]; // Gán giá trị từ thuộc tính cũ sang thuộc tính mới
-        delete obj[oldName]; // Xóa thuộc tính cũ
+        obj[newName] = obj[oldName];
+        delete obj[oldName];
       }
       
       return obj;

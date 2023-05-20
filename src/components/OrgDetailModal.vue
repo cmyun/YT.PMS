@@ -120,12 +120,10 @@ export default {
       visibleEdit: false,
       activeTab: 'tab1',
       visibleMasterModal: false,
-      // groupMasters: []
     }
   },
   methods: {
     ...mapActions('organization', ['updateHeadOrganization']),
-    // ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
     },
@@ -136,21 +134,17 @@ export default {
       this.visibleEdit = false;
     },
     openGroupMasterModal(id){
-      // this.getGroupMasters(id);
       this.visibleMasterModal = true;
     },
     closeGroupMasterModal(){
       this.visibleMasterModal = false;
     },
     handleSubmitHead(selected){
-      console.log(selected)
       const organization = this.organization
-      this.updateHeadOrganization(
-        {
+      this.updateHeadOrganization({
         organization: organization, 
-        uid: selected[0]
+        uid: selected
       })
-      // console.log(this.group)
       this.closeGroupMasterModal();
     },
     deleteOrg(id){
@@ -160,7 +154,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .modal-overlay {
   z-index: 9;
 }

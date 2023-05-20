@@ -18,7 +18,6 @@ function getAll() {
         method: 'GET',
         headers: authHeader()
     };
-
     return fetch(`${apiUrl}/organization-management/organizations`, requestOptions).then(handleResponse);
 }
 function getById(id) {
@@ -51,12 +50,10 @@ function updateHeadOrganization(organization, uid) {
       method: 'PUT',
       headers: { 
           ...authHeader(), 
-          'Content-Type': 'application/json' },
-      body: JSON.stringify(organization)
+          'Content-Type': 'application/json'
+      }
   };
-  return fetch(`${apiUrl}/organization-management/organizations/${organization.id}/head?` + new URLSearchParams({
-    uid: uid
-  }), requestOptions).then(handleResponse);
+  return fetch(`${apiUrl}/organization-management/organizations/${organization.id}/head/${uid}`, requestOptions).then(handleResponse);
 }
 function addOrganization(organization) {
   const requestOptions = {
@@ -89,10 +86,7 @@ function moveOrg(tid, ids){
           'Content-Type': 'application/json' },
       body: JSON.stringify(ids)
   };
-
-  return fetch(`${apiUrl}/organization-management/organizations/movements?` + new URLSearchParams({
-    tid: tid
-  }), requestOptions).then(handleResponse);
+  return fetch(`${apiUrl}/organization-management/organizations/${tid}/movements`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

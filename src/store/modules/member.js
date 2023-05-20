@@ -6,12 +6,14 @@ const state = {
 }
 
 const actions = {
-    getMemberInfo({ commit }, id) {
-        console.log(id)
+    getMemberInfo({ dispatch, commit }, id) {
         userService.getInfoById(id)
             .then(
                 member => {
                     commit('setMember', member);
+                },
+                error => {
+                  dispatch('alert/error', error, { root: true });
                 }
             );
     },
@@ -20,6 +22,9 @@ const actions = {
             .then(
                 user => {
                     commit('updateSuccess', user);
+                },
+                error => {
+                  dispatch('alert/error', error, { root: true });
                 }
             );
     }

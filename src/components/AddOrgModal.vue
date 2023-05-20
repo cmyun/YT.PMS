@@ -103,16 +103,12 @@ export default {
       visibleAdvance: false
     }
   },
-  computed: {
-    // ...mapState('organization', ['organization']),
-  },
   methods: {
     ...mapActions('organizations', ['addOrg']),
     close() {
       this.$emit('close');
     },
     submitForm(){
-      // this.updateOrganization(this.form);
       const form = {
         ...this.form,
         note: '',

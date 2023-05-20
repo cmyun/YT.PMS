@@ -97,7 +97,6 @@ export default {
   },
   data(){
     return {
-      // selectedOrg: {},
       selected: [],
       selectedArr: [],
       selectAll: false,
@@ -121,19 +120,12 @@ export default {
   },
   watch: {
     dataSelected(newVal) {
-    //   this.selectAll = this.members.length == this.selected.length ? true : false;
-    //   this.selected = newVal.map(obj => obj.id)
-    //   // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
     this.selectAll = this.members.length == this.selected.length ? true : false;
     this.selected = newVal.map(obj => obj.user_ID)
     this.selectedArr = this.getCommonElements(this.members, newVal)
   },
-    // members(newVal) {
-    //   this.selectedArr = newVal.filter(item => this.selected.includes(item.id));
-    // }
   },
   methods: {
-    // ...mapActions('organizations', ['getOrganizations']),
     ...mapActions('members', ['getMembersByOrg']),
     buildTree(data, parent, level) {
       const tree = [];
@@ -164,8 +156,6 @@ export default {
       this.$emit('close');
     },
     submitForm() {
-      // console.log(this.selected);
-      
       this.$emit('submitData', this.selected);
     },
     onDataUp(data) {
@@ -181,7 +171,6 @@ export default {
           element.classList.add('corp');
         }
       });
-      // this.selectedOrg = data;
       this.getMembersByOrg(data.id);
 
     },
@@ -191,8 +180,6 @@ export default {
       if (!this.selectAll) {
         for (let i in this.members) {
           this.selected.push(this.members[i].id);
-          // this.selectedArr = newVal.filter(item => this.selected.includes(item.id))
-          // this.selected = newVal.map(obj => obj.id)
         }
         this.selectedArr = this.members;
       }
@@ -204,7 +191,6 @@ export default {
       }else{
         this.selectAll = false;
         this.selectedArr = this.members.filter(item => this.selected.includes(item.id));
-        // newVal.filter(item => this.selected.includes(item.id))
       }
     },
     deleteIem(id){
@@ -233,7 +219,6 @@ export default {
 <style scope lang="scss">
 #modal-root .ly_common {
   z-index: 22;
-  // background: #FFF;
 }
 .modal1 {
   position: fixed;
@@ -455,7 +440,6 @@ export default {
     font-size: 14px;
     color: #222;
     line-height: 20px;
-    // font-weight: 700;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -465,7 +449,6 @@ export default {
 }
 .tb_cols_memberlist, .tb_cols_memberlist_drop, .tb_cols_memberlist_head {
     display: table;
-    // table-layout: fixed;
     width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -756,9 +739,6 @@ export default {
     padding: 0 !important;
 }
 @media screen and (min-width: 768px){
-  // .fix_contents .fix_body {
-  //   height: 1px;
-  // }
   .fix_contents .fix_body {
       -webkit-box-flex: 1;
       -webkit-flex: 1 1 auto;
@@ -778,7 +758,6 @@ export default {
   }
 }
 .fix_contents .editing_bar {
-    // display: none;
     position: absolute;
     top: 0;
     left: 0;

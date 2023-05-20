@@ -273,7 +273,6 @@ export default {
       this.$emit('close');
     },
     submitForm() {
-      console.log(this.form)
       this.$emit('submit', this.form);
     },
     closeModalOrg() {
@@ -591,17 +590,6 @@ export default {
                 line-height: 0;
                 vertical-align: middle;
             }
-          //   input {
-          //       -webkit-box-flex: 1;
-          //       -webkit-flex: 0 1 auto;
-          //       -ms-flex: 0 1 auto;
-          //       flex: 0 1 auto;
-          //       -webkit-box-sizing: border-box;
-          //       box-sizing: border-box;
-          //       display: block;
-          //       margin-left: 9px;
-                
-          //   }
         }
         &:after {
             content: "";
@@ -609,27 +597,6 @@ export default {
             height: 0;
             clear: both;
         }
-      //   .name_box.reverse {
-      //       -webkit-box-orient: horizontal;
-      //       -webkit-box-direction: reverse;
-      //       -webkit-flex-direction: row-reverse;
-      //       -ms-flex-direction: row-reverse;
-      //       flex-direction: row-reverse;
-      //       input {
-      //           width: 100%;
-      //           margin: 0 9px 0 0;
-      //           &:first-child {
-      //               -webkit-box-flex: 1;
-      //               -webkit-flex: 0 1 auto;
-      //               -ms-flex: 0 1 auto;
-      //               flex: 0 1 auto;
-      //               -webkit-box-sizing: border-box;
-      //               box-sizing: border-box;
-      //               display: block;
-      //               margin: 0;
-      //           }
-      //       }
-      //   }
         .name_box~.txt {
             padding-top: 10px;
         }

@@ -134,19 +134,7 @@
   
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
-// import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
 import SelectMembersModal from '@/components/SelectMembersModal.vue';
-// import { required } from '@vee-validate/rules';
-// defineRule('required', required);
-// configure({
-//   generateMessage: (ctx) => {
-//     const messages = {
-//       required: "You can't leave this empty.",
-//     };
-//     const message = messages[ctx.rule.name] || `Invalid ${ctx.field} field.`;
-//     return message;
-//   },
-// });
 
 export default {
   name: 'AddGroupModal',
@@ -181,6 +169,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('account', ['user']),
     ...mapState('group', ['group']),
     ...mapState('members', ['members']),
     ...mapState('group', ['groupMembers']),
@@ -216,6 +205,7 @@ export default {
     },
     submitForm(){
       const group = {
+        user_ID: this.user.id,
         group: {
           ...this.form,
           note: ""
@@ -223,8 +213,9 @@ export default {
         masters: this.master,
         members: this.member
       }
-      console.log(group);
       this.addGroup(group);
+      this.close();
+      
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {
@@ -687,17 +678,6 @@ export default {
                 line-height: 0;
                 vertical-align: middle;
             }
-          //   input {
-          //       -webkit-box-flex: 1;
-          //       -webkit-flex: 0 1 auto;
-          //       -ms-flex: 0 1 auto;
-          //       flex: 0 1 auto;
-          //       -webkit-box-sizing: border-box;
-          //       box-sizing: border-box;
-          //       display: block;
-          //       margin-left: 9px;
-                
-          //   }
         }
         &:after {
             content: "";
@@ -705,27 +685,7 @@ export default {
             height: 0;
             clear: both;
         }
-      //   .name_box.reverse {
-      //       -webkit-box-orient: horizontal;
-      //       -webkit-box-direction: reverse;
-      //       -webkit-flex-direction: row-reverse;
-      //       -ms-flex-direction: row-reverse;
-      //       flex-direction: row-reverse;
-      //       input {
-      //           width: 100%;
-      //           margin: 0 9px 0 0;
-      //           &:first-child {
-      //               -webkit-box-flex: 1;
-      //               -webkit-flex: 0 1 auto;
-      //               -ms-flex: 0 1 auto;
-      //               flex: 0 1 auto;
-      //               -webkit-box-sizing: border-box;
-      //               box-sizing: border-box;
-      //               display: block;
-      //               margin: 0;
-      //           }
-      //       }
-      //   }
+
         .name_box~.txt {
             padding-top: 10px;
         }

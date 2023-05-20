@@ -834,20 +834,20 @@ p {
 		background-color: $background-color_6;
 	}
 }
-// {
-	form {
-		.profile_form_cover {
-			.profile_form_header {
-				display: -webkit-box;
-				display: -webkit-flex;
-				display: -ms-flexbox;
-				display: flex;
-				padding-bottom: 7px;
-				border-bottom: 1px solid #eee;
-			}
-		}
-	}
-// }
+
+form {
+  .profile_form_cover {
+    .profile_form_header {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      padding-bottom: 7px;
+      border-bottom: 1px solid #eee;
+    }
+  }
+}
+
 .profile_form_cover {
 	.profile_form_header.view_type {
 		padding-bottom: 30px;

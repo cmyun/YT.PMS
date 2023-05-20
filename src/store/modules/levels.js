@@ -6,13 +6,16 @@ const state = {
 }
 
 const actions = {
-    getLevels({ commit }) {
+    getLevels({ dispatch, commit }) {
         positionService.getLevels()
-            .then(
-              levels => {
-                    commit('setLevels', levels);
-                }
-            );
+          .then(
+            levels => {
+              commit('setLevels', levels);
+            },
+            error => {
+              dispatch('alert/error', error, { root: true });
+            }
+          );
     }
 };
 

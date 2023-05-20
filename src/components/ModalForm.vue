@@ -55,8 +55,8 @@
                             <em class="emp">Required field</em>Password 
                           </i>
                           <div class="box">
-                            <Field  name="login_PW" type="password" class="lw_input" placeholder="Password" v-model="form.login_PW" rules="required"/>
-                            
+                            <Field  name="login_PW" type="password" class="lw_input w23" placeholder="Password" v-model="form.login_PW" rules="required"/>
+                            <button @click="generatePassword" class="lw_btn_point btn02">Automatic generation</button>
                           </div>
                           <ErrorMessage name="login_PW" class="text_error"/>
                         </div>
@@ -275,8 +275,15 @@ export default {
     onSelectedOrg(item){
       this.form.organization_ID = item.id;
       this.closeModalOrg();
+    },
+    generatePassword() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let password = '';
+      for (let i = 0; i < 10; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      this.form.login_PW = password;
     }
-    
   }
 };
 </script>
@@ -581,17 +588,6 @@ export default {
                 line-height: 0;
                 vertical-align: middle;
             }
-          //   input {
-          //       -webkit-box-flex: 1;
-          //       -webkit-flex: 0 1 auto;
-          //       -ms-flex: 0 1 auto;
-          //       flex: 0 1 auto;
-          //       -webkit-box-sizing: border-box;
-          //       box-sizing: border-box;
-          //       display: block;
-          //       margin-left: 9px;
-                
-          //   }
         }
         &:after {
             content: "";
@@ -599,27 +595,6 @@ export default {
             height: 0;
             clear: both;
         }
-      //   .name_box.reverse {
-      //       -webkit-box-orient: horizontal;
-      //       -webkit-box-direction: reverse;
-      //       -webkit-flex-direction: row-reverse;
-      //       -ms-flex-direction: row-reverse;
-      //       flex-direction: row-reverse;
-      //       input {
-      //           width: 100%;
-      //           margin: 0 9px 0 0;
-      //           &:first-child {
-      //               -webkit-box-flex: 1;
-      //               -webkit-flex: 0 1 auto;
-      //               -ms-flex: 0 1 auto;
-      //               flex: 0 1 auto;
-      //               -webkit-box-sizing: border-box;
-      //               box-sizing: border-box;
-      //               display: block;
-      //               margin: 0;
-      //           }
-      //       }
-      //   }
         .name_box~.txt {
             padding-top: 10px;
         }
@@ -4827,4 +4802,15 @@ export default {
         margin-bottom: 61px
     }
 }
-  </style>
+.btn02 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  &.lw_btn_point {
+    height: 34px;
+  }
+}
+.lw_input.w23 {
+  width: calc(100% - 188px);
+}
+</style>

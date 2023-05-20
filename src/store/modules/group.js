@@ -9,35 +9,47 @@ const state = {
 }
 
 const actions = {
-    getGroupInfo({ commit }, id) {
+    getGroupInfo({ dispatch, commit }, id) {
         groupService.getById(id)
             .then(
                 group => {
                     commit('setGroup', group);
+                },
+                error => {
+                  dispatch('alert/error', error, { root: true });
                 }
             );
     },
-    getGroupMasters({ commit }, id) {
+    getGroupMasters({ dispatch, commit }, id) {
       groupService.getGroupMasters(id)
           .then(
               group => {
                   commit('setGroupMasters', group);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
-    getGroupMembers({ commit }, id) {
+    getGroupMembers({ dispatch, commit }, id) {
       groupService.getGroupMembers(id)
           .then(
               group => {
                   commit('setGroupMembers', group);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
-    getGroupWhole({ commit }, id) {
+    getGroupWhole({ dispatch, commit }, id) {
       groupService.getGroupWhole(id)
           .then(
               group => {
                   commit('setGroupWhole', group);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
@@ -47,6 +59,9 @@ const actions = {
           .then(
               group => {
                   commit('updateGroupMastersSuccess', group);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
@@ -55,6 +70,9 @@ const actions = {
           .then(
               group => {
                   commit('updateGroupSuccess', group);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     }

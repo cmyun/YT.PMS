@@ -388,7 +388,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // padding: 16px 20px 16px 40px;
   .taskArea {
     display: flex;
     align-items: center;
@@ -410,7 +409,6 @@ a {
 .btn_delete02 {
     font-size: 14px;
     display: inline-block;
-    
     box-sizing: border-box;
     height: 36px;
     border-radius: 2px;
@@ -419,12 +417,10 @@ a {
     vertical-align: middle;
     white-space: nowrap;
     padding: 6px 12px 7px;
-    // cursor: pointer;
     min-width: 64px;
     border: 1px solid #c5c5c6;
     background: #fff;
     color: #fd472b!important;
-    // font-weight: 700;
     transition: all .3s;
     &:disabled {
       opacity: .4;
@@ -474,7 +470,6 @@ a {
     vertical-align: middle;
     white-space: nowrap;
     padding: 7px 12px 8px;
-    // cursor: pointer;
     min-width: 64px;
     background: #157efb;
     border: 0;

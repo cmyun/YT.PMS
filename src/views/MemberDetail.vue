@@ -102,7 +102,7 @@
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ModalEditForm from '@/components/ModalEditForm.vue';
-// import ModalForm from '@/components/ModalForm.vue';
+
 import { mapState, mapActions } from 'vuex'
 export default {
   name: "MemberDetail",

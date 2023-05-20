@@ -14,10 +14,8 @@
         @click="toggleNode"
       ></button>
       <a href="#" class="group_name">
-        <span class="txt">{{ node.name + ' - ' + node.id }}</span>
-        <!-- <span class="cnt">{{ node.count }}</span> -->
+        <span class="txt">{{ node.name }}</span>
       </a>
-      <span class="leader">{{ node.hUserName }}</span>
     </span>
     <ul class="sub_group pl0" v-show="expanded">
       <change-org-target-modal 
@@ -52,14 +50,8 @@ export default {
       expanded: false
     }
   },
-  watch: {
-    // selected(newVal) {
-    //   this.selectedIds= newVal;
-    // }
-  },
   methods: {
     handleCheck(item){
-      console.log(item)
       this.$emit('child-check', item)
     },
     toggleAccordion(item) {

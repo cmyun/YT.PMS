@@ -75,8 +75,6 @@
         <add-group-modal :title="title" 
         :visible="visible" 
         @close="closeAddGroupModal" 
-        @submit="submitEditGroup"
-        
         >
         </add-group-modal>
         
@@ -85,11 +83,12 @@
           @close="closeGroupDetail"
           @delete="deleteGroup02"
         >
-
         </group-detail-modal>
+        
         <confirmation-box :visible="visibleConf" 
         :index="getGroupName()" @close="closeConf" 
-        @confirm="handleDelete"></confirmation-box>
+        @confirm="handleDelete">
+        </confirmation-box>
       </div>
     </div>
   </div>

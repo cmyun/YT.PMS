@@ -6,16 +6,19 @@ const state = {
 }
 
 const actions = {
-    getMembers({ commit }) {
+    getMembers({ dispatch, commit }) {
         userService.getAll()
             .then(
                 members => {
                     commit('setMembers', members);
                 },
+                error => {
+                    dispatch('alert/error', error, { root: true });
+                }
 
             );
     },
-    getMembersByOrg({ commit }, orgId) {
+    getMembersByOrg({ dispatch, commit }, orgId) {
         userService.getByOrg(orgId)
             .then(
                 members => {
@@ -23,6 +26,7 @@ const actions = {
                 },
                 error => {
                   commit('getMembersFailure', error);
+                  dispatch('alert/error', error, { root: true });
                 }
             );
     },
@@ -32,6 +36,9 @@ const actions = {
               user => {
                   commit('addMemberSuccess', user);
               },
+              error => {
+                  dispatch('alert/error', error, { root: true });
+              }
           );
     },
     deleteMember({ dispatch, commit }, id) {
@@ -41,7 +48,8 @@ const actions = {
                   commit('deleteMemberSuccess', id);
               },
               error => {
-                commit('deleteMemberFailure', error)
+                commit('deleteMemberFailure', error);
+                dispatch('alert/error', error, { root: true });
               }
           );
     },

@@ -168,25 +168,6 @@ export default {
     left: auto;
     right: 10px;
 }
-/* .lw_checkbox:checked+label:before {
-    background-position: -967px -765px;
-}
-.lw_checkbox+label:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-    
-    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-    background-size: 1013px 983px;
-    background-position: -993px -659px;
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-} */
 .ly_member_select .member_list .slct {
   display: block;
     height: 16px;

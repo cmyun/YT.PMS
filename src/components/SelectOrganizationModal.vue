@@ -1,7 +1,6 @@
 <template>
   <div class="modal2" v-if="visible">
     <div class="modal-overlay" @click="close"></div>
-    <!-- {{ data }} -->
     <form @submit.prevent="submitForm">
       <div class="modal-body">
         <div id="modal-root">
@@ -82,7 +81,7 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 #modal-root .ly_common {
   z-index: 22;
 }
@@ -223,8 +222,7 @@ export default {
     line-height: 0;
 }
 .tb_cols_memberlist .lw_td.check, .tb_cols_memberlist .lw_th.check, .tb_cols_memberlist_drop .lw_td.check, .tb_cols_memberlist_drop .lw_th.check, .tb_cols_memberlist_head .lw_td.check, .tb_cols_memberlist_head .lw_th.check {
-    // padding-right: 20px;
-    // padding-left: 24px;
+
     width: 63px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -300,7 +298,6 @@ export default {
     font-size: 14px;
     color: #222;
     line-height: 20px;
-    // font-weight: 700;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -310,7 +307,6 @@ export default {
 }
 .tb_cols_memberlist, .tb_cols_memberlist_drop, .tb_cols_memberlist_head {
     display: table;
-    // table-layout: fixed;
     width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -620,7 +616,6 @@ export default {
   }
 }
 .fix_contents .editing_bar {
-    // display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -709,25 +704,8 @@ export default {
     box-sizing: border-box;
     padding-bottom: 84px;
 }
-// .lw_radio:before {
-//     content: "";
-//     position: absolute;
-//     top: 50%;
-//     left: 0;
-//     -webkit-transform: translateY(-50%);
-//     transform: translateY(-50%);
-//     background-image: url(https://static.worksmobile.net/static/wm/admin/sp_admin_2040a738.png);
-//     background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-//     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/admin/sp_admin_9ea8c1e2.svg);
-//     background-size: 1013px 983px;
-//     background-position: -993px -467px;
-//     width: 16px;
-//     height: 16px;
-//     display: inline-block;
-// }
 
 .modal2 .org_tree .check_cover {
-    // position: relative;
     display: inline-block;
     width: 13px;
     height: 13px;
