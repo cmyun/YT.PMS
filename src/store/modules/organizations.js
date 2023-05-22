@@ -18,8 +18,11 @@ const actions = {
       organizationService.moveOrg(tid, ids)
           .then(
             (tid, ids) => {
-                  commit('moveOrgSuccess', tid, ids);
-              }
+                commit('moveOrgSuccess', tid, ids);
+            },
+            error => {
+              dispatch('alert/error', error, { root: true });
+            }
           );
     },
     deleteOrg({ dispatch, commit }, id) {
@@ -29,7 +32,7 @@ const actions = {
                   commit('deleteOrgSuccess', id);
               },
               error => {
-                commit('deleteOrgFailure', error)
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
@@ -39,6 +42,9 @@ const actions = {
               user => {
                   commit('addOrgSuccess', org);
               },
+              error => {
+                dispatch('alert/error', error, { root: true });
+              }
           );
     },
 };

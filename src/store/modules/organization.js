@@ -16,12 +16,17 @@ const actions = {
                 }
             );
     },
-    getOrgMembers({ commit }, id) {
+    getOrgMembers({ dispatch, commit }, id) {
       organizationService.getOrgMembers(id)
           .then(
               org => {
                   commit('setOrgMembers', org);
+              },
+              error => {
+                commit('getOrgMembersFailure', error);
+                // dispatch('alert/error', error, { root: true });
               }
+              
           );
     },
     updateOrganization({ dispatch, commit }, organization) {
@@ -29,6 +34,9 @@ const actions = {
           .then(
               organization => {
                   commit('updateOrganizationSuccess', organization);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     },
@@ -37,6 +45,9 @@ const actions = {
           .then(
               organization => {
                   commit('updateOrganizationSuccess', organization);
+              },
+              error => {
+                dispatch('alert/error', error, { root: true });
               }
           );
     }
@@ -55,6 +66,9 @@ const mutations = {
     setOrgHead(state, orgHead) {
       state.orgHead = orgHead
     },
+    getOrgMembersFailure(state){
+      state.orgMembers = [];
+    }
 };
 
 export const organization = {
