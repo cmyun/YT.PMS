@@ -10,7 +10,7 @@
             
             <div class="btn_box full">
               <button type="button" class="lw_btn_point" @click="openEditOrg">Modify</button>
-              <button type="button" class="lw_btn_text" @click="openGroupMasterModal(organization.id)">Change organizational head</button>
+              <button type="button" class="lw_btn_text" @click="openGroupMasterModal(organization.id)" :disabled="!orgMembers.length">Change organizational head</button>
             </div>
             <div class="scroller">
               <div class="member main">
@@ -810,7 +810,14 @@ a {
     cursor: default;
     pointer-events: none;
 }
-
+.lw_btn_text.disabled, 
+.lw_btn_text:disabled {
+    cursor: default;
+    opacity: .4;
+}
+.lw_btn_text.disabled:hover, .lw_btn_text:disabled:hover {
+    background-color: #fff;
+}
 .ly_context a {
     display: block;
     min-width: 110px;

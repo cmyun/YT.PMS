@@ -64,8 +64,7 @@ address, caption, cite, code, dfn, em, strong, th, var {
 ul, ol, menu { list-style:none; }
 #container {
   display: flex;
-  height: calc(100vh - 56px);
-  overflow: hidden;
+  padding-bottom: 200px;
 }
 #content {
   width: -webkit-fill-available;

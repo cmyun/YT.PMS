@@ -24,7 +24,6 @@ const actions = {
               },
               error => {
                 commit('getOrgMembersFailure', error);
-                // dispatch('alert/error', error, { root: true });
               }
               
           );

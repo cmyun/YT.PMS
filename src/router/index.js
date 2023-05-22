@@ -6,6 +6,7 @@ import MemberView from "../views/MemberView.vue";
 import GroupView from "../views/GroupView.vue";
 import OrganizationView from "../views/OrganizationView.vue";
 import MemberDetail from "../views/MemberDetail.vue";
+import TaskView from "../views/TaskView.vue";
 import UserInfo from "../views/UserInfo.vue";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     path: '/settings', 
     name: "UserInfo",
     component: UserInfo
+  },
+  { 
+    path: '/tasks', 
+    name: "TaskView",
+    component: TaskView
   },
   { path: "/:catchAll(.*)", redirect: "/" },
 ];

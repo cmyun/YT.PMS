@@ -4763,6 +4763,7 @@ export default {
 .btn_box button+button {
     margin-left: 8px;
 }
+
 @media screen and (max-width: 767px) {
     .ly_common.ly_page .btn_box {
         display:block!important;
@@ -4772,7 +4773,7 @@ export default {
         top: 0;
         z-index: 70;
         background: #fff;
-        padding: 10px 16px
+        padding: 10px 16px;
     }
 
     .ly_common.ly_page .btn_box .lw_btn_text {
@@ -4781,7 +4782,7 @@ export default {
         bottom: 0;
         padding-left: 0;
         padding-right: 0;
-        font-size: 12px
+        font-size: 12px;
     }
 
     .ly_common.ly_page .btn_box .lw_btn_text:hover {
@@ -4795,11 +4796,11 @@ export default {
         right: 0;
         bottom: 23px;
         left: 0;
-        padding: 22px 23px 0
+        padding: 22px 23px 0;
     }
 
     .ly_common.ly_page .btn_box+.scroller {
-        margin-bottom: 61px
+        margin-bottom: 61px;
     }
 }
 .btn02 {
