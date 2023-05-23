@@ -1,6 +1,7 @@
 <template>
+  <Header/>
   <div id="container">
-  <div id="lnbArea" class="nav_lnb" style="width: 250px;">
+  <div id="lnbArea" class="nav_lnb">
     <div class="main_pane">
       <div class="core_button">
         <a class="skin_corp_bg skin_corp_txt" style="cursor: pointer;">
@@ -47,7 +48,7 @@
               <div class="group menu_item  ">
                 <a class="item_txt">1</a>
                 <button class="btn_more side_btn">
-                  <i class="blind">more</i>
+                  <!-- <i class="blind">more</i> -->
                 </button>
               </div>
             </li>
@@ -59,7 +60,7 @@
       </div>
     </div>
     <button class="btn_fold_lnb">
-      <i class="blind">Hide LNB menu</i>
+      <!-- <i class="blind">Hide LNB menu</i> -->
     </button>
     <div class="split_bar" draggable="true" style="left: 250px;"></div>
   </div>
@@ -67,7 +68,7 @@
     <section class="content_head">
       <div class="title_container">
         <div class="search_cover">
-          <label for="searchKeyWord" class="blind">Search</label>
+          <!-- <label for="searchKeyWord" class="blind">Search</label> -->
           <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
           <button type="button" class="btn_search_option">Advanced</button>
         </div>
@@ -80,11 +81,102 @@
               <a class="total">4</a>
             </span>
             <button type="button" class="btn_refresh">
-              <i class="blind">Refresh</i>
+              <!-- <i class="blind">Refresh</i> -->
             </button>
           </div>
         </div>
+        
       </div>
+      <div class="search_area">
+        <div class="column">
+          <!-- <div class="item_cover">
+            <span class="item_label">Location</span>
+            <span class="item_value">
+              <span class="select_cover">
+                <select class="lw_selectbox_source">
+                  <option value="ALL">All Tasks</option>
+                  <option value="ASSIGNEE_IS_ME">Tasks assigned to me</option>
+                  <option value="ASSIGNOR_IS_ME">Tasks I assigned</option>
+                </select>
+                <span class="lw_selectbox_label">All Tasks</span>
+                <div class="lw_selectbox_layer" style="display: none;">
+                  <ul>
+                    <li class="on">
+                      <a style="cursor: pointer;">All Tasks</a>
+                    </li>
+                    <li class="">
+                      <a style="cursor: pointer;">Tasks assigned to me</a>
+                    </li>
+                    <li class="">
+                      <a style="cursor: pointer;">Tasks I assigned</a>
+                    </li>
+                  </ul>
+                </div>
+              </span>
+            </span>
+          </div> -->
+          <div class="item_cover">
+            <span class="item_label">Content</span>
+            <span class="item_value">
+              <span class="input_cover">
+                <input type="text" class="lw_input" value="">
+              </span>
+            </span>
+          </div>
+          <div class="item_cover">
+            <span class="item_label">Deadline</span>
+            <span class="item_value">
+              <span class="date_cover">
+                <span class="input_cover">
+                  <input type="text" class="lw_input" placeholder="Select dates" value="2022. 5. 23">
+                </span>
+                <span class="input_cover">
+                  <input type="text" class="lw_input" placeholder="Select dates" value="2024. 5. 23">
+                </span>
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="column">
+          <div class="item_cover">
+            <span class="item_label">Assigner</span>
+            <span class="item_value">
+              <div class="member_list">
+                <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
+              </div>
+            </span>
+          </div>
+          <div class="item_cover">
+            <span class="item_label">Assignee</span>
+            <span class="item_value">
+              <div class="member_list">
+                <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
+              </div>
+            </span>
+          </div>
+        </div>
+        <div class="column flow_column">
+          
+          <!-- <div class="item_cover">
+            <span class="item_value">
+              <span class="check_cover">
+                <input type="checkbox" class="lw_checkbox" id="checkbox2" checked="">
+                <label for="checkbox2">Include tasks without deadlines</label>
+              </span>
+              <span class="check_cover">
+                <input type="checkbox" class="lw_checkbox" id="checkbox1">
+                <label for="checkbox1">Attachment</label>
+              </span>
+            </span>
+          </div> -->
+        </div>
+        <div class="column search_button">
+          <button type="button" class="btn_search">Search</button>
+        </div>
+      </div>
+      <!-- <div class="column search_button">
+          <button type="button" class="btn_search">Search</button>
+        </div> -->
     </section>
     <section class="content_body">
       <section class="main_cont">
@@ -100,25 +192,24 @@
               </span>
             </div>
           </div>
-          <div class="quick_write">
+          <!-- <div class="quick_write">
             <div class="input_cover">
               <input type="text" class="todo_input" placeholder="Create a new task here" value="">
               <button type="button" class="todo_period unselect">
-                <i class="blind">No Deadline</i>
               </button>
             </div>
             <button type="button" class="todo_save">Save</button>
-          </div>
+          </div> -->
           <div class="todo_list">
             <div class="todo_item completed selected">
               <button type="button" class="btn_status on">
-                <i class="blind">Mark as incomplete</i>
+                <!-- <i class="blind">Mark as incomplete</i> -->
                 <span class="page_tooltip">Mark as incomplete</span>
               </button>
               <div class="title_cover">
                 <p class="content">tesst3</p>
                 <span class="attachment">
-                  <i class="blind">Attachment</i>
+                  <!-- <i class="blind">Attachment</i> -->
                 </span>
               </div>
               <div class="info">
@@ -126,18 +217,18 @@
                 <span class="name">Assigner : test test</span>
               </div>
               <button type="button" class="btn_important">
-                <i class="blind">Important to-do</i>
+                <!-- <i class="blind">Important to-do</i> -->
               </button>
             </div>
             <div class="todo_item">
               <button type="button" class="btn_status">
-                <i class="blind">Mark as complete</i>
+                <!-- <i class="blind">Mark as complete</i> -->
                 <span class="page_tooltip">Mark as complete</span>
               </button>
               <div class="title_cover">
                 <p class="content">tesst2</p>
                 <span class="attachment">
-                  <i class="blind">Attachment</i>
+                  <!-- <i class="blind">Attachment</i> -->
                 </span>
               </div>
               <div class="info">
@@ -146,12 +237,12 @@
                 <span class="name">Assigner : test test</span>
               </div>
               <button type="button" class="btn_important">
-                <i class="blind">Important to-do</i>
+                <!-- <i class="blind">Important to-do</i> -->
               </button>
             </div>
             <div class="todo_item">
               <button type="button" class="btn_status">
-                <i class="blind">Mark as complete</i>
+                <!-- <i class="blind">Mark as complete</i> -->
                 <span class="page_tooltip">Mark as complete</span>
               </button>
               <div class="title_cover">
@@ -163,12 +254,12 @@
                 <span class="name">Assigner : test test</span>
               </div>
               <button type="button" class="btn_important">
-                <i class="blind">Important to-do</i>
+                <!-- <i class="blind">Important to-do</i> -->
               </button>
             </div>
             <div class="todo_item reddot">
               <button type="button" class="btn_status">
-                <i class="blind">Mark as complete</i>
+                <!-- <i class="blind">Mark as complete</i> -->
                 <span class="page_tooltip">Mark as complete</span>
               </button>
               <div class="title_cover">
@@ -179,13 +270,13 @@
                 <span class="name">Assigner : test test</span>
               </div>
               <button type="button" class="btn_important">
-                <i class="blind">Important to-do</i>
+                <!-- <i class="blind">Important to-do</i> -->
               </button>
             </div>
           </div>
         </div>
       </section>
-      <section class="side_cont" style="width: 524px;">
+      <section class="side_cont">
         <div class="split_bar" draggable="true"></div>
         <div class="scroll_cover">
           <div class="view_cover">
@@ -193,14 +284,14 @@
               <div class="view_action">
                 <span class="status complete">Completed</span>
                 <button type="button" class="btn_window">
-                  <i class="blind">Open in new window</i>
+                  <!-- <i class="blind">Open in new window</i> -->
                 </button>
                 <button type="button" class="btn_modify">
-                  <i class="blind">Edit</i>
+                  <!-- <i class="blind">Edit</i> -->
                 </button>
                 <div class="btn_drop_cover">
                   <button type="button" class="btn_action_more">
-                    <i class="blind">More</i>
+                    <!-- <i class="blind">More</i> -->
                   </button>
                 </div>
               </div>
@@ -250,7 +341,7 @@
                     <div class="file_infor">
                       <span class="file_tit">
                         <button type="button" class="btn_toggle">
-                          <i class="blind">Toggle to expand/collapse attachments list</i>
+                          <!-- <i class="blind">Toggle to expand/collapse attachments list</i> -->
                         </button>Attached file <em class="cnt">4</em> Files <span class="file_size">(111.77KB)</span>
                       </span>
                     </div>
@@ -264,10 +355,10 @@
                           <span class="file_size">68.08KB</span>
                           <div class="file_btn_area">
                             <button type="button" class="btn_down_pc" title="Save to PC">
-                              <i class="blind">Save to PC</i>
+                              <!-- <i class="blind">Save to PC</i> -->
                             </button>
                             <button type="button" class="btn_down_drive" title="Save to Folder">
-                              <i class="blind">Save to Drive</i>
+                              <!-- <i class="blind">Save to Drive</i> -->
                             </button>
                           </div>
                         </li>
@@ -279,10 +370,10 @@
                           <span class="file_size">14.02KB</span>
                           <div class="file_btn_area">
                             <button type="button" class="btn_down_pc" title="Save to PC">
-                              <i class="blind">Save to PC</i>
+                              <!-- <i class="blind">Save to PC</i> -->
                             </button>
                             <button type="button" class="btn_down_drive" title="Save to Folder">
-                              <i class="blind">Save to Drive</i>
+                              <!-- <i class="blind">Save to Drive</i> -->
                             </button>
                           </div>
                         </li>
@@ -294,10 +385,10 @@
                           <span class="file_size">29.33KB</span>
                           <div class="file_btn_area">
                             <button type="button" class="btn_down_pc" title="Save to PC">
-                              <i class="blind">Save to PC</i>
+                              <!-- <i class="blind">Save to PC</i> -->
                             </button>
                             <button type="button" class="btn_down_drive" title="Save to Folder">
-                              <i class="blind">Save to Drive</i>
+                              <!-- <i class="blind">Save to Drive</i> -->
                             </button>
                           </div>
                         </li>
@@ -309,10 +400,10 @@
                           <span class="file_size">347bytes</span>
                           <div class="file_btn_area">
                             <button type="button" class="btn_down_pc" title="Save to PC">
-                              <i class="blind">Save to PC</i>
+                              <!-- <i class="blind">Save to PC</i> -->
                             </button>
                             <button type="button" class="btn_down_drive" title="Save to Folder">
-                              <i class="blind">Save to Drive</i>
+                              <!-- <i class="blind">Save to Drive</i> -->
                             </button>
                           </div>
                         </li>
@@ -325,32 +416,6 @@
                 <button type="button" class="btn_status">Incomplete</button>
               </div>
             </div>
-            <div class="action_history">
-              <div class="title">Task History <span class="cnt">5</span>
-              </div>
-              <ul class="act_list">
-                <li>
-                  <span class="date">2023. 5. 22. 06:04 PM</span>
-                  <p class="act">test test <strong>completed</strong> the task. </p>
-                </li>
-                <li>
-                  <span class="date">2023. 5. 22. 05:44 PM</span>
-                  <p class="act">test test marked the task as <strong>incomplete</strong>. </p>
-                </li>
-                <li>
-                  <span class="date">2023. 5. 22. 05:44 PM</span>
-                  <p class="act">test test <strong>completed</strong> the task. </p>
-                </li>
-                <li>
-                  <span class="date">2023. 5. 22. 05:44 PM</span>
-                  <p class="act">test test <strong>shared</strong> a task with 1. </p>
-                </li>
-                <li>
-                  <span class="date">2023. 5. 22. 05:44 PM</span>
-                  <p class="act">test test <strong>created</strong> a task with test test as the assignee. </p>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
@@ -359,61 +424,77 @@
 </div>
 </template>
 <script>
+import Header from "@/components/Header.vue";
 export default {
   name: "TaskView",
+  components: {
+    Header,
+  },
 }
 </script>
 <style scoped lang="scss">
+#app {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  /* flex-direction:column; */
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
+#container {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 20;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  padding-bottom:0;
+}
+#header {
+  height: 56px;
+}
 .nav_lnb {
     background-color: #fff;
     border-right: 1px solid #c5c5c7
 }
 .nav_lnb {
     width: 251px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
     flex-direction: column;
     z-index: 20;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
 }
 .nav_lnb .scroll_pane {
     overflow: auto;
-    -ms-flex: 1 1 auto;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     display: block;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -ms-flex-direction: column;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     flex-direction: column
 }
 
 .nav_lnb .scroll_pane .menu_cover {
-    -ms-flex: 1 1 auto;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     display: block;
-    -ms-flex-negative: 0
 }
 
 .nav_lnb .aside_pane,
 .nav_lnb .main_pane,
 .nav_lnb .scroll_pane .footer {
-    -ms-flex: 0 0 auto;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     display: block
 }
@@ -422,7 +503,6 @@ export default {
     position: relative;
     border-top: 1px solid rgba(0,0,0,.1);
     height: 36px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box
 }
 
@@ -448,7 +528,6 @@ export default {
 .nav_lnb .btn_fold_lnb:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -298px -224px;
@@ -476,18 +555,12 @@ export default {
 
 .main_pane .core_button {
     position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     padding: 16px 12px 14px;
     z-index: 10
 }
 
 .main_pane .core_button a {
-    -ms-flex: 1 1 auto;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     display: block;
     height: 40px;
@@ -546,9 +619,6 @@ export default {
 }
 
 .head_bar {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     padding: 2px 2px 0 0
 }
@@ -560,9 +630,6 @@ export default {
     position: relative;
     line-height: 32px;
     height: 32px;
-    -ms-flex: 1 1 auto;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     display: block;
     text-align: left;
@@ -574,13 +641,9 @@ export default {
 }
 
 .menu_box .side_btn {
-    -ms-flex: 0 0 auto;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
     flex: 0 0 auto;
     display: block;
     opacity: 0;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden;
     line-height: 0;
@@ -595,7 +658,6 @@ export default {
 
 .menu_box .side_btn.btn_more:before {
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -28px -271px;
@@ -603,25 +665,51 @@ export default {
     height: 16px;
     display: inline-block
 }
+ul.lnb_tree {
+  padding-left: 0;
+}
 
 .lnb_tree li {
     padding: 2px 0 0;
     position: relative
 }
-
+.page_tooltip {
+    display: none;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,.6);
+    font-size: 12px;
+    line-height: 22px;
+    color: #fff;
+    white-space: nowrap;
+    transform: translateX(-50%)
+}
+.list_cover .list_filter .view_completed .toggle_cover label {
+    vertical-align: top;
+}
+.lw_checkbox+label {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    color: #222;
+    vertical-align: middle;
+    text-indent: 22px;
+    cursor: pointer;
+    line-height: 20px;
+    min-width: 16px;
+    min-height: 16px;
+}
 .lnb_tree .menu_item {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     position: relative;
     padding: 6px 2px 6px 12px;
     line-height: 20px;
     border-radius: 4px;
     cursor: pointer;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
     justify-content: space-between
 }
 
@@ -653,9 +741,6 @@ export default {
 
 .lnb_tree .menu_item .item_txt {
     display: inline-block;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
     flex: 0 1 auto;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -679,9 +764,6 @@ export default {
 }
 
 .lnb_tree .menu_item .unread_cnt {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     color: #157efb;
     padding-right: 8px;
@@ -697,7 +779,6 @@ export default {
 
 .lnb_tree .menu_item.task_all .item_txt:before {
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -144px -215px;
@@ -712,7 +793,6 @@ export default {
 
 .lnb_tree .menu_item.assign .item_txt:before {
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -32px -215px;
@@ -727,7 +807,6 @@ export default {
 
 .lnb_tree .menu_item.charge .item_txt:before {
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -88px -215px;
@@ -742,7 +821,6 @@ export default {
 
 .lnb_tree .menu_item.group .item_txt:before {
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -32px -243px;
@@ -804,7 +882,7 @@ export default {
 
 .aside_pane .indicator .cnt {
     color: #157efb;
-    font-family: -apple-system,BlinkMacSystemFont,Arial,Segoe UI,sans-serif
+    // font-family: -apple-system,BlinkMacSystemFont,Arial,Segoe UI,sans-serif
 }
 
 .aside_pane .indicator a {
@@ -822,54 +900,31 @@ export default {
 .nav_lnb.fold_left .aside_pane,.nav_lnb.fold_left .main_pane,.nav_lnb.fold_left .scroll_pane,.nav_lnb.fold_left .snb_split_area {
     display: none
 }
-
-
-
-
 .contents,.nav_lnb {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
     height: 100%;
-    position: relative
+    position: relative;
 }
 
 .contents {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     overflow: hidden;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
-    z-index: 10
+    z-index: 10;
 }
 
 .content_head {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     border-bottom: 1px solid #e5e5e6;
-    padding: 16px 0 0 20px
+    padding: 16px 0 0 20px;
 }
 
 .content_body {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    min-height: 0
+    min-height: 0;
 }
 
 .content_body,.content_body .main_cont {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     overflow: auto
 }
@@ -880,14 +935,10 @@ export default {
 }
 
 .content_body .side_cont {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     border-left: 1px solid #e5e5e6;
     padding-left: 3px;
     position: relative;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box
 }
 
@@ -916,31 +967,22 @@ export default {
     overflow: auto;
     padding: 16px 0 0;
     height: 100%;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box
 }
 
 
 .title_container {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    padding-bottom: 16px
+    padding-bottom: 16px;
+    // justify-content: space-between;
 }
 
 .title_container .search_cover {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     margin-right: 20px
 }
 
 .title_container .heading_cover {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
     flex: 0 1 auto;
     min-width: 0;
     padding-right: 20px
@@ -952,12 +994,8 @@ export default {
     border-radius: 2px;
     padding: 0 0 0 36px;
     height: 40px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     width: 360px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     min-width: 0
 }
@@ -965,7 +1003,6 @@ export default {
 .search_cover:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -274px -52px;
@@ -1001,11 +1038,7 @@ export default {
     position: relative;
     border: 0;
     padding: 0;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 100%;
-    -ms-flex: 1 1 100%;
     flex: 1 1 100%;
     font-size: 14px;
     line-height: 20px;
@@ -1013,21 +1046,6 @@ export default {
     outline: 0;
     min-width: 0;
     z-index: 5
-}
-
-.search_cover .search::-webkit-input-placeholder {
-    color: #989898;
-    opacity: 1
-}
-
-.search_cover .search::-moz-placeholder {
-    color: #989898;
-    opacity: 1
-}
-
-.search_cover .search:-ms-input-placeholder {
-    color: #989898;
-    opacity: 1
 }
 
 .search_cover .search:-moz-placeholder {
@@ -1041,7 +1059,6 @@ export default {
     position: relative;
     font-size: 12px;
     display: inline-block;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 40px;
     border-radius: 2px;
@@ -1050,9 +1067,6 @@ export default {
     padding: 10px 12px;
     cursor: pointer;
     color: #222;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     z-index: 5
 }
@@ -1064,7 +1078,6 @@ export default {
 .search_cover .btn_search_option:after {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -206px -124px;
@@ -1087,7 +1100,6 @@ export default {
     overflow: auto;
     padding: 16px 0 0;
     height: 100%;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box
 }
 
@@ -1096,9 +1108,6 @@ export default {
 }
 
 .list_cover .list_filter {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     padding: 0 20px 8px
 }
@@ -1106,7 +1115,6 @@ export default {
 .list_cover .list_filter .btn_order {
     font-size: 14px;
     display: inline-block;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 36px;
     border-radius: 2px;
@@ -1143,7 +1151,6 @@ export default {
 .list_cover .list_filter .btn_order:after {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -206px -124px;
@@ -1159,17 +1166,11 @@ export default {
 }
 
 .list_cover .list_filter .btn_drop_cover {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     margin-left: -12px
 }
 
 .list_cover .list_filter .view_completed {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     padding: 8px 0;
     margin-left: auto;
@@ -1197,19 +1198,12 @@ export default {
 }
 
 .list_cover .quick_write,.list_cover .quick_write .input_cover {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex
 }
 
 .list_cover .quick_write .input_cover {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     border: 1px solid #ddd;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 2px
 }
@@ -1217,9 +1211,6 @@ export default {
 .list_cover .quick_write .input_cover .todo_input {
     border: 0;
     padding: 9px 12px 9px;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     min-width: 0;
     font-size: 14px;
@@ -1231,9 +1222,6 @@ export default {
 .list_cover .quick_write .input_cover .todo_period {
     border: 0;
     background-color: transparent;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     min-width: 0;
     font-size: 12px;
@@ -1254,7 +1242,6 @@ export default {
 .list_cover .quick_write .input_cover .todo_period.unselect:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -274px -4px;
@@ -1284,9 +1271,6 @@ export default {
     border: 0;
     background-color: transparent;
     padding: 13px 4px;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     margin-right: 7px;
     vertical-align: top;
@@ -1296,7 +1280,6 @@ export default {
 .list_cover .quick_write .input_cover .todo_period_remove:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -44px -295px;
@@ -1319,13 +1302,9 @@ export default {
 }
 
 .list_cover .quick_write .todo_save {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     font-size: 14px;
     display: inline-block;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 40px;
     border-radius: 2px;
@@ -1423,23 +1402,14 @@ export default {
 }
 
 .todo_item .title_cover {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex
 }
 
 .todo_item .title_cover .content {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
     flex: 0 1 auto
 }
 
 .todo_item .title_cover .attachment {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto
 }
 
@@ -1447,23 +1417,14 @@ export default {
     color: #767676;
     font-size: 12px;
     line-height: 18px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex
 }
 
 .todo_item .info .attachment,.todo_item .info .date,.todo_item .info .name {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 auto;
-    -ms-flex: 0 0 auto;
     flex: 0 0 auto
 }
 
 .todo_item .info .name {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
     flex: 0 1 auto;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -1508,7 +1469,6 @@ export default {
 .todo_item .btn_status:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -108px -187px;
@@ -1526,7 +1486,6 @@ export default {
     display: inline-block;
     top: 100%;
     left: 0;
-    -webkit-transform: none;
     transform: none
 }
 
@@ -1544,7 +1503,6 @@ export default {
 .todo_item .btn_important:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -144px -243px;
@@ -1567,7 +1525,6 @@ export default {
 .todo_item .attachment:after {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -298px -28px;
@@ -1584,7 +1541,6 @@ export default {
 .todo_item.reddot:before {
     content: "";
     background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
     background-size: 318px 311px;
     background-position: -246px -228px;
@@ -1602,18 +1558,12 @@ export default {
 
 .main_pane .core_button {
     position: relative;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     padding: 16px 12px 14px;
     z-index: 10
 }
 
 .main_pane .core_button a {
-    -ms-flex: 1 1 auto;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
     display: block;
     height: 40px;
@@ -1669,5 +1619,893 @@ export default {
     height: 9px;
     background-color: rgba(255,0,0,.5);
     margin-left: 4px
+}
+.skin_corp_bg {
+    background-color: #07B53B !important;
+}
+.skin_corp_txt {
+    color: #FFFFFF !important;
+}
+.view_cover {
+    position: relative;
+    min-height: 100%;
+}
+.view_cover .view_info {
+    padding: 0 0 40px;
+    background-color: #fff;
+}
+.view_cover .view_action {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 8px;
+}
+.view_cover .item_cover .item_value, .view_cover .view_action {
+    display: flex;
+    position: relative;
+}
+.view_cover .view_action .status {
+    flex: 1 1 auto;
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+    padding: 8px 0;
+    margin-right: auto;
+    text-align: left;
+}
+.view_cover .view_action .btn_action_more, 
+.view_cover .view_action .btn_modify, 
+.view_cover .view_action .btn_window {
+    flex: 0 0 auto;
+    border: 0;
+    background-color: transparent;
+    padding: 8px 0;
+    line-height: 0;
+    border-radius: 2px;
+    margin-left: 20px;
+}
+.view_cover .item_cover {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.view_cover .item_cover .item_label {
+    clear: both;
+    float: left;
+    color: #222;
+    line-height: 1.5;
+    font-size: 14px;
+    width: 114px;
+    padding-top: 8px;
+    position: relative;
+    box-sizing: border-box;
+    text-align: left;
+}
+.view_cover .item_cover .item_label+.item_value {
+    margin-left: 114px;
+}
+.view_cover .item_value .date, .view_cover .item_value .group_name {
+    font-size: 14px;
+    color: #222;
+    line-height: 20px;
+    padding: 8px 0;
+}
+.member_list .added_member {
+    flex: 0 1 auto;
+    display: inline-flex;
+    vertical-align: top;
+    border: 1px solid #c6e1ff;
+    background-color: #e1f0ff;
+    border-radius: 2px;
+    line-height: 20px;
+    padding: 5px 8px 5px 8px;
+    height: 32px;
+    box-sizing: border-box;
+    margin: 0 4px 3px 0;
+    position: relative;
+    min-width: 0
+}
+
+.member_list .added_member .name {
+    flex: 1 1 auto;
+    color: #222;
+    font-size: 12px;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal;
+    max-width: 100%
+}
+
+.member_list .added_member .btn_remove {
+    border: 0;
+    background-color: transparent;
+    flex: 0 0 auto;
+    line-height: 0;
+    padding: 6px;
+    vertical-align: top;
+    position: relative;
+    margin-right: -6px;
+    margin-left: 3px;
+    z-index: 10
+}
+
+.member_list .added_member .btn_remove:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -144px -295px;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    display: block
+}
+
+.member_list .added_member.on:before,.member_list .added_member:hover:before {
+    content: "";
+    background-color: rgba(0,0,0,.05);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 2px;
+    z-index: 1
+}
+
+.member_list .added_member.on:before {
+    background-color: rgba(0,0,0,.1)
+}
+
+.member_list .added_member.executive {
+    background-color: #e1e1ff;
+    border-color: #c6c6ff
+}
+
+.member_list .added_member.external {
+    background-color: #e6f7eb;
+    border-color: #c6e8cf
+}
+
+.member_list .added_member.group {
+    background-color: #f8eac8;
+    border-color: #f1d69c
+}
+
+.member_list .added_member.external_group {
+    background-color: #eaeaea;
+    border-color: #d8d8d8
+}
+.lw_file_attach_view .file_list {
+    max-height: 154px;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 8px 0;
+    margin-bottom: 0;
+}
+
+.lw_file_attach_view .file_list li {
+    display: flex;
+    position: relative;
+    padding: 0 10px 0 17px;
+    line-height: 20px
+}
+
+.lw_file_attach_view .file_list li .file_name {
+    flex: 0 1 auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    word-wrap: normal;
+    line-height: 20px;
+    padding: 6px 0
+}
+
+.lw_file_attach_view .file_list li .file_name .lw_file {
+    margin-right: 8px
+}
+
+.lw_file_attach_view .file_list li .file_name .file_name_txt {
+    color: #222;
+    vertical-align: top
+}
+
+.lw_file_attach_view .file_list li .file_size {
+    flex: 0 0 auto;
+    color: #767676;
+    padding: 6px 0;
+    margin-left: 8px
+}
+
+.lw_file_attach_view .file_list li .file_btn_area {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 2px 0 2px 12px
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_drive,.lw_file_attach_view .file_list li .file_btn_area .btn_down_pc,.lw_file_attach_view .file_list li .file_btn_area .btn_file_view {
+    border: 0;
+    background-color: transparent;
+    line-height: 0;
+    padding: 6px;
+    vertical-align: top;
+    border-radius: 2px
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_drive:hover,.lw_file_attach_view .file_list li .file_btn_area .btn_down_pc:hover,.lw_file_attach_view .file_list li .file_btn_area .btn_file_view:hover {
+    background-color: rgba(0,0,0,.05)
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_drive:before,.lw_file_attach_view .file_list li .file_btn_area .btn_down_pc:before,.lw_file_attach_view .file_list li .file_btn_area .btn_file_view:before {
+    content: "";
+    display: block
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_file_view:before {
+    background-position: -298px -100px
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_pc:before,.lw_file_attach_view .file_list li .file_btn_area .btn_file_view:before {
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    width: 16px;
+    height: 16px;
+    display: inline-block
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_pc:before {
+    background-position: -52px -271px
+}
+
+.lw_file_attach_view .file_list li .file_btn_area .btn_down_drive:before {
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -76px -271px;
+    width: 16px;
+    height: 16px;
+    display: inline-block
+}
+.lw_file_attach_view .file_list li .file_name .lw_file {
+    margin-right: 8px;
+}
+.lw_file.lw_file_bmp, .lw_file.lw_file_cdr, .lw_file.lw_file_emf, .lw_file.lw_file_gif, .lw_file.lw_file_heic, .lw_file.lw_file_heif, .lw_file.lw_file_ico, .lw_file.lw_file_jp2, .lw_file.lw_file_jpeg, .lw_file.lw_file_jpg, .lw_file.lw_file_png, .lw_file.lw_file_ref, .lw_file.lw_file_svg, .lw_file.lw_file_tgf, .lw_file.lw_file_tif, .lw_file.lw_file_tiff, .lw_file.lw_file_wmf {
+    background-position: -4px -4px;
+}
+.lw_file {
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_file_icon_8412ed43.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_file_icon_a9caf5bd.svg);
+    background-size: 168px 140px;
+    background-position: -32px -88px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    font-size: 0;
+    color: transparent;
+    vertical-align: top;
+}
+.lw_file.lw_file_rtf, .lw_file.lw_file_txt {
+    background-position: -88px -116px;
+}
+.btn_toggle:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -80px -295px;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+}
+.view_cover .hero_content .title {
+    font-size: 16px;
+    color: #222;
+    line-height: 22px;
+    font-weight: 700;
+    word-break: break-all;
+    text-align: left;
+}
+.view_cover .hero_content {
+    flex: 1 1 auto;
+    max-height: 220px;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 15px 12px 15px 0;
+    border-bottom: 1px solid #f5f5f6;
+}
+.view_cover .item_cover~.item_cover {
+    padding-top: 12px;
+}
+.todo_item .btn_status {
+    border: 0;
+    background-color: transparent;
+    line-height: 0;
+    padding: 5px;
+    position: absolute;
+    left: 15px;
+    top: 11px;
+    z-index: 10;
+    outline: none
+}
+
+.todo_item .btn_status:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -108px -187px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    display: block
+}
+
+.todo_item .btn_status.on:before {
+    background-position: -164px -187px
+}
+
+.todo_item .btn_status:hover .page_tooltip {
+    display: inline-block;
+    top: 100%;
+    left: 0;
+    transform: none
+}
+.view_cover .btn_cover {
+    padding: 16px 20px 0
+}
+
+.view_cover .btn_cover .btn_status {
+    width: 100%
+}
+.btn_cover .btn_status.complete {
+    font-size: 14px;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 2px;
+    line-height: 21px;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 9px 12px 10px;
+    cursor: pointer;
+    min-width: 64px;
+    background: #157efb;
+    border: 0;
+    color: #fff;
+    font-weight: 700;
+}
+.btn_cover .btn_status {
+    font-size: 14px;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 2px;
+    line-height: 21px;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 8px 12px 9px;
+    cursor: pointer;
+    min-width: 64px;
+    border: 1px solid #c5c5c6;
+    background: #fff;
+    color: #222;
+}
+.btn_cover .btn_status.hover, .btn_cover .btn_status:hover {
+    background-color: rgba(0,0,0,.05);
+}
+.btn_cover .btn_status.complete.hover, .btn_cover .btn_status.complete.on, .btn_cover .btn_status.complete:hover {
+    background: #1373e6;
+}
+.btn_cover .btn_status.complete.hover, .btn_cover .btn_status.complete:hover {
+    background-color: rgba(0,0,0,.05);
+}
+.btn_toggle {
+    border: 0;
+    background-color: transparent;
+    padding: 11px;
+    line-height: 0;
+}
+.lw_file_attach_view, .lw_file_attach_write {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.btn_cover .btn_status.complete {
+    font-size: 14px;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 2px;
+    line-height: 21px;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 9px 12px 10px;
+    cursor: pointer;
+    min-width: 64px;
+    background: #157efb;
+    border: 0;
+    color: #fff;
+    font-weight: 700;
+}
+.btn_cover .btn_status.complete.hover,.btn_cover .btn_status.complete:hover {
+    background-color: rgba(0,0,0,.05)
+}
+
+.btn_cover .btn_status.complete.on {
+    background-color: rgba(0,0,0,.1)
+}
+
+.btn_cover .btn_status.complete.disabled,.btn_cover .btn_status.complete:disabled {
+    cursor: default;
+    opacity: .4
+}
+
+.btn_cover .btn_status.complete.disabled:hover,.btn_cover .btn_status.complete:disabled:hover {
+    background-color: #fff
+}
+
+.btn_cover .btn_status.complete.hover,.btn_cover .btn_status.complete.on,.btn_cover .btn_status.complete:hover {
+    background: #1373e6
+}
+
+.btn_cover .btn_status.complete.disabled:hover,.btn_cover .btn_status.complete:disabled:hover {
+    background: #157efb
+}
+.lw_file_attach_view .file_infor {
+    font-size: 14px;
+    color: #222;
+    line-height: 20px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.lw_file_attach_view .file_wrap {
+    border: 1px solid #d5d5d6;
+    border-radius: 2px;
+}
+.lw_file_attach_view .file_infor .btn_toggle {
+    padding: 6px;
+    margin-left: -5px;
+    margin-right: 2px;
+}
+.view_cover .view_action .btn_modify:before, .view_cover .view_action .btn_window:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.view_cover .view_action .btn_window:before {
+    background-position: -192px -187px;
+}
+.view_cover .view_action .btn_modify:before {
+    background-position: -136px -187px;
+}
+.view_cover .view_action .btn_action_more:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -4px -215px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.lnb_tree .menu_item:focus, 
+.lnb_tree .menu_item:hover {
+    background-color: rgba(0,0,0,.05);
+}
+.lnb_tree .menu_item.focus .side_btn, 
+.lnb_tree .menu_item.focus .side_btn:focus, 
+.lnb_tree .menu_item:hover .side_btn, 
+.lnb_tree .menu_item:hover .side_btn:focus {
+    opacity: 1;
+}
+.folder_title .cnt {
+    flex: 0 0 auto;
+    padding-left: 4px;
+    font-weight: 700;
+}
+.folder_title {
+    font-size: 14px;
+    color: #222;
+    line-height: 20px;
+    padding: 10px 0;
+    display: flex;
+    min-width: 0;
+}
+.folder_title .cnt .cnt_label {
+    margin-right: 4px;
+}
+.folder_title .cnt .unread~.cnt_label:before {
+    content: "/";
+    color: #ccc;
+    font-weight: 400;
+    padding: 0 4px;
+}
+.folder_title .cnt .total {
+    color: #222;
+}
+.folder_title .btn_refresh {
+    border: 0;
+    background-color: transparent;
+    flex: 0 0 auto;
+    padding: 2px;
+    line-height: 0;
+    vertical-align: top;
+}
+.folder_title .btn_refresh:before {
+    content: "";
+    background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+    background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+    background-size: 318px 311px;
+    background-position: -220px -187px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    display: block;
+}
+.search_area {
+    width: 1280px;
+    padding-bottom: 16px
+}
+
+.search_area:after {
+    content: "";
+    height: 0;
+    overflow: hidden;
+    clear: both;
+    display: block
+}
+
+.search_area .column {
+    float: left;
+    display: table;
+    width: 337px
+}
+
+.search_area .column .item_cover {
+    display: table-row
+}
+
+.search_area .column .item_cover .item_label,.search_area .column .item_cover .item_value {
+    display: table-cell
+}
+
+.search_area .column .item_cover .item_value {
+    padding-right: 24px
+}
+
+.search_area .column .item_cover .item_label {
+    width: 77px;
+    padding-right: 4px;
+    white-space: nowrap;
+    font-weight: 700;
+    vertical-align: middle
+}
+
+.search_area .column .item_cover~.item_cover .item_label,.search_area .column .item_cover~.item_cover .item_value {
+    padding-top: 8px
+}
+
+.search_area .column.search_button {
+    display: block;
+    width: auto;
+    padding-top: 40px;
+    margin-left: 36px
+}
+
+.search_area .column.flow_column,.search_area .column.flow_column .item_cover {
+    display: block
+}
+
+.search_area .column.flow_column .item_value {
+    white-space: nowrap
+}
+
+.search_area .column.flow_column .check_cover {
+    display: inline-block;
+    vertical-align: top;
+    padding: 6px 0 0
+}
+
+.search_area .column.flow_column .check_cover label {
+    vertical-align: top
+}
+
+.search_area .column.flow_column .check_cover~.check_cover {
+    margin-left: 20px
+}
+
+.search_area .column.flow_column .date_cover .lw_input {
+    width: 110px
+}
+
+.search_area .select_cover {
+    z-index: 10;
+    width: 100%
+}
+
+.search_area .select_cover .lw_selectbox_label {
+    width: 100%
+}
+
+.search_area .btn_search {
+    font-size: 14px;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 2px;
+    line-height: 20px;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 6px 16px 6px;
+    cursor: pointer;
+    min-width: 54px;
+    background: #157efb;
+    border: 0;
+    color: #fff;
+    font-weight: 700
+}
+
+.search_area .btn_search.hover,.search_area .btn_search:hover {
+    background-color: rgba(0,0,0,.05)
+}
+
+.search_area .btn_search.on {
+    background-color: rgba(0,0,0,.1)
+}
+
+.search_area .btn_search.disabled,.search_area .btn_search:disabled {
+    cursor: default;
+    opacity: .4
+}
+
+.search_area .btn_search.disabled:hover,.search_area .btn_search:disabled:hover {
+    background-color: #fff
+}
+
+.search_area .btn_search.hover,.search_area .btn_search.on,.search_area .btn_search:hover {
+    background: #1373e6
+}
+
+.search_area .btn_search.disabled:hover,.search_area .btn_search:disabled:hover {
+    background: #157efb
+}
+
+.search_area .input_cover {
+    display: block
+}
+
+.search_area .input_cover .lw_input {
+    font-size: 14px;
+    color: #222;
+    line-height: 21px;
+    box-sizing: border-box;
+    height: 32px;
+    padding: 5px 0 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    width: 100%;
+    min-width: 0
+}
+
+.search_area .input_cover .lw_input:-moz-placeholder {
+    color: #989898;
+    opacity: 1
+}
+
+.search_area .input_cover .lw_input.invalid {
+    border-color: #fd472b
+}
+
+.search_area .input_cover .lw_input.valid {
+    background-color: #e7f2fe
+}
+
+.search_area .input_cover .lw_input.focus,.search_area .input_cover .lw_input.on,.search_area .input_cover .lw_input:focus {
+    border-color: #157efb;
+    outline: none
+}
+
+.search_area .input_cover .lw_input:disabled {
+    opacity: .4;
+    background-color: #f8f8f8
+}
+
+.search_area .member_list {
+    min-height: 32px;
+    padding: 0;
+    position: relative
+}
+
+.search_area .member_list .member_input {
+    margin-bottom: 0;
+    padding-left: 10px;
+    outline: none;
+    padding-top: 5px;
+    padding-bottom: 5px
+}
+
+.search_area .member_list .ly_autocomplete_member {
+    left: -1px;
+    right: auto;
+    max-width: 440px
+}
+
+@media screen and (max-width: 1400px) {
+    .search_area {
+        width:770px
+    }
+
+    .search_area .column.flow_column {
+        padding-top: 8px;
+        width: 710px
+    }
+
+    .search_area .column.flow_column .item_cover {
+        float: left
+    }
+
+    .search_area .column.flow_column .date_cover {
+        width: 231px
+    }
+
+    .search_area .column.flow_column .item_value {
+        padding-top: 0!important
+    }
+
+    .search_area .column.search_button {
+        padding-top: 8px;
+        margin-left: 0
+    }
+}
+.search_area .input_cover {
+    display: block
+}
+
+.search_area .input_cover .lw_input {
+    font-size: 14px;
+    color: #222;
+    line-height: 21px;
+    box-sizing: border-box;
+    height: 32px;
+    padding: 5px 0 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    width: 100%;
+    min-width: 0
+}
+.search_area .input_cover .lw_input:-moz-placeholder {
+    color: #989898;
+    opacity: 1
+}
+
+.search_area .input_cover .lw_input.invalid {
+    border-color: #fd472b
+}
+
+.search_area .input_cover .lw_input.valid {
+    background-color: #e7f2fe
+}
+
+.search_area .input_cover .lw_input.focus,.search_area .input_cover .lw_input.on,.search_area .input_cover .lw_input:focus {
+    border-color: #157efb;
+    outline: none
+}
+
+.search_area .input_cover .lw_input:disabled {
+    opacity: .4;
+    background-color: #f8f8f8
+}
+.member_list {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 3px 3px 0;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 40px;
+    box-sizing: border-box;
+    min-width: 0;
+}
+.search_area .member_list .member_input {
+    margin-bottom: 0;
+    padding-left: 10px;
+    outline: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.member_list .member_input {
+    border: 0;
+    flex: 1 1 0;
+    margin-bottom: 3px;
+    min-width: 70px;
+    vertical-align: top;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #222;
+    line-height: 20px;
+    padding: 6px 4px 6px 9px;
+}
+.member_input:focus {
+    border-color: #157efb;
+}
+.select_cover .lw_selectbox_source {
+    min-width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    opacity: 0;
+}
+.search_area .select_cover .lw_selectbox_label {
+    width: 100%;
+}
+.select_cover .lw_selectbox_label {
+    font-size: 14px;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius: 2px;
+    line-height: 20px;
+    text-decoration: none;
+    vertical-align: middle;
+    padding: 5px 12px 5px;
+    cursor: pointer;
+    min-width: 54px;
+    border: 1px solid #c5c5c6;
+    background: #fff;
+    color: #222;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal;
+    min-width: 135px;
+    border-color: #ddd;
+    padding-right: 24px;
+    transform: translateZ(0);
+}
+.select_cover, .select_cover .lw_selectbox_label {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+.date_cover {
+    display: flex;
+    position: relative;
+    min-width: 0;
+}
+.date_cover .input_cover~.input_cover:before {
+    content: "-";
+    position: absolute;
+    left: -12px;
+    top: 0;
+    line-height: 20px;
+    padding: 6px 0;
+    width: 12px;
+    text-align: center;
+}
+.search_area .column.flow_column .item_value {
+    white-space: nowrap;
+}
+.date_cover .input_cover~.input_cover {
+    position: relative;
+    margin-left: 12px;
+}
+.search_area .input_cover {
+    display: block;
+}
+.date_cover .input_cover {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.member_list.completed {
+    border-color: transparent;
 }
 </style>

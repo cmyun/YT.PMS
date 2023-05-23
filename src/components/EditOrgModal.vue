@@ -133,25 +133,6 @@ export default {
 };
 </script>
 <style scope lang="scss">
-.srch_member .results li .infor {
-  width: 100%;
-}
-.func_box {
-    border-bottom: 1px solid #eee;
-}
-
-@media screen and (min-width: 768px) {
-    .func_box {
-        border-bottom:0;
-    }
-}
-
-.func_box .hd {
-    display: block;
-    font-size: 12px;
-    color: #767676;
-    font-style: normal;
-}
 
 .func_box .lw_toggle+label {
     position: absolute;

@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .backdrop {
   position: fixed;
   top: 0;
@@ -41,7 +41,6 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 19999;
 }
-
 .confirmation {
   position: fixed;
   top: 50%;

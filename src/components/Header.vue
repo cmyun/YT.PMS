@@ -35,8 +35,8 @@
                         </span>
                     </router-link>
                 </li>
-                <li class="active">
-                    <router-link to="/contact" data-title="Contacts">
+                <li>
+                    <router-link to="/member" data-title="Contacts">
                         <span>
                             <img src="../assets/icon_contact.svg" alt="" class="iconNormal">
                             <img src="../assets/icon_contact_w.svg" alt="" class="iconActive">
@@ -44,9 +44,10 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/task" data-title="Task">
+                    <router-link to="/tasks" data-title="Task">
                         <span>
-                            <img src="../assets/icon_task.svg" alt="">
+                            <img src="../assets/icon_task.svg" alt="" class="iconNormal">
+                            <img src="../assets/icon_task_w.svg" alt="" class="iconActive">
                         </span>
                     </router-link>
                 </li>
@@ -72,7 +73,7 @@
                 </div>
                 <ul>
                     <li>
-                        <router-link to="settings">
+                        <router-link to="/settings">
                             My Information
                         </router-link>
                     </li>
@@ -150,6 +151,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0;
+    padding-left: 0;
     a {
         display: block;
         width: 100%;
@@ -188,7 +190,7 @@ export default {
             left: 0;
             transition: opacity .3s;
         }
-        &:hover {
+        a:hover {
             img.iconNormal {
                 opacity: .45;
             }
@@ -199,7 +201,7 @@ export default {
         .iconNormal {
             opacity: 1;
         }
-        &.active {
+        .active {
             img {
                 opacity: 1;
             }
@@ -210,7 +212,7 @@ export default {
                 opacity: 0;
             }
         }
-        &:not(.active) {
+        a:not(.active) {
             span {
                 opacity: .35;
                 &:hover {

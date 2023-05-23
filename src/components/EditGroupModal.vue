@@ -250,8 +250,3 @@ export default {
   },
 };
 </script>
-<style scope lang="scss">
-.srch_member .results li .infor {
-  width: 100%;
-}
-</style>

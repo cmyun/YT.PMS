@@ -165,13 +165,6 @@ $background-color_2: #fff;
 ul {
 	padding-left: 0;
 }
-.contentsHead {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	padding: 18px 0 0;
-	margin-bottom: 30px;
-}
 .contents.member {
 	.dashboard.contentsBody {
 		padding: 16px;
