@@ -23,13 +23,13 @@
                 </div>
                 <div class="infor">
                   <div class="name">
-                    <strong>{{ member[0].name }}</strong>
+                    <strong>{{ member.name }}</strong>
                   </div>
                   <div class="box">
                     <span class="position">Management</span>
-                    <span class="email">{{ member[0].nickname }}</span>
+                    <span class="email">{{ member.nickname }}</span>
                     <div class="status">
-                      <p class="pont">{{ member[0].status }}</p>
+                      <p class="pont">{{ member.status }}</p>
                     </div>
                   </div>
                 </div>
@@ -40,34 +40,34 @@
                   <ul class="list">
                     <li class="box">
                       <em class="h_li">Company</em>
-                      <span class="txt">{{ member[0].company }}</span>
+                      <span class="txt">{{ member.company }}</span>
                     </li>
                     <li class="box">
                       <em class="h_li">Organization/ position</em>
-                      <ul class="txt_box">{{ member[0].organization?member[0].organization:'' + '/ ' + member[0].position?member[0].position:'' }}</ul>
+                      <ul class="txt_box">{{ member.organization?member.organization:'' + '/ ' + member.position?member.position:'' }}</ul>
                     </li>
                     <li class="box">
                       <em class="h_li">Employment type</em>
-                      <spa class="txt">{{ member[0].type }}</spa>
+                      <spa class="txt">{{ member.type }}</spa>
                     </li>
                     <li class="box">
                       <em class="h_li">Level</em>
-                      <span class="txt">{{ member[0].level }}</span>
+                      <span class="txt">{{ member.level }}</span>
                     </li>
                     <li class="box">
                       <em class="h_li">Extension</em>
                     </li>
                     <li class="box">
                       <em class="h_li">Mobile phone</em>
-                      <ul class="txt_box">{{ member[0].mobile }}</ul>
+                      <ul class="txt_box">{{ member.mobile }}</ul>
                     </li>
                     <li class="box">
                       <em class="h_li">ID</em>
-                      <span class="txt">{{ member[0].nickname }}</span>
+                      <span class="txt">{{ member.nickname }}</span>
                     </li>
                     <li class="box">
                       <em class="h_li">Personal Email</em>
-                      <a :href="`mailto:${member[0].email}`" class="link">{{ member[0].email }}</a>
+                      <a :href="`mailto:${member.email}`" class="link">{{ member.email }}</a>
                     </li>
                   </ul>
                 </div>
@@ -92,7 +92,7 @@
           :visible="visible" 
           @close="closeModal" 
           @submit="submitForm" 
-          :data="member[0]"></modal-edit-form>
+          :data="member"></modal-edit-form>
       </div>
     </div>
   </div>
