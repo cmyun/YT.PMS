@@ -25,7 +25,7 @@
                     </div>
                   </div>
                   <div class="info_area">
-                    <h4 class="name">{{ member[0].name }}</h4>
+                    <h4 class="name">{{ member.name }}</h4>
                   </div>
                 </div>
                 <div class="profile_form">
@@ -40,19 +40,19 @@
 						</div>
 						<div class="field">
 							<strong class="title">Company</strong>
-							<div class="box"><p class="text">{{ member[0].company }}</p></div>
+							<div class="box"><p class="text">{{ member.company }}</p></div>
 						</div>
 						<div class="field">
 							<strong class="title">Department</strong>
-							<div class="box"><p class="text">{{ member[0].department }}</p></div>
+							<div class="box"><p class="text">{{ member.department }}</p></div>
 						</div>
 						<div class="field">
 							<strong class="title">Position</strong>
-							<div class="box"><p class="text">{{ member[0].position }}</p></div>
+							<div class="box"><p class="text">{{ member.position }}</p></div>
 						</div>
 						<div class="field">
 							<strong class="title">Level</strong>
-							<div class="box"><p class="text">{{ member[0].level }}</p></div>
+							<div class="box"><p class="text">{{ member.level }}</p></div>
 						</div>
 						<div class="field">
 							<strong class="title">Office</strong>
@@ -135,19 +135,18 @@ export default {
   },
   mounted(){
 	const member = this.member
-	this.userInfo = member[0]
+	this.userInfo = member
 	this.userInfo = {
-		'login_ID':  member[0].login_ID,
-		'login_PW':  member[0].login_PW,
-		'confirm_PW':  member[0].confirm_PW,
-		'name':  member[0].name,
-		'nickname':  member[0].nickname,
-		'office':  member[0].office,
-		'mobile':  member[0].mobile,
-		'email':  member[0].email,
+		'login_ID':  member.login_ID,
+		'login_PW':  member.login_PW,
+		'confirm_PW':  member.confirm_PW,
+		'name':  member.name,
+		'nickname':  member.nickname,
+		'office':  member.office,
+		'mobile':  member.mobile,
+		'email':  member.email,
 		'note': ''
 	}
-	console.log(this.userInfo)
   },
   methods: {
     ...mapActions('member', ['getMemberInfo']),
