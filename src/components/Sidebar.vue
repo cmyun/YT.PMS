@@ -1,6 +1,6 @@
 <template>
-    <div id="sidebar">
-        <div class="sidebarCover">
+    <div id="sidebar" class="lnb">
+        <div class="sidebarCover lnb_cover">
             <div class="menuBox">
                 <ul class="menuList">
                     <li>

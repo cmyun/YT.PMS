@@ -21,9 +21,10 @@ export default {
     message(newVal, oldVal){
       setTimeout(() => {
         this.clear()
-        }, 3000);
+        }, 6000);
     }
-  }
+  },
+  
 };
 </script>
 <style lang="scss">
@@ -65,6 +66,25 @@ ul, ol, menu { list-style:none; }
   display: flex;
   padding-bottom: 200px;
 }
+
+#container {
+  flex: 1 1 auto;
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  // height: 100%;
+  min-height: 0;
+  padding-bottom:0;
+
+  top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    // overflow: hidden;
+
+    
+}
 #content {
   &.fixLayout {
     display: flex;
@@ -94,6 +114,9 @@ ul, ol, menu { list-style:none; }
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
+
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 @media screen and (min-width: 768px){
 .contents.fix_layout .contents_body {
@@ -158,8 +181,8 @@ ul, ol, menu { list-style:none; }
 #modal-root {
   z-index: 10;
   .ly_common {
-  z-index: 22;
-  position: relative;
+    z-index: 22;
+    position: relative;
   }
 }
 .ly_common {
@@ -167,7 +190,7 @@ ul, ol, menu { list-style:none; }
   z-index: 50;
   display: inline-block;
   padding: 19px 23px 21px;
-  border: 1px solid #989898;
+  // border: 1px solid #989898;
   background-color: #fff;
   vertical-align: middle;
   box-sizing: border-box;
@@ -3906,15 +3929,15 @@ a {
 }
 @media screen and (min-width: 768px) {
   .ly_common.ly_page .btn_box {
-  position: absolute;
-  right: 0;
-  bottom: 23px;
-  left: 0;
-  padding: 22px 23px 0;
-}
-  .ly_common.ly_page .btn_box + .scroller {
-  margin-bottom: 61px;
-}
+    position: absolute;
+    right: 0;
+    bottom: 23px;
+    left: 0;
+    padding: 22px 23px 0;
+  }
+    .ly_common.ly_page .btn_box + .scroller {
+    margin-bottom: 61px;
+  }
 }
 .lw_btn {
   font-size: 14px;
@@ -6531,6 +6554,8 @@ a {
   border-right: 0;
   min-height: 0;
   min-width: 0;
+
+  overflow: auto;
 }
 
 @media screen and (max-width: 767px) {
@@ -6578,13 +6603,16 @@ a {
 .member_list {
   padding: 0 !important;
 }
+.fix_contents .fix_body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  min-height: 0;
+}
 @media screen and (min-width: 768px){
   .fix_contents .fix_body {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    min-height: 0;
+    height: 1px;
   }
 }
 .fix_contents .editing_bar {
@@ -6685,15 +6713,15 @@ a {
 .memberView {
   display: flex;
   .organization {
-    flex: 0 0 auto;
-    width: 240px;
-    position: relative;
-    border: 1px solid #e5e5e6;
-    box-sizing: border-box;
-    border-right: 0;
-    min-height: 0;
-    min-width: 0;
-    padding: 13px;
+    // flex: 0 0 auto;
+    // width: 240px;
+    // position: relative;
+    // border: 1px solid #e5e5e6;
+    // box-sizing: border-box;
+    // border-right: 0;
+    // min-height: 0;
+    // min-width: 0;
+    // padding: 13px;
     ul {
       padding-left: 0;
     }
@@ -7050,7 +7078,7 @@ button:not(:disabled),
   box-sizing: border-box;
   padding: 0 20px;
   color: #222;
-  overflow: auto;
+  // overflow: auto;
 }
 
 .contents_body .contents_body_inner {
@@ -7162,5 +7190,65 @@ button:not(:disabled),
     opacity: .7;
   }
 }
+.lnb {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    // z-index: 120;
+}
+@media screen and (min-width: 768px){
+  .lnb {
+      position: absolute;
+      top: 56px;
+      width: 250px;
+      border-right: 1px solid #d9d9d9;
+      display: block;
+  }
+}
+@supports (left:env(safe-area-inset-left)){
+.lnb {
+    left: calc(constant(safe-area-inset-left));
+    left: calc(env(safe-area-inset-left));
+}}
 
+.lnb .lnb_cover {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+    min-height: 0;
+}
+@media screen and (min-width: 768px){
+#container {
+    position: absolute;
+    // top: 52px;
+    top: 56px;
+    left: 250px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    z-index: 10;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}}
 </style>

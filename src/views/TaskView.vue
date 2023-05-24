@@ -432,16 +432,9 @@ export default {
   },
 }
 </script>
-<style scoped lang="scss">
-#app {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
+<style  lang="scss">
+.wrap {
+  // display: flex;
   /* flex-direction:column; */
   z-index: 1;
   position: absolute;
@@ -450,23 +443,11 @@ export default {
   right: 0;
   bottom: 0
 }
-#container {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  position: relative;
-  z-index: 20;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  min-height: 0;
-  padding-bottom:0;
-}
+
 #header {
   height: 56px;
+  position: relative;
+  min-width: 1024px;
 }
 .nav_lnb {
     background-color: #fff;
@@ -908,7 +889,7 @@ ul.lnb_tree {
 
 .contents {
     flex: 1 1 auto;
-    overflow: hidden;
+    // overflow: hidden;
     flex-direction: column;
     z-index: 10;
 }
@@ -2410,7 +2391,7 @@ ul.lnb_tree {
     border-radius: 2px;
     padding: 3px 3px 0;
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     min-height: 40px;
     box-sizing: border-box;
     min-width: 0;
@@ -2507,5 +2488,35 @@ ul.lnb_tree {
 }
 .member_list.completed {
     border-color: transparent;
+}
+
+
+@media screen and (min-width: 768px){
+.contents {
+    min-width: 1000px;
+    padding: 0 50px;
+    box-sizing: border-box;
+    max-width: 1250px;
+}
+}
+.contents {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+@media screen and (min-width: 768px){
+.contents.fix_layout .contents_head {
+    flex: 0 0 auto;
+}}
+@media screen and (min-width: 768px){
+.contents_head {
+    padding: 18px 0 0 0;
+    border-bottom: 0;
+}}
+.contents_head {
+    position: relative;
+    padding: 10px 0 0;
+    // border-bottom: 1px solid #ddd;
+    z-index: 80;
 }
 </style>

@@ -132,7 +132,6 @@
                           <i class="hd">Personal Email</i>
                           <div class="box fm_email custom_type">
                             <Field name="email" type="text" class="lw_input email_id" placeholder="Personal Email"  v-model="form.email"/>
-                            
                           </div>
                           <ErrorMessage name="email" class="text_error"/>
                         </div>
@@ -178,7 +177,6 @@
           </div>
         </form>
       </div>
-      
       <org-modal :title="'Select Organization'" :visible="visibleOrg" 
       @close="closeModalOrg" 
       @selectedOrg="onSelectedOrg">

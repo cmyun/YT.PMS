@@ -3,7 +3,7 @@
     <div class="modal-overlay" @click="close"></div>
     <div class="modal-container">
       <div class="modal-header">
-        <h2>Add members</h2>
+        <h2>Edit member information</h2>
         <!-- <button class="modal-close" @click="close">X</button> -->
       </div>
       <div class="modal-body">

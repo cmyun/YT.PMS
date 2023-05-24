@@ -1,23 +1,21 @@
 <template>
   <div class="contact">
     <Header/>
+    <Sidebar/>
     <div id="container">
-      <Sidebar/>
-      <div id="content" class="fixLayout">
-        <div class="main">
-          <div class="contentsHead">
-            <h3 class="title"><span class="txt">Group</span></h3>
-            <div class="taskArea">
-              <div class="btnGroup">
-                <button type="button" class="btn btn-danger w-10 btnDeleteGroup" @click="openConf" :disabled="!selected.length">Delete</button>
-                <button type="button" class="btn w-10 btnAddGroup ms-3" @click="openAddGroupModal">Add group</button>
-              </div>
-            </div>
+      <div id="content" class="contents fix_layout">
+        <div class="contentsHead contents_head">
+          <h3 class="title"><span class="txt">Group</span></h3>
+          <div class="task_area">
+            <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
+            <button type="button" class="btn_save" @click="openAddGroupModal">Add group</button>
           </div>
-          <div class="contentsBody">
-            <div class="memberView">
-              <div class="memberList">
-                <div class="listHead">
+        </div>
+        <div class="contentsBody contents_body">
+          <div class="memberView member_view">
+            <div class="fix_contents member_list">
+              <div class="fix_head memlist_head">
+                <div class="listHead list_head">
                   <h1><span class="groupName">Total</span><em class="cnt">{{groups.length}}</em></h1>
                   <div class="taskArea">
                     <button type="button" class="btnSearch">
@@ -30,67 +28,69 @@
                     </div>
                   </div>
                 </div>
-                <div class="fixBody">
-                  <div class="memberlistTableHeader">
-                    <div class="lwTr thead">
-                      <div class="lwTh check">
-                        <input type="checkbox" class="lwCheckbox" v-model="selectAll" @click="checkAll()">
-                        <label for="default-id-3-all"></label>
-                      </div>
-                      <div class="lwTh profile"></div>
-                      <div class="lwTh userName">Group name</div>
-                      <div class="lwTh title">Master(s)</div>
-                      <div class="lwTh status">Group created on</div>
+              </div>
+              <div class="fixBody fix_body">
+                <div class="memberlistTableHeader lw_table tb_cols_memberlist_head">
+                  <div class="lwTr thead">
+                    <div class="lwTh check">
+                      <input type="checkbox" class="lwCheckbox" v-model="selectAll" @click="checkAll()">
+                      <label for="default-id-3-all"></label>
                     </div>
+                    <div class="lwTh profile"></div>
+                    <div class="lwTh userName">Group name</div>
+                    <div class="lwTh title">Master(s)</div>
+                    <div class="lwTh status">Group created on</div>
                   </div>
-                  <div class="tableScoll">
-                    <div class="memberlistTable" v-if="groups.length">
+                </div>
+                <div class="tableScoll lw_table_scoll">
+                  <div class="memberlistTable lw_table tb_cols_memberlist" v-if="groups.length">
+                    <div class="lw_table tb_cols_memberlist">
                       <div class="lwTr" v-for="group in groups" :key="group.id">
-                          <div class="lwTd check">
-                            <input :name="group.id" :value="group.id" type="checkbox" class="lw_checkbox" :id="group.id" v-model="selected" @change='updateCheckall()'>
-                          </div>
-                          <div class="lwTd profile">
-                            <span class="thumb_cover"><img src="../assets/img_group.png" alt=""></span>
-                          </div>
-                          <div class="lwTd userName">
-                            <span class="nameCover">
-                              <a href="javascript:void(0)" @click="openGroupDetail(group.id)" class="name">{{ group.name }}</a>
-                              <span class="name_en"></span>
-                            </span>
-                          </div>
-                          <div class="lwTd title">
-                            <span class="ellipsis_element">{{ group.userName }}</span>
-                          </div>
-                          <div class="lwTd status">
-                            <span class="msg using">{{group.cDate}}</span>
-                          </div>
+                        <div class="lwTd check">
+                          <input :name="group.id" :value="group.id" type="checkbox" class="lw_checkbox" :id="group.id" v-model="selected" @change='updateCheckall()'>
                         </div>
-                    </div>
+                        <div class="lwTd profile">
+                          <span class="thumb_cover"><img src="../assets/img_group.png" alt=""></span>
+                        </div>
+                        <div class="lwTd userName">
+                          <span class="nameCover">
+                            <a href="javascript:void(0)" @click="openGroupDetail(group.id)" class="name">{{ group.name }}</a>
+                            <span class="name_en"></span>
+                          </span>
+                        </div>
+                        <div class="lwTd title">
+                          <span class="ellipsis_element">{{ group.userName }}</span>
+                        </div>
+                        <div class="lwTd status">
+                          <span class="msg using">{{group.cDate}}</span>
+                        </div>
+                      </div>
+                    </div>  
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <add-group-modal :title="title" 
-        :visible="visible" 
-        @close="closeAddGroupModal" 
-        >
-        </add-group-modal>
-        
-        <group-detail-modal
-          :visible="visibleDetail"
-          @close="closeGroupDetail"
-          @delete="deleteGroup02"
-        >
-        </group-detail-modal>
-        
-        <confirmation-box :visible="visibleConf" 
-        :index="getGroupName()" @close="closeConf" 
-        @confirm="handleDelete">
-        </confirmation-box>
       </div>
     </div>
+    <add-group-modal :title="title" 
+      :visible="visible" 
+      @close="closeAddGroupModal" 
+      >
+      </add-group-modal>
+      
+      <group-detail-modal
+        :visible="visibleDetail"
+        @close="closeGroupDetail"
+        @delete="deleteGroup02"
+      >
+      </group-detail-modal>
+      
+      <confirmation-box :visible="visibleConf" 
+      :index="getGroupName()" @close="closeConf" 
+      @confirm="handleDelete">
+      </confirmation-box>
   </div>
 </template>
 

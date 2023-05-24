@@ -1,30 +1,34 @@
 <template>
-  <div class="contact">
+  <div class="contact wrap">
     <Header/>
+    <Sidebar/>
     <div id="container">
-      <Sidebar/>
-      <div id="content" class="fixLayout">
-        <div class="main">
-          <div class="contentsHead">
-            <h3 class="title"><span class="txt">Member</span></h3>
-            <div class="task_area">
-              <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
-              <button type="button" class="btn_cancel" @click="openModal">Add members</button>
-              <button type="button" class="btn_save" >Approval</button>
-            </div>
+      <div id="content" class="contents fix_layout">
+        <div class="contentsHead contents_head">
+          <h3 class="title"><span class="txt">Member</span></h3>
+          <div class="task_area">
+            <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
+            <button type="button" class="btn_cancel" @click="openModal">Add members</button>
+            <button type="button" class="btn_save" >Approval</button>
           </div>
-          <div class="contentsBody">
-            <div class="memberView">
-              <div class="organization">
+        </div>
+        <div class="contentsBody contents_body">
+          <div class="memberView member_view">
+            <div class="organization">
+              <ul class="org_tree">
                 <organization-list 
-                :treeData="newOrganizations" 
-                :className="'orgTree'"
-                @data-up="onDataUp" 
-              >
-              </organization-list>
-              </div>
-              <div class="memberList">
-                <div class="listHead">
+                  v-for="(node, index) in newOrganizations"
+                  :node="node" 
+                  :key="index"
+                  @data-up="onDataUp"
+                  :selected="selectedId"
+                >
+                </organization-list>
+              </ul>
+            </div>
+            <div class="fix_contents member_list">
+              <div class="fix_head memlist_head">
+                <div class="listHead list_head">
                   <h1><span class="groupName">{{user.name}}</span><em class="cnt">{{members.length}}</em></h1>
                   <div class="taskArea">
                     <button type="button" class="btnSearch">
@@ -37,47 +41,45 @@
                     </div>
                   </div>
                 </div>
-                <div class="fixBody">
-                  <div class="memberlistTableHeader">
-                    <div class="lwTr thead">
-                      <div class="lwTh check">
-                        <input type="checkbox" class="lwCheckbox" v-model="selectAll" @click="checkAll()">
-                        <label for="default-id-3-all"></label>
-                      </div>
-                      <div class="lwTh profile"></div>
-                      <div class="lwTh userName">First name</div>
-                      <div class="lwTh title">Level</div>
-                      <div class="lwTh status">Account Status</div>
-                      <div class="lwTh detail">Remark</div>
+              </div>
+              <div class="fixBody fix_body">
+                <div class="memberlistTableHeader lw_table tb_cols_memberlist_head">
+                  <div class="lwTr thead">
+                    <div class="lwTh check">
+                      <input type="checkbox" class="lwCheckbox" v-model="selectAll" @click="checkAll()">
+                      <label for="default-id-3-all"></label>
                     </div>
+                    <div class="lwTh profile"></div>
+                    <div class="lwTh userName">First name</div>
+                    <div class="lwTh title">Level</div>
+                    <div class="lwTh status">Account Status</div>
+                    <div class="lwTh detail">Remark</div>
                   </div>
-                  <div class="tableScoll">
-                    <div class="memberlistTable" v-if="members.length">
-                      <div class="lw_table_scoll">
-                        <div class="lw_table tb_cols_memberlist">
-                          <div class="lwTr" v-for="member in members" :key="member.id">
-                            <div class="lwTd check">
-                              <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
-                            </div>
-                            <div class="lwTd profile">
-                              <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
-                            </div>
-                            <div class="lwTd userName">
-                              <span class="nameCover">
-                                <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
-                                <span class="name_en"></span>
-                              </span>
-                              <span class="team"></span>
-                            </div>
-                            <div class="lwTd title">
-                              <span class="ellipsis_element">{{ member.position_ID }}</span>
-                            </div>
-                            <div class="lwTd status">
-                              <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
-                            </div>
-                            <div class="lwTd detail"></div>
-                          </div>
+                </div>
+                <div class="tableScoll lw_table_scoll">
+                  <div class="memberlistTable lw_table tb_cols_memberlist" v-if="members.length">
+                    <div class="lw_table tb_cols_memberlist">
+                      <div class="lwTr" v-for="member in members" :key="member.id">
+                        <div class="lwTd check">
+                          <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
                         </div>
+                        <div class="lwTd profile">
+                          <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
+                        </div>
+                        <div class="lwTd userName">
+                          <span class="nameCover">
+                            <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
+                            <span class="name_en"></span>
+                          </span>
+                          <span class="team"></span>
+                        </div>
+                        <div class="lwTd title">
+                          <span class="ellipsis_element">{{ member.position_ID }}</span>
+                        </div>
+                        <div class="lwTd status">
+                          <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
+                        </div>
+                        <div class="lwTd detail"></div>
                       </div>
                     </div>
                   </div>
@@ -86,13 +88,14 @@
             </div>
           </div>
         </div>
-        <modal-form :title="title" :visible="visible" @close="closeModal" 
-        @submit="submitForm" >
-        </modal-form>
-        <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
-        @confirm="handleDelete"></confirmation-box>
       </div>
     </div>
+    <modal-form :title="title" :visible="visible" @close="closeModal" 
+      @submit="submitForm" >
+    </modal-form>
+    <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
+      @confirm="handleDelete">
+    </confirmation-box>
   </div>
 </template>
 
@@ -122,6 +125,7 @@ export default {
       title: 'Modal Form',
       visible: false,
       visibleConf: false,
+      selectedId: 0
     }
   },
   computed: {
@@ -171,11 +175,17 @@ export default {
             name: data[i].name,
             no: data[i].no,
             type: data[i].type,
-            isUse: data[i].isUse,
-            note: data[i].note,
+            isDisclose: data[i].isDisclose,
+            isNotify: data[i].isNotify,
+            description: data[i].description,
             pid: data[i].pid,
-            level: level,
-            isActive: false,
+            lv: level,
+            note: data[i].note,
+            fName: data[i].fName,
+            fid: data[i].fid,
+            hUser_ID: data[i].hUser_ID,
+            hUserName: data[i].hUserName,
+            count: data[i].count,
             children: []
           };
           const children = this.buildTree(data, data[i].id, level + 1);
@@ -206,18 +216,18 @@ export default {
       this.closeModal()
     },
     onDataUp(data){
-      const a = '.main .orgTree #id_'+data.id;
-      document.querySelector(a).className="treeItem selected";
-      const arr = document.querySelectorAll('.main .orgTree .treeItem');
-      arr.forEach(element => {
-        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-          element.className = "treeItem";
-        }
-        if(element.id=='id_0'){
-          element.classList.add('corp');
-        }
-      });
-
+      // const a = '#content .orgTree #id_'+data.id;
+      // document.querySelector(a).className="treeItem selected";
+      // const arr = document.querySelectorAll('#content .orgTree .treeItem');
+      // arr.forEach(element => {
+      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
+      //     element.className = "treeItem";
+      //   }
+      //   if(element.id=='id_0'){
+      //     element.classList.add('corp');
+      //   }
+      // });
+      this.selectedId = data.id;
       this.getMembersByOrg(data.id);
     },
     closeConf(){
@@ -249,65 +259,19 @@ a {
   text-decoration: none;
   color: #2c3e50;
 }
-.task_area .btn_combo + button, 
-.task_area button + .tooltip_cover, 
-.task_area button + button {
-  margin-left: 8px;
-}
 
-button:not(:disabled), 
-[type=button]:not(:disabled), 
-[type=reset]:not(:disabled), 
-[type=submit]:not(:disabled) {
-  cursor: pointer;
-}
-.btn_delete02:disabled {
-  opacity: 0.4;
-}
-.btn_delete02 {
-    font-size: 14px;
-    display: inline-block;
-    box-sizing: border-box;
-    height: 36px;
-    border-radius: 2px;
-    line-height: 21px;
-    text-decoration: none;
-    vertical-align: middle;
-    white-space: nowrap;
-    padding: 6px 12px 7px;
-    min-width: 64px;
-    border: 1px solid #c5c5c6;
-    background: #fff;
-    color: #fd472b !important;
-    transition: all 0.3s;
-}
-.btn_cancel {
-    font-size: 14px;
-    display: inline-block;
-    box-sizing: border-box;
-    height: 36px;
-    border-radius: 2px;
-    line-height: 21px;
-    text-decoration: none;
-    vertical-align: middle;
-    white-space: nowrap;
-    padding: 6px 12px 7px;
-    min-width: 64px;
-    border: 1px solid #c5c5c6;
-    background: #fff;
-    color: #222;
-    transition: all 0.3s;
-}
 
-.lw_table_scoll {
-    flex: 1 1 auto;
-    overflow: scroll;
-    overflow-x: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    -ms-overflow-style: auto;
-}
+
+
+// .lw_table_scoll {
+//     flex: 1 1 auto;
+//     overflow: scroll;
+//     overflow-x: hidden;
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     -ms-overflow-style: auto;
+// }
 .lw_table_scoll .tb_cols_memberlist {
     -webkit-box-flex: 0;
     -webkit-flex: 0 1 auto;

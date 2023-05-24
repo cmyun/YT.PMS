@@ -1,96 +1,92 @@
 <template>
-  <div class="contact">
+  <div class="contact sub_page wrap">
     <Header/>
+    <Sidebar/>
     <div id="container">
-      <Sidebar/>
-      <div id="content" class="contents fixLayout">
-        <div class="main">
-          <div class="contentsHead">
-            <h3 class="title"><span class="txt">My Profile</span></h3>
-          </div>
-          <div class="contents_body dashboard">
-            <form @submit.prevent="handleSubmit">
-              <div class="contents_body_inner">
-                <div class="profile_form_cover">
-                  <div class="profile_form_header">
-                    <div class="thumbnail_area">
-                      <div class="thumbnail">
-                        <span class="initial_profile" style="background-color: rgb(134, 164, 212);">
-                          <em>t</em>
-                        </span>
-                      </div>
-                      <div class="task">
-                        <button type="button" class="btn_edit">
-                        </button>
-                      </div>
+      <div id="content" class="contents sub">
+        <div class="contentsHead contents_head">
+          <h3 class="title"><span class="txt">My Profile</span></h3>
+        </div>
+        <div class="contents_body dashboard">
+          <form @submit.prevent="handleSubmit">
+            <div class="contents_body_inner">
+              <div class="profile_form_cover">
+                <div class="profile_form_header">
+                  <div class="thumbnail_area">
+                    <div class="thumbnail">
+                      <span class="initial_profile" style="background-color: rgb(134, 164, 212);">
+                        <em>t</em>
+                      </span>
                     </div>
-                    <div class="info_area">
-                      <h4 class="name">{{ member.name }}</h4>
+                    <div class="task">
+                      <button type="button" class="btn_edit">
+                      </button>
                     </div>
                   </div>
-                  <div class="profile_form">
-                    <div class="field">
-                      <strong class="title">Nickname</strong>
-                      <div class="box">
-                      <div class="input_cover">
-                        <input type="text" class="lw_input_36" placeholder="Nickname" v-model="userInfo.nickname" name="nickname" id="nickname">
-                      </div>
-                      </div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Company</strong>
-                      <div class="box"><p class="text">{{ member.company }}</p></div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Department</strong>
-                      <div class="box"><p class="text">{{ member.department }}</p></div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Position</strong>
-                      <div class="box"><p class="text">{{ member.position }}</p></div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Level</strong>
-                      <div class="box"><p class="text">{{ member.level }}</p></div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Office</strong>
-                      <div class="box">
-                      <div class="input_cover">
-                        <input type="text" class="lw_input_36" placeholder="Office" v-model="userInfo.office">
-                      </div>
-                      </div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">Mobile</strong>
-                      <div class="box">
-                      <div class="input_cover">
-                        <input type="text" class="lw_input_36" placeholder="Mobile" v-model="userInfo.mobile">
-                      </div>
-                      </div>
-                    </div>
-                    <div class="field">
-                      <strong class="title">E-Mail</strong>
-                      <div class="box">
-                      <div class="input_cover">
-                        <input type="text" class="lw_input_36" placeholder="E-Mail" v-model="userInfo.email">
-                      </div>
-                      </div>
-                    </div>
-                  
+                  <div class="info_area">
+                    <h4 class="name">{{ member.name }}</h4>
                   </div>
                 </div>
-                <div class="btn_area">
-                  <button class="lw_btn_point_40" :disabled="disabled">Save</button>
+                <div class="profile_form">
+                  <div class="field">
+                    <strong class="title">Nickname</strong>
+                    <div class="box">
+                    <div class="input_cover">
+                      <input type="text" class="lw_input_36" placeholder="Nickname" v-model="userInfo.nickname" name="nickname" id="nickname">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Company</strong>
+                    <div class="box"><p class="text">{{ member.company }}</p></div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Department</strong>
+                    <div class="box"><p class="text">{{ member.department }}</p></div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Position</strong>
+                    <div class="box"><p class="text">{{ member.position }}</p></div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Level</strong>
+                    <div class="box"><p class="text">{{ member.level }}</p></div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Office</strong>
+                    <div class="box">
+                    <div class="input_cover">
+                      <input type="text" class="lw_input_36" placeholder="Office" v-model="userInfo.office">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">Mobile</strong>
+                    <div class="box">
+                    <div class="input_cover">
+                      <input type="text" class="lw_input_36" placeholder="Mobile" v-model="userInfo.mobile">
+                    </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <strong class="title">E-Mail</strong>
+                    <div class="box">
+                    <div class="input_cover">
+                      <input type="text" class="lw_input_36" placeholder="E-Mail" v-model="userInfo.email">
+                    </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </form>
-          </div>
+              <div class="btn_area">
+                <button class="lw_btn_point_40" :disabled="disabled">Save</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import Header from "@/components/Header.vue";
@@ -122,7 +118,6 @@ export default {
 				note: ''
 			},
 			disabled: false
-
 		}
 	},
   computed: {

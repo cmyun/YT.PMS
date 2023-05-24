@@ -1,104 +1,100 @@
 <template>
-  <div class="contact">
+  <div class="contact wrap">
     <Header/>
+    <Sidebar/>
     <div id="container">
-      <Sidebar/>
-      <div id="content" class="fixLayout">
-        <div class="main">
-          <div class="contentsHead">
-            <h3 class="title"><span class="txt">Organization</span></h3>
-            <div class="taskArea">
-              <div class="task_area">
-                <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
-                <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
-                <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
+      <div id="content" class="contents fix_layout">
+        <div class="contentsHead contents_head">
+          <h3 class="title"><span class="txt">Organization</span></h3>
+            <div class="task_area">
+              <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
+              <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
+              <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
+            </div>
+        </div>
+        <div class="contentsBody contents_body">
+          <div class="fix_contents">
+            <div class="editing_bar" v-show="visibleEdittingBar">
+              <button type="button" @click="closeMove">Cancel</button>
+              <button type="button" :disabled="!isMoved">Save</button>
+              <button type="button" class="pos_right" v-show="selected.length" @click="openSelectOrgModal">Move to</button>
+            </div>
+            <div class="fix_head">
+              <div class="listHead list_head">
+                <h1><span class="groupName">Total</span><em class="cnt">{{organizations.length}}</em></h1>
+                <div class="taskArea">
+                  <button type="button" class="btnSearch">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="contentsBody">
-            <div class="fix_contents">
-              <div class="editing_bar" v-show="visibleEdittingBar">
-                <button type="button" @click="closeMove">Cancel</button>
-                <button type="button" :disabled="!isMoved">Save</button>
-                <button type="button" class="pos_right" v-show="selected.length" @click="openSelectOrgModal">Move to</button>
-              </div>
-              <div class="fix_head">
-                <div class="listHead">
-                  <h1><span class="groupName">Total</span><em class="cnt">{{organizations.length}}</em></h1>
-                  <div class="taskArea">
-                    <button type="button" class="btnSearch">
-                      <i class="bi bi-search"></i>
-                    </button>
+            <div class="fix_body">
+              <div class="lw_table tb_cols_memberlist_head">
+                <div class="lw_tr thead">
+                  <div class="lw_th check">
+                    <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
                   </div>
+                  <div class="lw_th">Organization</div>
+                  <div class="lw_th leader">Head of Organization</div>
                 </div>
               </div>
-              <div class="fix_body">
-                <div class="lw_table tb_cols_memberlist_head">
-                  <div class="lw_tr thead">
-                    <div class="lw_th check">
-                      <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
-                    </div>
-                    <div class="lw_th">Organization</div>
-                    <div class="lw_th leader">Head of Organization</div>
-                  </div>
+              <div class="lw_table_scoll">
+                <ul class="org_tree">
+                  <tree-node 
+                    v-for="(node, index) in newOrganizations"
+                    :node="node" 
+                    :key="index"
+                    :selected="selected"
+                    @child-check="updateCheckall"
+                    @openDetail="openOrgDetail"
+                  >
+                  </tree-node>
+                </ul>
+              </div>
+              <div class="selected_list_box selected_list_box02">
+                <div class="count">
+                  <span>Select {{ selectedOrgs.length }}</span>
+                  <button type="button" class="btn_remove_all" @click="removeAll">
+                  </button>
                 </div>
-                <div class="lw_table_scoll">
-                  <ul class="org_tree">
-                    <tree-node 
-                      v-for="(node, index) in newOrganizations"
-                      :node="node" 
-                      :key="index"
-                      :selected="selected"
-                      @child-check="updateCheckall"
-                      @openDetail="openOrgDetail"
-                    >
-                    </tree-node>
-                  </ul>
-                </div>
-                <div class="selected_list_box selected_list_box02">
-                  <div class="count">
-                    <span>Select {{ selectedOrgs.length }}</span>
-                    <button type="button" class="btn_remove_all" @click="removeAll">
-                    </button>
-                  </div>
-                  <ul class="selected_list" v-if="selectedOrgs.length">
-                    <li v-for="org in selectedOrgs" :key="org.id">
-                      <a href="#" class="item groups">{{ org.name }}</a>
-                      <button type="button" class="btn_delete" @click="unchecked(org)">Delete</button>
-                    </li>
-                  </ul>
-                </div>
+                <ul class="selected_list" v-if="selectedOrgs.length">
+                  <li v-for="org in selectedOrgs" :key="org.id">
+                    <a href="#" class="item groups">{{ org.name }}</a>
+                    <button type="button" class="btn_delete" @click="unchecked(org)">Delete</button>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-        <add-org-modal :title="title" 
-        :visible="visible" 
-        @close="closeAddOrgModal" 
-        >
-        </add-org-modal>
-        <confirmation-box 
-        :visible="visibleConf" 
-        @close="closeConf" 
-        @confirm="handleDelete"
-        >
-        </confirmation-box>
-        <org-detail-modal
-          :visible="visibleDetail"
-          @close="closeOrgDetail"
-          @delete="deleteOrg02"
-        >
-        </org-detail-modal>
-        <select-organization-modal 
-          :visible="visibleSelectOrg"
-          :data="newOrganizations"
-          :selected2="selected"
-          @close="closeSelectOrgModal"
-          @submit="handleSubmitMoveOrg"
-        >
-        </select-organization-modal>
       </div>
     </div>
+    <add-org-modal :title="title" 
+      :visible="visible" 
+      @close="closeAddOrgModal" 
+    >
+    </add-org-modal>
+    <confirmation-box 
+      :visible="visibleConf" 
+      @close="closeConf" 
+      @confirm="handleDelete"
+    >
+    </confirmation-box>
+    <org-detail-modal
+      :visible="visibleDetail"
+      @close="closeOrgDetail"
+      @delete="deleteOrg02"
+    >
+    </org-detail-modal>
+    <select-organization-modal 
+      :visible="visibleSelectOrg"
+      :data="newOrganizations"
+      :selected2="selected"
+      @close="closeSelectOrgModal"
+      @submit="handleSubmitMoveOrg"
+    >
+    </select-organization-modal>
   </div>
 </template>
 

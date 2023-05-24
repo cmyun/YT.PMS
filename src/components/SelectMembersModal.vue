@@ -14,11 +14,16 @@
               <div class="org_container">
                 <div class="member_view">
                   <section class="organization">
-                    <organization-list 
-                    :treeData="newOrganizations" 
-                    :className="'orgTree'"
-                    @data-up="onDataUp" 
-                    />
+                    <ul class="org_tree">
+                      <organization-list 
+                        v-for="(node, index) in newOrganizations"
+                        :node="node" 
+                        :key="index"
+                        @data-up="onDataUp"
+                        :selected = selectedId
+                      >
+                      </organization-list>
+                    </ul>
                   </section>
                   <section class="fix_contents member_list">
                     <div class="fix_head memlist_head">
@@ -100,7 +105,8 @@ export default {
       selected: [],
       selectedArr: [],
       selectAll: false,
-      dataIds: []
+      dataIds: [],
+      selectedId: 0
     }
   },
   components: {
@@ -136,11 +142,17 @@ export default {
             name: data[i].name,
             no: data[i].no,
             type: data[i].type,
-            isUse: data[i].isUse,
-            note: data[i].note,
+            isDisclose: data[i].isDisclose,
+            isNotify: data[i].isNotify,
+            description: data[i].description,
             pid: data[i].pid,
-            level: level,
-            isActive: false,
+            lv: level,
+            note: data[i].note,
+            fName: data[i].fName,
+            fid: data[i].fid,
+            hUser_ID: data[i].hUser_ID,
+            hUserName: data[i].hUserName,
+            count: data[i].count,
             children: []
           };
           const children = this.buildTree(data, data[i].id, level + 1);
@@ -159,18 +171,19 @@ export default {
       this.$emit('submitData', this.selected);
     },
     onDataUp(data) {
-      const a = '.modal1 .orgTree #id_'+data.id;
-      document.querySelector(a).className="treeItem selected";
-      const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
-      arr.forEach(element => {
-        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-          element.className = "treeItem";
+      // const a = '.modal1 .orgTree #id_'+data.id;
+      // document.querySelector(a).className="treeItem selected";
+      // const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
+      // arr.forEach(element => {
+      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
+      //     element.className = "treeItem";
 
-        }
-        if(element.id=='id_0'){
-          element.classList.add('corp');
-        }
-      });
+      //   }
+      //   if(element.id=='id_0'){
+      //     element.classList.add('corp');
+      //   }
+      // });
+      this.selectedId = data.id;
       this.getMembersByOrg(data.id);
 
     },

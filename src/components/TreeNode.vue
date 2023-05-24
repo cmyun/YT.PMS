@@ -26,7 +26,6 @@
       :node="child"
       @child-check="handleCheck"
       @openDetail="openGroupDetail"
-      
       :selected="selected"
     >
     </tree-node>

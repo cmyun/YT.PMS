@@ -1,102 +1,99 @@
 <template>
-  <div class="contact">
+  <div class="contact sub_page wrap">
     <Header/>
+    <Sidebar/>
     <div id="container">
-      <Sidebar/>
-      <div id="content" class="fixLayout">
-        <div class="main">
-          <div class="contentsHead">
-            <h3 class="title"><span class="txt">Member Information</span></h3>
-            <div class="taskArea">
-              <div class="btnGroup">
-                <button type="button" class="btn btn-primary w-10 btnEditMember" @click="openModal">Edit member information</button>
-              </div>
-            </div>
-          </div>
-          <div class="contentsBody dashboard">
-            <div class="fm_members">
-              <div class="member">
-                <div class="thumb">
-                  <span class="thmb_area">
-                    <img src="../assets/img_profile.png" alt="">
-                  </span>
-                </div>
-                <div class="infor">
-                  <div class="name">
-                    <strong>{{ member.name }}</strong>
-                  </div>
-                  <div class="box">
-                    <span class="position">Management</span>
-                    <span class="email">{{ member.nickname }}</span>
-                    <div class="status">
-                      <p class="pont">{{ member.status }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="body">
-                <div class="field">
-                  <i class="hd">Original company &amp; affiliation</i>
-                  <ul class="list">
-                    <li class="box">
-                      <em class="h_li">Company</em>
-                      <span class="txt">{{ member.company }}</span>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Organization/ position</em>
-                      <ul class="txt_box">{{ member.organization?member.organization:'' + '/ ' + member.position?member.position:'' }}</ul>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Employment type</em>
-                      <spa class="txt">{{ member.type }}</spa>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Level</em>
-                      <span class="txt">{{ member.level }}</span>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Extension</em>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Mobile phone</em>
-                      <ul class="txt_box">{{ member.mobile }}</ul>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">ID</em>
-                      <span class="txt">{{ member.nickname }}</span>
-                    </li>
-                    <li class="box">
-                      <em class="h_li">Personal Email</em>
-                      <a :href="`mailto:${member.email}`" class="link">{{ member.email }}</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="field minor">
-                  <i class="hd"></i>
-                  <ul class="list">
-                    <li class="box">
-                      <em class="h_li"></em>
-                      <span class="txt"></span>
-                    </li>
-                    <li class="box">
-                      <em class="h_li"></em>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              
+      <div id="content" class="contents sub">
+        <div class="contentsHead contents_head">
+          <h3 class="title"><span class="txt">Member Information</span></h3>
+          <div class="taskArea">
+            <div class="btnGroup">
+              <button type="button" class="btn_save" @click="openModal">Edit member information</button>
             </div>
           </div>
         </div>
-        <modal-edit-form :title="'title'" 
-          :visible="visible" 
-          @close="closeModal" 
-          @submit="submitForm" 
-          :data="member"></modal-edit-form>
+        <div class="contentsBody contents_body dashboard">
+          <div class="fm_members">
+            <div class="member">
+              <div class="thumb">
+                <span class="thmb_area">
+                  <img src="../assets/img_profile.png" alt="">
+                </span>
+              </div>
+              <div class="infor">
+                <div class="name">
+                  <strong>{{ member.name }}</strong>
+                </div>
+                <div class="box">
+                  <span class="position">Management</span>
+                  <span class="email">{{ member.nickname }}</span>
+                  <div class="status">
+                    <p class="pont">{{ member.status }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="body">
+              <div class="field">
+                <i class="hd">Original company &amp; affiliation</i>
+                <ul class="list">
+                  <li class="box">
+                    <em class="h_li">Company</em>
+                    <span class="txt">{{ member.company }}</span>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Organization/ position</em>
+                    <ul class="txt_box">{{ member.organization?member.organization:'' + '/ ' + member.position?member.position:'' }}</ul>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Employment type</em>
+                    <spa class="txt">{{ member.type }}</spa>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Level</em>
+                    <span class="txt">{{ member.level }}</span>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Extension</em>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Mobile phone</em>
+                    <ul class="txt_box">{{ member.mobile }}</ul>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">ID</em>
+                    <span class="txt">{{ member.nickname }}</span>
+                  </li>
+                  <li class="box">
+                    <em class="h_li">Personal Email</em>
+                    <a :href="`mailto:${member.email}`" class="link">{{ member.email }}</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="field minor">
+                <i class="hd"></i>
+                <ul class="list">
+                  <li class="box">
+                    <em class="h_li"></em>
+                    <span class="txt"></span>
+                  </li>
+                  <li class="box">
+                    <em class="h_li"></em>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <modal-edit-form :title="'title'" 
+      :visible="visible" 
+      @close="closeModal" 
+      @submit="submitForm" 
+      :data="member">
+    </modal-edit-form>
   </div>
-
 </template>
 <script>
 import Header from "@/components/Header.vue";
@@ -588,5 +585,19 @@ ul {
 		}
 	}
 }
-
+@media screen and (min-width: 768px){
+.sub_page .contents.sub {
+    width: 100%;
+    min-width: 1000px;
+    max-width: 1250px;
+    height: 100%;
+    margin: 0 auto;
+    // padding: 0 50px;
+    padding: 50px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}}
+.sub_page .contents.sub {
+    display: block;
+}
 </style>

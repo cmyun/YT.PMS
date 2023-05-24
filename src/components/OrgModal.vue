@@ -6,11 +6,17 @@
         <h2>{{ title }}</h2>
       </div>
       <div class="modal-body">
-        <organization-list 
-        :treeData="newOrganizations" 
-        :className="'orgTree'"
-        @data-up="onDataUp" 
-        />
+        <ul class="org_tree">
+          <organization-list 
+            v-for="(node, index) in newOrganizations"
+            :node="node" 
+            :key="index"
+            @data-up="onDataUp"
+            :selected = selectedId
+            :expandAll="true"
+          >
+          </organization-list>
+        </ul>
       </div>
       <div class="btn_box">
         <button type="button" class="lw_btn" @click="close">Cancel</button>
@@ -36,7 +42,8 @@ export default {
   },
   data(){
     return {
-      selectedOrg: {}
+      selectedOrg: {},
+      selectedId: 0
     }
   },
   components: {
@@ -60,11 +67,17 @@ export default {
             name: data[i].name,
             no: data[i].no,
             type: data[i].type,
-            isUse: data[i].isUse,
-            note: data[i].note,
+            isDisclose: data[i].isDisclose,
+            isNotify: data[i].isNotify,
+            description: data[i].description,
             pid: data[i].pid,
-            level: level,
-            isActive: false,
+            lv: level,
+            note: data[i].note,
+            fName: data[i].fName,
+            fid: data[i].fid,
+            hUser_ID: data[i].hUser_ID,
+            hUserName: data[i].hUserName,
+            count: data[i].count,
             children: []
           };
           const children = this.buildTree(data, data[i].id, level + 1);
@@ -80,18 +93,19 @@ export default {
       this.$emit('close');
     },
     onDataUp(data) {
-      const a = '.modal1 .orgTree #id_'+data.id;
-      document.querySelector(a).className="treeItem selected";
-      const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
-      arr.forEach(element => {
-        if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-          element.className = "treeItem";
+      // const a = '.modal1 .orgTree #id_'+data.id;
+      // document.querySelector(a).className="treeItem selected";
+      // const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
+      // arr.forEach(element => {
+      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
+      //     element.className = "treeItem";
 
-        }
-        if(element.id=='id_0'){
-          element.classList.add('corp');
-        }
-      });
+      //   }
+      //   if(element.id=='id_0'){
+      //     element.classList.add('corp');
+      //   }
+      // });
+      this.selectedId = data.id;
       this.selectedOrg = data;
     },
     onSelectOrg(){
