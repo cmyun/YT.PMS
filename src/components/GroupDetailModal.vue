@@ -161,3 +161,9 @@ export default {
 }
 </script>
 
+<style scoped lang="scss">
+.tab_cont .member_list {
+  display: block;
+  border: none;
+}
+</style>

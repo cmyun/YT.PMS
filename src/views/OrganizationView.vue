@@ -206,7 +206,6 @@ export default {
       }
     },
     deleteOrg02(id){
-      console.log(id)
       this.selected = [id];
       this.openConf();
     },
@@ -341,5 +340,9 @@ a {
 .btnSearch {
   border: none;
   background: transparent;
+}
+.selected_list_box {
+  padding: 0 0 0 111px;
+  border-width: 1px 0 0;
 }
 </style>

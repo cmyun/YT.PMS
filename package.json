@@ -9,8 +9,6 @@
   },
   "dependencies": {
     "@vee-validate/rules": "^4.9.2",
-    "@vuelidate/core": "^2.0.2",
-    "@vuelidate/validators": "^2.0.2",
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",

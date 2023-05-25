@@ -18,9 +18,7 @@
   </div>
 </template>
 <script>
-import { required } from '@vuelidate/validators'
-import { mapState, mapActions } from 'vuex'
-
+import { mapState, mapActions } from 'vuex';
 export default {
   name: "LoginView",
   data(){
@@ -28,12 +26,6 @@ export default {
       id: '',
       password: '',
       submitted: false
-    }
-  },
-  validations () {
-    return {
-      id: { required } ,
-      password: {required} ,
     }
   },
   computed: {
@@ -45,11 +37,11 @@ export default {
   methods: {
     ...mapActions('account', ['login', 'logout']),
     handleSubmit (e) {
-        this.submitted = true;
-        const { id, password } = this;
-        if (id && password) {
-          this.login({ id, password })
-        }
+      this.submitted = true;
+      const { id, password } = this;
+      if (id && password) {
+        this.login({ id, password })
+      }
     }
   },
   mounted() {
@@ -57,7 +49,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .wrap_lg {
   max-width: 560px;
   min-width: 320px;
@@ -106,7 +98,7 @@ h1 {
   vertical-align: top;
   border-bottom: 1px solid #ddd;
 }
-.btn_lg .login_normal:disabled, .
+.btn_lg .login_normal:disabled,
 .btn_lg .login_normal.disabled {
   background-color: #ccc;
   cursor: default;

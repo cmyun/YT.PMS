@@ -129,24 +129,30 @@ export default {
   },
   mounted(){
 	const member = this.member
-	this.userInfo = member
-	this.userInfo = {
-		'login_ID':  member.login_ID,
-		'login_PW':  member.login_PW,
-		'confirm_PW':  member.confirm_PW,
-		'name':  member.name,
-		'nickname':  member.nickname,
-		'office':  member.office,
-		'mobile':  member.mobile,
-		'email':  member.email,
-		'note': ''
-	}
+    this.userInfo = {
+      'login_ID':  member.login_ID,
+      'login_PW':  member.login_PW,
+      'confirm_PW':  member.confirm_PW,
+      'name':  member.name,
+      'nickname':  member.nickname,
+      'office':  member.office,
+      'mobile':  member.mobile,
+      'email':  member.email,
+      'note': ''
+    }
+  },
+  watch: {
+    member(newVal) {
+      console.log(newVal)
+      this.userInfo = newVal
+    }
   },
   methods: {
     ...mapActions('member', ['getMemberInfo']),
     ...mapActions('member', ['updateUser']),
     ...mapActions('account', ['register']),
     handleSubmit(e) {
+      console.log(this.userInfo)
       this.updateUser(this.userInfo);
     },
   }

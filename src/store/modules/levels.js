@@ -6,28 +6,28 @@ const state = {
 }
 
 const actions = {
-    getLevels({ dispatch, commit }) {
-        positionService.getLevels()
-          .then(
-            levels => {
-              commit('setLevels', levels);
-            },
-            error => {
-              dispatch('alert/error', error, { root: true });
-            }
-          );
-    }
+  getLevels({ dispatch, commit }) {
+    positionService.getLevels()
+      .then(
+        levels => {
+          commit('setLevels', levels);
+        },
+        error => {
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  }
 };
 
 const mutations = {
-    setLevels(state, levels) {
-        state.levels = levels
-    }
+  setLevels(state, levels) {
+    state.levels = levels
+  }
 };
 
 export const levels = {
-    namespaced: true,
-    state,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  actions,
+  mutations
 };

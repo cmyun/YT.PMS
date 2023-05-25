@@ -6,6 +6,7 @@
       <div id="content" class="contents fix_layout">
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Member</span></h3>
+          
           <div class="task_area">
             <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
             <button type="button" class="btn_cancel" @click="openModal">Add members</button>
@@ -20,8 +21,9 @@
                   v-for="(node, index) in newOrganizations"
                   :node="node" 
                   :key="index"
-                  @data-up="onDataUp"
+                  :expandAll="true"
                   :selected="selectedId"
+                  @data-up="onDataUp"
                 >
                 </organization-list>
               </ul>
@@ -203,7 +205,6 @@ export default {
         this.closeConf();
         this.selected = [];
       }
-
     },
     openModal() {
       this.visible = true;
@@ -213,20 +214,12 @@ export default {
     },
     submitForm(data){
       this.addMember(data);
-      this.closeModal()
+      console.log(this.status)
+      if(!this.status){
+        this.closeModal();
+      }
     },
     onDataUp(data){
-      // const a = '#content .orgTree #id_'+data.id;
-      // document.querySelector(a).className="treeItem selected";
-      // const arr = document.querySelectorAll('#content .orgTree .treeItem');
-      // arr.forEach(element => {
-      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-      //     element.className = "treeItem";
-      //   }
-      //   if(element.id=='id_0'){
-      //     element.classList.add('corp');
-      //   }
-      // });
       this.selectedId = data.id;
       this.getMembersByOrg(data.id);
     },
@@ -234,7 +227,6 @@ export default {
       this.visibleConf = false;
     },
     openConf(){
-      
       this.visibleConf = true;
     },
     getMemberName(){
@@ -246,36 +238,17 @@ export default {
         }
       });
       return nameList;
-    },
-    closeAlert() {
-      this.status = null;
-      this.visibleAlert = false;
-    },
+    }
   }
 };
 </script>
 <style scoped lang="scss">
-a {
-  text-decoration: none;
-  color: #2c3e50;
-}
+  a {
+    text-decoration: none;
+    color: #2c3e50;
+  }
 
-
-
-
-// .lw_table_scoll {
-//     flex: 1 1 auto;
-//     overflow: scroll;
-//     overflow-x: hidden;
-//     position: relative;
-//     display: flex;
-//     flex-direction: column;
-//     -ms-overflow-style: auto;
-// }
-.lw_table_scoll .tb_cols_memberlist {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
+  .lw_table_scoll .tb_cols_memberlist {
     flex: 0 1 auto;
-}
+  }
 </style>

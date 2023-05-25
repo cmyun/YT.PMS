@@ -41,7 +41,7 @@
   };
 </script>
 
-<style>
+<style scoped lang="scss">
   .alert1 {
     position: fixed;
     bottom: 0;
@@ -53,19 +53,16 @@
     margin-bottom: 20px;
     border-radius: 5px;
   }
-
   .alert-success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
   }
-
   .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
-
   .close {
     position: absolute;
     right: 0px;

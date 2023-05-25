@@ -82,7 +82,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
 @media screen and (min-width: 768px){
   .ly_org_tree .org_container {
     max-height: 500px;
@@ -90,43 +89,43 @@ export default {
   }
 }
 .ly_org_tree .tit_box {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .ly_org_tree .org_container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .ly_org_tree .organization {
-    flex: 1 1 auto;
-    overflow: auto;
+  flex: 1 1 auto;
+  overflow: auto;
 }
 .ly_org_tree {
-    width: 460px;
-    box-sizing: border-box;
-    padding-bottom: 84px;
+  width: 460px;
+  box-sizing: border-box;
+  padding-bottom: 84px;
 }
 
 .modal2 .org_tree .check_cover {
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    position: absolute;
-    left: 0;
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  left: 0;
 }
 
 .modal2 .org_tree .check_cover .lw_checkbox, 
 .modal2 .org_tree .check_cover .lw_radio {
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform: translateY(0);
-    clip: unset;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(0);
+  clip: unset;
 }
 
 .modal2 .org_tree .tree_item, .org_tree .tree_item .group_name {
   align-items: center;
 }
 .modal2 .lw_radio:checked {
-    color: #157efb;
+  color: #157efb;
 }
 </style>

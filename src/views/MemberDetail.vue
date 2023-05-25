@@ -99,7 +99,6 @@
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ModalEditForm from '@/components/ModalEditForm.vue';
-
 import { mapState, mapActions } from 'vuex'
 export default {
   name: "MemberDetail",
@@ -219,7 +218,6 @@ ul {
 					display: block;
 					width: 100%;
 					height: 100%;
-					-webkit-box-sizing: border-box;
 					box-sizing: border-box;
 					background: #fff;
 					border: 1px solid #c5c5c6;
@@ -340,17 +338,10 @@ ul {
 				clear: both;
 			}
 			.box {
-				display: -webkit-box;
-				display: -ms-flexbox;
-				display: -webkit-flex;
 				display: flex;
 				margin: 12px 0 0;
 				.h_li {
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 0 auto;
-					-ms-flex: 0 0 auto;
 					flex: 0 0 auto;
-					-webkit-box-sizing: border-box;
 					box-sizing: border-box;
 					display: block;
 					width: 135px;
@@ -358,9 +349,6 @@ ul {
 				}
 				.txt {
 					display: block;
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 1 auto;
-					-ms-flex: 0 1 auto;
 					flex: 0 1 auto;
 					min-width: 0;
 					word-wrap: break-word;
@@ -368,9 +356,6 @@ ul {
 				}
 				.txt_box {
 					display: block;
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 1 auto;
-					-ms-flex: 0 1 auto;
 					flex: 0 1 auto;
 					min-width: 0;
 					word-wrap: break-word;
@@ -385,9 +370,6 @@ ul {
 			}
 			.flexbox {
 				display: block;
-				-webkit-box-flex: 1;
-				-webkit-flex: 1 1 auto;
-				-ms-flex: 1 1 auto;
 				flex: 1 1 auto;
 				min-width: 0;
 				word-break: break-all;
@@ -402,25 +384,16 @@ ul {
 					font-weight: 400;
 				}
 				a.link {
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 1 auto;
-					-ms-flex: 0 1 auto;
 					flex: 0 1 auto;
 					word-wrap: break-word;
 					word-break: break-all;
 				}
 				span {
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 1 auto;
-					-ms-flex: 0 1 auto;
 					flex: 0 1 auto;
 					word-wrap: break-word;
 					word-break: break-all;
 				}
 				.title {
-					-webkit-box-flex: 0;
-					-webkit-flex: 0 0 auto;
-					-ms-flex: 0 0 auto;
 					flex: 0 0 auto;
 				}
 			}
@@ -434,7 +407,6 @@ ul {
 	button.opt_toggle {
 		font-size: 14px;
 		display: inline-block;
-		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		height: 34px;
 		border-radius: 2px;
@@ -557,13 +529,9 @@ ul {
 					.h_li {
 						width: 116px;
 					}
-					display: -webkit-inline-box;
-					display: -webkit-inline-flex;
-					display: -ms-inline-flexbox;
 					display: inline-flex;
 					width: 50%;
 					margin-right: -3px;
-					-webkit-box-sizing: border-box;
 					box-sizing: border-box;
 					padding-right: 24px;
 				}
@@ -592,9 +560,7 @@ ul {
     max-width: 1250px;
     height: 100%;
     margin: 0 auto;
-    // padding: 0 50px;
     padding: 50px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }}
 .sub_page .contents.sub {

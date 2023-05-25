@@ -54,7 +54,6 @@ const mutations = {
         state.organizations = organizations
     },
     moveOrgSuccess(state, targetId, ids) {
-      console.log(targetId, ids)
     },
     addOrgSuccess(state, org) {
       let organizations = state.organizations;

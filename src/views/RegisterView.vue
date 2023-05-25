@@ -1,61 +1,68 @@
 <template>
   <div class="wrap_lg">
-    <h1 class="text-center mb-5">Sign up</h1>
+    <h1><span>Sign up</span></h1>
     <div class="container_lg">
-      <form @submit.prevent="handleSubmit">
+      <Form @submit="handleSubmit">
         <div class="inp">
-          <!-- <label for="id"><b>ID</b><span class="req"> *</span></label> -->
-          <input type="text" placeholder="ID" v-model="user.login_ID" id="id" @blur="v$.user.login_ID.$touch" maxlength="20">
-          <div v-if="v$.user.login_ID.$error" :class="{error: v$.user.login_ID.$error}" >You can't leave this empty.</div>
+          <Field type="text" name="id" placeholder="ID" v-model="user.login_ID" rules="required" maxlength="12"/>
+          <ErrorMessage name="id" class="text_error"/>
         </div>
         <div class="inp">
-          <!-- <label for="login_PW"><b>Password</b><span class="req"> *</span></label> -->
-          <input type="password" placeholder="Password" v-model="user.login_PW" id="login_PW" @blur="v$.user.login_PW.$touch" maxlength="16">
-          <div v-if="v$.user.login_PW.$error" :class="{error: v$.user.login_PW.$error}" >You can't leave this empty.</div>
+          <Field type="password" name="login_PW" placeholder="Password" v-model="user.login_PW" rules="required" maxlength="16"/>
+          <ErrorMessage name="login_PW" class="text_error"/>
         </div>
         <div class="inp">
-          <!-- <label for="confirm_PW"><b>Confirm Password</b><span class="req"> *</span></label> -->
-          <input type="password" placeholder="Confirm password" v-model="user.confirm_PW" id="confirm_PW" @blur="v$.user.confirm_PW.$touch" maxlength="16">
-          <div v-if="v$.user.confirm_PW.$error" :class="{error: v$.user.confirm_PW.$error}" >These passwords don’t match.</div>
+          <Field type="password" name="confirm_PW" placeholder="Confirm password" v-model="user.confirm_PW" rules="required|confirmed:@login_PW"/>
+          <ErrorMessage name="confirm_PW" class="text_error"/>
         </div>
         <div class="inp">
-          <!-- <label for="name"><b>Name</b><span class="req"> *</span></label> -->
-          <input type="text" placeholder="Name" v-model="user.name" name="name" id="name" @blur="v$.user.name.$touch">
-          <div v-if="v$.user.name.$error" :class="{error: v$.user.name.$error}" >You can't leave this empty.</div>
+          <Field type="text" placeholder="Name" v-model="user.name" name="name" rules="required"/>
+          <ErrorMessage name="name" class="text_error"/>
         </div>
         <div class="inp">
-          <!-- <label for="nickname"><b>Nickname</b></label> -->
-          <input type="text" placeholder="Nickname" v-model="user.nickname" name="nickname" id="nickname">
+          <Field type="text" placeholder="Nickname" v-model="user.nickname" name="nickname" rules="required"/>
         </div>
         <div class="inp">
-          <!-- <label for="office"><b>Office</b></label> -->
-          <input type="text" placeholder="Office" v-model="user.office" name="office" id="office">
+          <Field type="text" placeholder="Office" v-model="user.office" name="office"/>
         </div>
         <div class="inp">
-          <!-- <label for="mobile"><b>Mobile</b></label> -->
-          <input type="text" placeholder="Mobile" v-model="user.mobile" name="mobile" id="mobile">
+          <Field type="text" placeholder="Mobile" v-model="user.mobile" name="mobile"/>
         </div>
         <div class="inp">
-          <!-- <label for="email"><b>Email</b></label> -->
-          <input type="email" placeholder="Email" v-model="user.email" name="email" id="email" @blur="v$.user.name.$touch">
-          <div v-if="v$.user.email.$error" :class="{error: v$.user.email.$error}" >Please enter a valid address.</div>
+          <Field type="email" placeholder="Email" v-model="user.email" name="email" rules="email"/>
+          <ErrorMessage name="email" class="text_error"/>
         </div>
         <div class="btn_lg">
           <button class="btn btn-dark w-100">Sign up</button>
         </div>
         <p class="text-center mb-3">Already a member? <router-link to="/login">Login</router-link></p>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 <script>
-import { useVuelidate } from '@vuelidate/core'
-import { required, email  } from '@vuelidate/validators'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex';
+import { Form, Field, ErrorMessage, defineRule, configure } from "vee-validate";
+import { required, email, confirmed } from '@vee-validate/rules';
+defineRule('required', required);
+defineRule('email', email);
+defineRule('confirmed', confirmed);
+configure({
+  generateMessage: (ctx) => {
+    const messages = {
+      required: "You can't leave this empty.",
+      confirmed: "These passwords don’t match."
+    };
+    const message = messages[ctx.rule.name] || `Invalid ${ctx.field} field.`;
+    return message;
+  },
+});
 export default {
   name: "RegisterView",
-  setup () {
-    return { v$: useVuelidate() }
+  components: {
+    Form,
+    Field,
+    ErrorMessage
   },
   data(){
     return {
@@ -71,28 +78,6 @@ export default {
         note: ''
       },
       submitted: false
-    }
-  },
-  
-  validations () {
-    return {
-      user: {
-        login_ID: {
-          required
-        },
-        login_PW: {
-          required
-        },
-        confirm_PW: {
-          required
-        },
-        name: {
-          required
-        },
-        email: {
-          email: email
-        }
-      },
     }
   },
   computed: {
@@ -111,7 +96,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .error,
 .req {
   color: red;
@@ -124,7 +109,6 @@ export default {
 }
 .register .fm_register .inp {
   position: relative;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   height: 48px;
   margin: 0;
@@ -155,13 +139,12 @@ h1 {
   font-size: 17px;
   color: #222;
   line-height: 32px;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 12px 0;
   vertical-align: top;
   border-bottom: 1px solid #ddd;
 }
-.btn_lg .login_normal:disabled, .
+.btn_lg .login_normal:disabled,
 .btn_lg .login_normal.disabled {
   background-color: #ccc;
   cursor: default;
@@ -180,7 +163,6 @@ h1 {
 .btn_lg button {
   display: inline-block;
   height: 40px;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
   background-color: #157efb;;

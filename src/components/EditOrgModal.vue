@@ -132,104 +132,90 @@ export default {
   },
 };
 </script>
-<style scope lang="scss">
-
+<style scoped lang="scss">
 .func_box .lw_toggle+label {
-    position: absolute;
-    top: 50%;
-    right: 13px;
-    margin-top: -12px;
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  margin-top: -12px;
 }
-
 .func_box .func {
-    position: relative;
-    padding: 20px 61px 20px 0;
-    border-top: 1px solid #eee;
-    word-break: keep-all;
+  position: relative;
+  padding: 20px 61px 20px 0;
+  border-top: 1px solid #eee;
+  word-break: keep-all;
 }
-
 .func_box .func a.disabled {
-    opacity: .4;
-    cursor: default;
+  opacity: .4;
+  cursor: default;
 }
-
 .func_box .func .sub {
-    position: relative;
-    margin-right: -61px;
-    padding-right: 61px;
+  position: relative;
+  margin-right: -61px;
+  padding-right: 61px;
 }
-
 .func_box .func .sub .lw_toggle+label {
-    top: 0;
-    margin-top: 0;
+  top: 0;
+  margin-top: 0;
 }
-
 .func_box .func .sub+.sub {
-    margin-top: 8px;
+  margin-top: 8px;
 }
-
 .func_box .func .sub.disabled p {
-    opacity: .4;
+  opacity: .4;
 }
-
 .func_box .func p {
-    margin: 12px 0 0;
+  margin: 12px 0 0;
 }
-
 .func_box .func p .link {
-    margin-left: 6px;
+  margin-left: 6px;
 }
-
 .func_box .func .link {
-    color: #157efb;
-    text-decoration: underline;
+  color: #157efb;
+  text-decoration: underline;
 }
-
 .func_box .func.disabled .hd,.func_box .func.disabled p {
-    opacity: .4;
+  opacity: .4;
 }
 .lw_toggle:checked+label:before {
-    left: 17px;
+  left: 17px;
 }
 .lw_toggle+label {
-    position: relative;
-    display: inline-block;
-    font-size: 0;
-    color: transparent;
-    vertical-align: middle;
-    padding: 4px 1px;
-    cursor: pointer!important;
+  position: relative;
+  display: inline-block;
+  font-size: 0;
+  color: transparent;
+  vertical-align: middle;
+  padding: 4px 1px;
+  cursor: pointer!important;
 }
 .lw_toggle+label:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,.75);
-    box-shadow: 0 0 2px 0 rgba(0,0,0,.75);
-    border-radius: 100%;
-    -webkit-transition: left .2s;
-    transition: left .2s;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,.75);
+  border-radius: 100%;
+  transition: left .2s;
 }
 .lw_toggle:checked+label:after {
-    background-color: #157efb;
+  background-color: #157efb;
 }
 .lw_toggle+label:after {
-    content: "";
-    display: inline-block;
-    background-color: #ddd;
-    width: 39px;
-    height: 16px;
-    border-radius: 8px;
-    vertical-align: top;
-    -webkit-transition: background-color .2s;
-    transition: background-color .2s;
+  content: "";
+  display: inline-block;
+  background-color: #ddd;
+  width: 39px;
+  height: 16px;
+  border-radius: 8px;
+  vertical-align: top;
+  transition: background-color .2s;
 }
 .lw_toggle {
-    position: absolute;
-    clip: rect(0 0 0 0);
+  position: absolute;
+  clip: rect(0 0 0 0);
 }
 </style>

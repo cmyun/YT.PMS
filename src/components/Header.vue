@@ -1,54 +1,51 @@
 <template>
   <header id="header">
     <div class="logoArea">
-      <div class="toggleBtn">
+      <div class="toggle_lnb">
         <button type="button">
           <img src="../assets/btn_toggle.svg" alt="">
         </button>
       </div>
-      <!-- <h1 id="logo">
-        <img src="../assets/logo.svg" alt="">
-      </h1> -->
     </div>
-    <div class="menuArea">
-      <ul class="menuList">
+    <div class="gnb_list_box">
+      <ul>
         <li>
           <router-link to="/" data-title="Board" >
             <span>
-              <img src="../assets/icon_board.svg" alt="" class="iconNormal">
-              <img src="../assets/icon_board_w.svg" alt="" class="iconActive">
+              <img src="../assets/icon_board.svg" alt="" class="icon_nm">
+              <img src="../assets/icon_board_w.svg" alt="" class="icon_active">
             </span>
           </router-link>
         </li>
         <li>
           <router-link to="/message" data-title="Message">
             <span>
-              <img src="../assets/icon_message.svg" alt="" class="iconNormal">
-              <img src="../assets/icon_message_w.svg" alt="" class="iconActive">
+              <img src="../assets/icon_message.svg" alt="" class="icon_nm">
+              <img src="../assets/icon_message_w.svg" alt="" class="icon_active">
             </span>
           </router-link>
         </li>
         <li>
           <router-link to="/calendar" data-title="Calendar">
             <span>
-              <img src="../assets/icon_calendar.svg" alt="" class="iconNormal">
-              <img src="../assets/icon_calendar_w.svg" alt="" class="iconActive">
+              <img src="../assets/icon_calendar.svg" alt="" class="icon_nm">
+              <img src="../assets/icon_calendar_w.svg" alt="" class="icon_active">
             </span>
           </router-link>
         </li>
         <li>
           <router-link to="/member" data-title="Contacts">
             <span>
-              <img src="../assets/icon_contact.svg" alt="" class="iconNormal">
-              <img src="../assets/icon_contact_w.svg" alt="" class="iconActive">
+              <img src="../assets/icon_contact.svg" alt="" class="icon_nm">
+              <img src="../assets/icon_contact_w.svg" alt="" class="icon_active">
             </span>
           </router-link>
         </li>
         <li>
           <router-link to="/tasks" data-title="Task">
             <span>
-              <img src="../assets/icon_task.svg" alt="" class="iconNormal">
-              <img src="../assets/icon_task_w.svg" alt="" class="iconActive">
+              <img src="../assets/icon_task.svg" alt="" class="icon_nm">
+              <img src="../assets/icon_task_w.svg" alt="" class="icon_active">
             </span>
           </router-link>
         </li>
@@ -61,12 +58,12 @@
         </li>
       </ul>
     </div>
-    <div class="loginArea">
-      <div class="userProfile">
-          <button type="button" class="btnProfile" @click="toggleNav()">{{ getUsername() }}</button>
+    <div class="login_area">
+      <div class="user_profile">
+        <button type="button" class="user_profile" @click="toggleNav()">{{ getUsername() }}</button>
       </div>
-      <div class="userNav" :class="{active: navActive}" >
-        <div class="userInfo">
+      <div class="gnb_user" :class="{active: navActive}" >
+        <div class="user_info">
           <p class="profile">{{ getUsername() }}</p>
           <div class="infor">
             {{ user.name }}
@@ -144,7 +141,7 @@ export default {
   align-items: center;
   padding: 0 10px;
 }
-.menuList {
+.gnb_list_box ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -168,7 +165,6 @@ export default {
       border-radius: 2px;
       background-color: rgba(0, 0, 0, 0.6);
       white-space: nowrap;
-      -webkit-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
       transform: translate(-50%, 0);
       margin-left: 1px;
@@ -189,24 +185,24 @@ export default {
       transition: opacity .3s;
     }
     a:hover {
-      img.iconNormal {
+      img.icon_nm {
         opacity: .45;
       }
     }
-    .iconActive {
+    .icon_active {
       opacity: 0;
     }
-    .iconNormal {
+    .icon_nm {
       opacity: 1;
     }
     .active {
       img {
         opacity: 1;
       }
-      .iconActive {
+      .icon_active {
         opacity: 1;
       }
-      .iconNormal {
+      .icon_nm {
         opacity: 0;
       }
     }
@@ -226,12 +222,12 @@ export default {
   align-items: center;
   margin-bottom: 0;
 }
-.btnProfile {
+.user_profile {
   display: block;
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background-color: rgb(139, 203, 153);
+  background-color: rgb(235, 235, 245);
   font-size: 20px !important;
   color: #fff;
   line-height: 1.5;
@@ -239,10 +235,9 @@ export default {
   text-transform: uppercase;
   border: none;
 }
-.toggleBtn {
+.toggle_lnb {
   width: 32px;
   height: 32px;
-  margin-right: 25px;
   button {
     width: 100%;
     height: 100%;
@@ -255,12 +250,11 @@ export default {
     }
   } 
 }
-.userNav {
+.gnb_user {
   position: absolute;
   top: 54px;
   right: 8px;
   width: 300px;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #fff;
   border: 1px solid #989898;
@@ -270,10 +264,10 @@ export default {
     display: block;
   }
 }
-.loginArea {
+.login_area {
   position: relative;
 }
-.userInfo {
+.user_info {
   display: flex;
   padding: 20px;
   border-bottom: 1px solid #e5e5e6;
@@ -282,11 +276,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #8BCB99;
+    background-color: rgb(235, 235, 245);
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden;
     font-size: 20px !important;
@@ -305,7 +298,7 @@ export default {
     font-weight: bold;
   }
 }
-.userNav {
+.gnb_user {
   ul {
     text-align: left;
     padding-left: 0;

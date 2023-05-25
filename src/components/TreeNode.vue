@@ -24,9 +24,9 @@
       v-for="(child, index) in node.children"
       :key="index"
       :node="child"
+      :selected="selected"
       @child-check="handleCheck"
       @openDetail="openGroupDetail"
-      :selected="selected"
     >
     </tree-node>
   </ul>
@@ -48,7 +48,7 @@ export default {
   data(){
     return {
       selectedIds: [],
-      expanded: false
+      expanded: true
     }
   },
   watch: {

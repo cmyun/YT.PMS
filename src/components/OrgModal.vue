@@ -93,18 +93,6 @@ export default {
       this.$emit('close');
     },
     onDataUp(data) {
-      // const a = '.modal1 .orgTree #id_'+data.id;
-      // document.querySelector(a).className="treeItem selected";
-      // const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
-      // arr.forEach(element => {
-      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-      //     element.className = "treeItem";
-
-      //   }
-      //   if(element.id=='id_0'){
-      //     element.classList.add('corp');
-      //   }
-      // });
       this.selectedId = data.id;
       this.selectedOrg = data;
     },

@@ -1,5 +1,5 @@
 <template>
-  <li :class="[{'fold': (!expanded && ! expandAll)}]">
+  <li :class="[{'fold': (!expanded && !expandedAll )}]">
     <span :id="'id_'+node.id" 
     :class="[
         'tree_item',
@@ -8,21 +8,22 @@
       ]"
     >
       <button type="button" class="btn_toggle_tree" v-if="node.children.length"
-        @click="toggleNode" v-show="!expandAll"
+        @click="toggleNode"
       ></button>
       <a href="javascript:void(0)" class="group_name" @click="onDataUp(node)">{{ node.name }}</a>
     </span>
   </li>  
-  <ul class="sub_group" v-show="expanded || expandAll">
+  <ul class="sub_group" v-show="(expanded || expandedAll)">
     <organization-list 
       v-for="(child, index) in node.children" 
       :key="index"
       :node="child"
       :treeData="node.children" 
-      @data-up="onDataUp"
       :selected="selected"
-      :expandAll="expandAll"
-    />
+      :expandedAll="expandedAll"
+      @data-up="onDataUp"
+    >
+    </organization-list>
   </ul>
 </template>
 <script>
@@ -46,14 +47,18 @@
     },
     data(){
       return {
-        expanded: false,
+        expanded: true,
         selectedId: 0,
-        
+        expandedAll: true
       }
     },
     watch: {
       selected(newVal) {
         this.selectedId = newVal;
+      },
+      expandAll(newVal){
+        this.expandedAll = newVal
+        this.expanded = newVal ? newVal : this.expanded
       }
     },
     methods: {
@@ -61,13 +66,9 @@
         this.selectedId = data.id;
         this.$emit('data-up', data);
       },
-      // getClass(item){
-      //   if(item.id==0){
-      //     return 'corp selected';
-      //   }
-      // },
       toggleNode() {
         this.expanded = !this.expanded;
+        this.expandedAll = false;
       },
     },
   };
@@ -81,7 +82,7 @@
   .sub_group {
     padding-left: 0;
     li {
-        padding-left: 12px;
+      padding-left: 12px;
     }
   }
 }

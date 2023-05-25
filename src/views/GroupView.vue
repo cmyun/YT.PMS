@@ -166,7 +166,6 @@ export default {
       this.openConf();
     },
     handleDelete(conf){
-      console.log(conf);
       if(conf){
         this.deleteGroup(this.selected);
         this.closeConf();
@@ -220,7 +219,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 a {
   text-decoration: none;
   color: #2c3e50;

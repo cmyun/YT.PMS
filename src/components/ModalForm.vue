@@ -37,7 +37,6 @@
                           <i class="hd">Nickname</i>
                           <div class="box">
                             <Field name="nickname" type="text" class="lw_input" placeholder="Nickname" v-model="form.nickname"/>
-                            
                           </div>
                           <ErrorMessage name="nickname" class="text_error"/>
                         </div>
@@ -46,7 +45,6 @@
                           <em class="emp">Required field</em>ID </i>
                           <div class="box">
                             <Field name="login_ID" type="text" class="lw_input" placeholder="ID" v-model="form.login_ID" rules="required"/>
-                            
                           </div>
                           <ErrorMessage name="login_ID" class="text_error"/>
                         </div>
@@ -56,7 +54,7 @@
                           </i>
                           <div class="box">
                             <Field  name="login_PW" type="password" class="lw_input w23" placeholder="Password" v-model="form.login_PW" rules="required"/>
-                            <button @click="generatePassword" class="lw_btn_point btn02">Automatic generation</button>
+                            <button type="button" :disabled="!form.login_ID" @click="generatePassword" class="lw_btn_point btn02">Automatic generation</button>
                           </div>
                           <ErrorMessage name="login_PW" class="text_error"/>
                         </div>
@@ -70,7 +68,6 @@
                               <select name="level_ID" id="member_type" class="lw_selectbox_source" v-model="form.level_ID">
                                 <option :value="level.id" v-for="level in levels" :key="level.id">{{ level.name }}</option>
                               </select>
-                              
                             </div>
                             <ErrorMessage name="level_ID" class="text_error"/>
                           </div>
@@ -85,7 +82,6 @@
                               <select name="position_ID" id="member_type" class="lw_selectbox_source" v-model="form.position_ID" rules="required">
                                 <option :value="position.id" v-for="position in positions" :key="position.id">{{ position.name }}</option>
                               </select>
-                              
                             </div>
                             <ErrorMessage name="position_ID" class="text_error"/>
                           </div>
@@ -104,7 +100,6 @@
                               <select name="type_ID" id="member_type" class="lw_selectbox_source" v-model="form.type_ID">
                                 <option :value="item.id" v-for="item in types" :key="item.id">{{ item.name }}</option>
                               </select>
-                              
                             </div>
                             <ErrorMessage name="type_ID" class="text_error"/>
                           </div>
@@ -114,7 +109,6 @@
                           <i class="hd">Office</i>
                           <div class="box">
                             <Field name="office" type="text" class="lw_input" placeholder="Office" v-model="form.office"/>
-                            
                           </div>
                           <ErrorMessage name="office" class="text_error"/>
                         </div>
@@ -123,7 +117,6 @@
                           <div class="box wrap_phone">
                             <div class="inp_phone">
                               <Field name="mobile" type="text" class="lw_input" placeholder="Phone number" v-model="form.mobile"/>
-                              
                             </div>
                             <ErrorMessage name="mobile" class="text_error"/>
                           </div>
@@ -161,7 +154,6 @@
                           <i class="hd">Remark</i>
                           <div class="box">
                             <textarea class="lw_textarea" v-model="form.remark" ></textarea>
-                            
                           </div>
                           <ErrorMessage name="number" class="text_error"/>
                         </div>
@@ -236,7 +228,8 @@ export default {
         isUse: true,
         isAdmin: false,
         remark: '',
-        note: ''
+        note: '',
+        token:'',
       },
       visibleOrg: false,
     }
@@ -275,18 +268,13 @@ export default {
       this.closeModalOrg();
     },
     generatePassword() {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let password = '';
-      for (let i = 0; i < 10; i++) {
-        password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      this.form.login_PW = password;
+      this.form.login_PW = this.form.login_ID + '!0a';
     }
   }
 };
 </script>
   
-<style lang="scss">
+<style scoped lang="scss">
 .text_error {
   color: red;
   display: block;

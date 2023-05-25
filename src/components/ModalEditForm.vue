@@ -4,7 +4,6 @@
     <div class="modal-container">
       <div class="modal-header">
         <h2>Edit member information</h2>
-        <!-- <button class="modal-close" @click="close">X</button> -->
       </div>
       <div class="modal-body">
         <Form @submit="submitForm">
@@ -38,7 +37,6 @@
                           <i class="hd">Nickname</i>
                           <div class="box">
                             <Field name="nickname" type="text" class="lw_input" placeholder="Nickname" v-model="form.nickname"/>
-                            
                           </div>
                           <ErrorMessage name="nickname" class="text_error"/>
                         </div>
@@ -106,7 +104,6 @@
                               <select name="type_ID" id="member_type" class="lw_selectbox_source" v-model="form.type_ID">
                                 <option :value="item.id" v-for="item in types" :key="item.id">{{ item.name }}</option>
                               </select>
-                              
                             </div>
                             <ErrorMessage name="type_ID" class="text_error"/>
                           </div>
@@ -116,7 +113,6 @@
                           <i class="hd">Office</i>
                           <div class="box">
                             <Field name="office" type="text" class="lw_input" placeholder="Office" v-model="form.office"/>
-                            
                           </div>
                           <ErrorMessage name="office" class="text_error"/>
                         </div>
@@ -125,7 +121,6 @@
                           <div class="box wrap_phone">
                             <div class="inp_phone">
                               <Field name="mobile" type="text" class="lw_input" placeholder="Phone number" v-model="form.mobile"/>
-                              
                             </div>
                             <ErrorMessage name="mobile" class="text_error"/>
                           </div>
@@ -134,7 +129,6 @@
                           <i class="hd">Personal Email</i>
                           <div class="box fm_email custom_type">
                             <Field name="email" type="text" class="lw_input email_id" placeholder="Personal Email"  v-model="form.email"/>
-                            
                           </div>
                           <ErrorMessage name="email" class="text_error"/>
                         </div>
@@ -164,7 +158,6 @@
                           <i class="hd">Remark</i>
                           <div class="box">
                             <textarea class="lw_textarea" v-model="form.remark" ></textarea>
-                            
                           </div>
                           <ErrorMessage name="number" class="text_error"/>
                         </div>
@@ -247,8 +240,7 @@ export default {
         remark: '',
         note: ''
       },
-      visibleOrg: false,
-      // selectedOrg: {}
+      visibleOrg: false
     }
   },
   computed: {
@@ -290,13 +282,11 @@ export default {
 };
 </script>
   
-<style lang="scss">
+<style scoped lang="scss">
 .text_error {
   color: red;
   display: block;
 }
-/* add */
-
 .btnAddOrg {
   position: absolute;
   width: 34px;

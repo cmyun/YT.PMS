@@ -1,47 +1,47 @@
 import { groupService } from '../../services';
 
 const state = {
-    status: null,
-    groups: []
+  status: null,
+  groups: []
 }
 
 const actions = {
-    getAll({ dispatch, commit }) {
-      groupService.getAll()
-        .then(
-          groups => {
-            commit('setGroups', groups);
-          },
-          error => {
-            dispatch('alert/error', error, { root: true });
-          }
-        );
-    },
-    deleteGroup({ dispatch, commit }, id) {
-      groupService.delete(id)
-        .then(
-          user => {
-            commit('deleteGroupSuccess', id);
-          },
-          error => {
-            commit('deleteGroupFailure', error)
-          },
-          error => {
-            dispatch('alert/error', error, { root: true });
-          }
-        );
-    },
-    addGroup({ dispatch, commit }, group) {
-      groupService.addGroup(group)
-        .then(
-          user => {
-            commit('addGroupSuccess', group);
-          },
-          error => {
-            dispatch('alert/error', error, { root: true });
-          }
-        );
-    },
+  getAll({ dispatch, commit }) {
+  groupService.getAll()
+    .then(
+      groups => {
+        commit('setGroups', groups);
+      },
+      error => {
+        dispatch('alert/error', error, { root: true });
+      }
+    );
+  },
+  deleteGroup({ dispatch, commit }, id) {
+    groupService.delete(id)
+      .then(
+        user => {
+          commit('deleteGroupSuccess', id);
+        },
+        error => {
+          commit('deleteGroupFailure', error)
+        },
+        error => {
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  },
+  addGroup({ dispatch, commit }, group) {
+    groupService.addGroup(group)
+      .then(
+        user => {
+          commit('addGroupSuccess', group);
+        },
+        error => {
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  },
 };
 
 const mutations = {

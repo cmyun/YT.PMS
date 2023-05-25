@@ -19,8 +19,9 @@
                         v-for="(node, index) in newOrganizations"
                         :node="node" 
                         :key="index"
-                        @data-up="onDataUp"
+                        :expandAll="true"
                         :selected = selectedId
+                        @data-up="onDataUp"
                       >
                       </organization-list>
                     </ul>
@@ -54,7 +55,6 @@
                               <span class="name_cover">
                                 <span class="name">{{ item.name + ' ' + item.id }}</span>
                               </span>
-                              <!-- <span class="team">{{ item.organization }}</span> -->
                             </div>
                           </div>
                         </div>
@@ -66,7 +66,6 @@
                   <div class="count">
                     <span>select {{ selectedArr.length }}</span>
                     <button type="button" class="btn_remove_all" @click="removeAll">
-                      <!-- <i class="blind">Deselect all </i> -->
                     </button>
                   </div>
                   <ul class="selected_list">
@@ -171,18 +170,6 @@ export default {
       this.$emit('submitData', this.selected);
     },
     onDataUp(data) {
-      // const a = '.modal1 .orgTree #id_'+data.id;
-      // document.querySelector(a).className="treeItem selected";
-      // const arr = document.querySelectorAll('.modal1 .orgTree .treeItem');
-      // arr.forEach(element => {
-      //   if(element.classList.contains("selected")&&(element.id!='id_'+data.id)){
-      //     element.className = "treeItem";
-
-      //   }
-      //   if(element.id=='id_0'){
-      //     element.classList.add('corp');
-      //   }
-      // });
       this.selectedId = data.id;
       this.getMembersByOrg(data.id);
 
@@ -229,11 +216,11 @@ export default {
   }
 }
 </script>
-<style scope lang="scss">
+<style scoped lang="scss">
 .ly_organization02 {
   padding-bottom: 84px !important;
 }
 .selected_list_box02 {
-    padding: 0 0 0 111px !important;
+  padding: 0 0 0 111px !important;
 }
 </style>
