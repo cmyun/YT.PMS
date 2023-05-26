@@ -59,10 +59,10 @@ const mutations = {
     state.groups = filteredData;
   },
   deleteGroupFailure(state, error) {
-    state.status = error;
+    state.status = {};
   },
-  getGroupsFailure(state) {
-    state.groups = [];
+  addGroupFailure(state, group) {
+    state.status = {};
   },
 };
 

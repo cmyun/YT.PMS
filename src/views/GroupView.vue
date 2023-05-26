@@ -1,6 +1,8 @@
 <template>
   <div class="contact">
-    <Header/>
+    <Header
+      :title="'Admin'"
+    />
     <Sidebar/>
     <div id="container">
       <div id="content" class="contents fix_layout">

@@ -6,57 +6,30 @@
         <div id="modal-root">
           <div class="ly_wrap dimmed en_US ua_win">
             <div class="ly_common ly_page ly_organization ly_organization02 freeplan">
-              <div class="tit_box"><h3 class="tit">Select {{title}}(s)</h3></div>
+              <div class="tit_box"><h3 class="tit">Select {{title}}(s) <em class="cnt">{{ users.length }}</em></h3></div>
               <div class="btn_box">
                 <button type="button" class="lw_btn" @click="close">Cancel</button>
                 <button class="lw_btn_point">OK</button>
               </div>
               <div class="org_container">
+                <!-- {{ users }} -->
                 <div class="member_view">
-                  <section class="organization">
-                    <ul class="org_tree">
-                      <organization-list 
-                        v-for="(node, index) in newOrganizations"
-                        :node="node" 
-                        :key="index"
-                        :expandAll="true"
-                        :selected = selectedId
-                        @data-up="onDataUp"
-                      >
-                      </organization-list>
-                    </ul>
-                  </section>
                   <section class="fix_contents member_list">
-                    <div class="fix_head memlist_head">
-                      <div class="list_head">
-                        <h1>
-                          <span class="check_cover">
-                            <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
+                    <div class="lw_table tb_cols_memberlist">
+                      <div class="lw_tr" :class="{selected: selected.includes(item.id)}" v-for="item in users" :key="item">
+                        <div class="lw_td check">
+                          <input type="checkbox" class="lw_checkbox" :name="item.id" :value="item.id" :id="item.id" v-model="selected" @change='updateCheckall()'>
+                        </div>
+                        <div class="lw_td profile">
+                          <span class="thumb_cover">
+                            <img src="../assets/img_profile.png" alt="">
                           </span>
-                          <span class="group_name">{{ group.name }}</span>
-                          <em class="cnt">{{ members.length }}</em>
-                        </h1>
-                      </div>
-                    </div>
-                    <div class="fix_body">
-                      <div class="lw_table_scoll">
-                        <div class="lw_table tb_cols_memberlist">
-                          <div class="lw_tr" :class="{selected: selected.includes(item.id)}" v-for="item in members" :key="item">
-                            
-                            <div class="lw_td check">
-                              <input type="checkbox" class="lw_checkbox" :name="item.id" :value="item.id" :id="item.id" v-model="selected" @change='updateCheckall()'>
-                            </div>
-                            <div class="lw_td profile">
-                              <span class="thumb_cover">
-                                <img src="../assets/img_profile.png" alt="">
-                              </span>
-                            </div>
-                            <div class="lw_td user_name">
-                              <span class="name_cover">
-                                <span class="name">{{ item.name }}</span>
-                              </span>
-                            </div>
-                          </div>
+                        </div>
+                        <div class="lw_td user_name">
+                          <span class="name_cover">
+                            <span class="name">{{ item.name }}</span>
+                          </span>
+                          <span class="team">{{ item.login_ID }}</span>
                         </div>
                       </div>
                     </div>
@@ -108,18 +81,18 @@ export default {
     return {
       selected: [],
       selectedArr: [],
-      selectAll: false,
+      // selectAll: false,
       dataIds: [],
       selectedId: 0
     }
   },
   components: {
-    OrganizationList
+    // OrganizationList
   },
   computed: {
     ...mapState('organizations', ['organizations']),
     ...mapState('group', ['group']),
-    ...mapState('members', ['members']),
+    ...mapState('users', ['users']),
     ...mapState('organizations', ['organizations']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
@@ -130,13 +103,13 @@ export default {
   },
   watch: {
     dataSelected(newVal) {
-    this.selectAll = this.members.length == this.selected.length ? true : false;
-    this.selected = newVal.map(obj => obj.user_ID)
-    this.selectedArr = this.getCommonElements(this.members, newVal)
-  },
+      // this.selectAll = this.members.length == this.selected.length ? true : false;
+      this.selected = newVal.map(obj => obj.user_ID)
+      this.selectedArr = this.getCommonElements(this.members, newVal)
+    },
   },
   methods: {
-    ...mapActions('members', ['getMembersByOrg']),
+    // ...mapActions('members', ['getMembersByOrg']),
     buildTree(data, parent, level) {
       const tree = [];
       for (let i = 0; i < data.length; i++) {
@@ -176,25 +149,25 @@ export default {
     },
     onDataUp(data) {
       this.selectedId = data.id;
-      this.getMembersByOrg(data.id);
+      // this.getMembersByOrg(data.id);
     },
-    checkAll(){
-      this.selected = [];
-      this.selectedArr = [];
-      if (!this.selectAll) {
-        for (let i in this.members) {
-          this.selected.push(this.members[i].id);
-        }
-        this.selectedArr = this.members;
-      }
-    },
+    // checkAll(){
+    //   this.selected = [];
+    //   this.selectedArr = [];
+    //   if (!this.selectAll) {
+    //     for (let i in this.members) {
+    //       this.selected.push(this.members[i].id);
+    //     }
+    //     this.selectedArr = this.members;
+    //   }
+    // },
     updateCheckall(){
-      if(this.members.length == this.selected.length){
-        this.selectAll = true;
-        this.selectedArr = this.members;
+      if(this.users.length == this.selected.length){
+        // this.selectAll = true;
+        this.selectedArr = this.users;
       }else{
-        this.selectAll = false;
-        this.selectedArr = this.members.filter(item => this.selected.includes(item.id));
+        // this.selectAll = false;
+        this.selectedArr = this.users.filter(item => this.selected.includes(item.id));
       }
     },
     deleteIem(id){
@@ -205,7 +178,7 @@ export default {
       this.updateCheckall();
     },
     removeAll(){
-      this.selectAll = false
+      // this.selectAll = false
       this.selected = []
       this.selectedArr = []
     },
@@ -226,5 +199,15 @@ export default {
 }
 .selected_list_box02 {
   padding: 0 0 0 111px !important;
+}
+.tb_cols_memberlist {
+    margin-top: 0;
+}
+.org_container {
+  height: 362px;
+}
+.member_view {
+  height: 300px;
+  overflow-y: auto;
 }
 </style>

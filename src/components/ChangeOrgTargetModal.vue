@@ -1,5 +1,4 @@
 <template>
-  <!-- {{ findAllIds(node) }} -->
   <li :data-id="node.id" :class="{ 'fold': !expanded}">
     <span class="tree_item" :class="{closed: selected.includes(node.id)}">
       <span class="check_cover">
@@ -22,8 +21,8 @@
         v-for="(child, index) in node.children"
         :key="index"
         :node="child"
-        @child-check="handleCheck"
         :selected="selected"
+        @child-check="handleCheck"
       >
       </change-org-target-modal>
     </ul>
@@ -47,7 +46,7 @@ export default {
   data(){
     return {
       selectedId: null,
-      expanded: false
+      expanded: true
     }
   },
   methods: {

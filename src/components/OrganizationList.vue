@@ -1,5 +1,5 @@
 <template>
-  <li :class="[{'fold': (!expanded && !expandedAll )}]">
+  <li :class="[{'fold': (!expanded)}]">
     <span :id="'id_'+node.id" 
     :class="[
         'tree_item',
@@ -13,14 +13,13 @@
       <a href="javascript:void(0)" class="group_name" @click="onDataUp(node)">{{ node.name }}</a>
     </span>
   </li>  
-  <ul class="sub_group" v-show="(expanded || expandedAll)">
+  <ul class="sub_group" v-show="(expanded)">
     <organization-list 
       v-for="(child, index) in node.children" 
       :key="index"
       :node="child"
       :treeData="node.children" 
       :selected="selected"
-      :expandedAll="expandedAll"
       @data-up="onDataUp"
     >
     </organization-list>
@@ -40,16 +39,11 @@
         type: Number,
         required: true
       },
-      expandAll: {
-        type: Boolean,
-        default: false
-      }
     },
     data(){
       return {
         expanded: true,
         selectedId: 0,
-        expandedAll: true
       }
     },
     watch: {
@@ -57,7 +51,6 @@
         this.selectedId = newVal;
       },
       expandAll(newVal){
-        this.expandedAll = newVal
         this.expanded = newVal ? newVal : this.expanded
       }
     },
@@ -68,7 +61,6 @@
       },
       toggleNode() {
         this.expanded = !this.expanded;
-        this.expandedAll = false;
       },
     },
   };

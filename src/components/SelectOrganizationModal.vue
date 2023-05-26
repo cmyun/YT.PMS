@@ -19,11 +19,11 @@
                   <h1 class="corp_name"></h1>
                   <ul class="org_tree">
                     <change-org-target-modal 
-                        v-for="(node, index) in data"
-                        :node="node" 
-                        :key="index"
-                        :selected="selected2"
-                        @child-check="updateTargetOrg"
+                      v-for="(node, index) in data"
+                      :node="node" 
+                      :key="index"
+                      :selected="selected2"
+                      @child-check="updateTargetOrg"
                     >
                     </change-org-target-modal>
                   </ul>
@@ -127,5 +127,8 @@ export default {
 }
 .modal2 .lw_radio:checked {
   color: #157efb;
+}
+.lw_radio {
+  clip: initial;
 }
 </style>

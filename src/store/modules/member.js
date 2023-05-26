@@ -24,6 +24,7 @@ const actions = {
           commit('updateSuccess', user);
         },
         error => {
+          commit('updateFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -36,6 +37,9 @@ const mutations = {
   },
   updateSuccess(state, member) {
     state.member = member
+  },
+  updateFailure(state, error) {
+    state.status = {}
   },
 };
 

@@ -21,15 +21,15 @@ const actions = {
       );
   },
   getGroupMasters({ dispatch, commit }, id) {
-  groupService.getGroupMasters(id)
-    .then(
-      group => {
-        commit('setGroupMasters', group);
-      },
-      error => {
-        dispatch('alert/error', error, { root: true });
-      }
-    );
+    groupService.getGroupMasters(id)
+      .then(
+        group => {
+          commit('setGroupMasters', group);
+        },
+        error => {
+          dispatch('alert/error', error, { root: true });
+        }
+      );
   },
   getGroupMembers({ dispatch, commit }, id) {
     groupService.getGroupMembers(id)
@@ -60,6 +60,7 @@ const actions = {
           commit('updateGroupMastersSuccess', group);
         },
         error => {
+          commit('updateGroupMastersFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -71,6 +72,7 @@ const actions = {
           commit('updateGroupSuccess', group);
         },
         error => {
+          commit('updateGroupFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -98,6 +100,12 @@ const mutations = {
   },
   updateGroupSuccess(state, group) {
     state.group = group
+  },
+  updateGroupFailure(state, error) {
+    state.status = {};
+  },
+  updateGroupMastersFailure(state, error) {
+    state.status = {};
   },
 };
 

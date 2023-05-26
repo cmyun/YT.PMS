@@ -20,22 +20,22 @@
           <ErrorMessage name="name" class="text_error"/>
         </div>
         <div class="inp">
-          <Field type="text" placeholder="Nickname" v-model="user.nickname" name="nickname" rules="required"/>
+          <input type="text" placeholder="Nickname" v-model="user.nickname" name="nickname" rules="required"/>
         </div>
         <div class="inp">
-          <Field type="text" placeholder="Office" v-model="user.office" name="office"/>
+          <input type="text" placeholder="Office" v-model="user.office" name="office"/>
         </div>
         <div class="inp">
-          <Field type="text" placeholder="Mobile" v-model="user.mobile" name="mobile"/>
+          <input type="text" placeholder="Mobile" v-model="user.mobile" name="mobile"/>
         </div>
         <div class="inp">
           <Field type="email" placeholder="Email" v-model="user.email" name="email" rules="email"/>
           <ErrorMessage name="email" class="text_error"/>
         </div>
         <div class="btn_lg">
-          <button class="btn btn-dark w-100">Sign up</button>
+          <button class="login_normal">Sign up</button>
         </div>
-        <p class="text-center mb-3">Already a member? <router-link to="/login">Login</router-link></p>
+        <p class="text-center">Already a member? <router-link to="/login">Login</router-link></p>
       </Form>
     </div>
   </div>
@@ -85,10 +85,10 @@ export default {
   },
   methods: {
     ...mapActions('account', ['register']),
-    handleSubmit(e) {
-        const user = this;
-        this.submitted = true;
-        this.register(this.user);
+    handleSubmit() {
+      const user = this;
+      this.submitted = true;
+      this.register(this.user);
     }
   },
   mounted() {

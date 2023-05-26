@@ -1,6 +1,8 @@
 <template>
   <div class="contact wrap">
-    <Header/>
+    <Header
+      :title="'Admin'"
+    />
     <Sidebar/>
     <div id="container">
       <div id="content" class="contents fix_layout">
@@ -22,11 +24,6 @@
             <div class="fix_head">
               <div class="listHead list_head">
                 <h1><span class="groupName">Total</span><em class="cnt">{{organizations.length}}</em></h1>
-                <div class="taskArea">
-                  <button type="button" class="btnSearch">
-                    <i class="bi bi-search"></i>
-                  </button>
-                </div>
               </div>
             </div>
             <div class="fix_body">

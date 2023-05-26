@@ -1,6 +1,8 @@
 <template>
   <div class="contact sub_page wrap">
-    <Header/>
+    <Header
+      :title="'Admin'"
+    />
     <Sidebar/>
     <div id="container">
       <div id="content" class="contents sub">

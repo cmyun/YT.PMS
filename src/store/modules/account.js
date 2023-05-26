@@ -27,7 +27,6 @@ const actions = {
   },
   register({ dispatch, commit }, user) {
     commit('registerRequest', user);
-  
     userService.register(user)
       .then(
         user => {
@@ -43,7 +42,6 @@ const actions = {
         }
       );
   },
-    
 };
 
 const mutations = {

@@ -6,6 +6,9 @@
           <img src="../assets/btn_toggle.svg" alt="">
         </button>
       </div>
+      <h1 id="logo">
+        {{ title }}
+      </h1>
     </div>
     <div class="gnb_list_box">
       <ul>
@@ -105,6 +108,12 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   name: "HeaderView",
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       navActive: false
@@ -140,6 +149,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+}
+#logo {
+  font-size: 24px;
+  color: #FFF;
+  margin-bottom: 0;
 }
 .gnb_list_box ul {
   display: flex;
@@ -238,6 +252,7 @@ export default {
 .toggle_lnb {
   width: 32px;
   height: 32px;
+  margin-right: 25px;
   button {
     width: 100%;
     height: 100%;

@@ -2,7 +2,7 @@
 	<div id="sidebar" class="lnb">
 		<div class="sidebarCover lnb_cover">
 			<div class="menuBox">
-				<ul class="menuList">
+				<ul class="menuList" v-if="type=='admin'">
 					<li>
 						<router-link to="/member" class="item">
 							<span class="icon iconMember"></span>
@@ -22,6 +22,14 @@
 						</router-link>
 					</li>
 				</ul>
+        <ul class="menuList" v-if="type=='user-info'">
+					<li>
+						<router-link to="/settings" class="item">
+							<span class="icon iconMember"></span>
+							<span class="itemTxt">My Info</span>
+						</router-link>
+					</li>
+        </ul>
 			</div>
 		</div>
 	</div>
@@ -29,7 +37,13 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: "SidebarView"
+  name: "SidebarView",
+  props: {
+    type: {
+      type: String,
+      default: 'admin'
+    }
+  }
 }
 </script>
 <style scoped lang="scss">

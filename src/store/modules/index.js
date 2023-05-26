@@ -5,6 +5,7 @@ import { alert } from './modules/alert';
 import { account } from './modules/account';
 import { members } from './modules/members';
 import { member } from './modules/member';
+import { users } from './modules/users';
 import { positions } from './modules/positions';
 import { types } from './modules/types';
 import { levels } from './modules/levels';
@@ -21,6 +22,7 @@ export const store = new Vuex.Store({
     account,
     members,
     member,
+    users,
     positions,
     types,
     levels,

@@ -1,7 +1,11 @@
 <template>
   <div class="contact sub_page wrap">
-    <Header/>
-    <Sidebar/>
+    <Header
+      :title="'Settings'"
+    />
+    <Sidebar
+      :type="'user-info'"
+    />
     <div id="container">
       <div id="content" class="contents sub">
         <div class="contentsHead contents_head">
@@ -143,7 +147,6 @@ export default {
   },
   watch: {
     member(newVal) {
-      console.log(newVal)
       this.userInfo = newVal
     }
   },
@@ -152,7 +155,6 @@ export default {
     ...mapActions('member', ['updateUser']),
     ...mapActions('account', ['register']),
     handleSubmit(e) {
-      console.log(this.userInfo)
       this.updateUser(this.userInfo);
     },
   }

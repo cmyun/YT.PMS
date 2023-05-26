@@ -1,12 +1,12 @@
 <template>
   <div class="modal1" v-if="visible">
       <div class="modal-body">
-        <Form @submit.prevent="submitForm">
+        <Form @submit="submitForm">
           <div id="modal-root">
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
                 <div class="tit_box">
-                  <h3 class="tit">Add group </h3>
+                  <h3 class="tit">Add group</h3>
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
@@ -29,7 +29,7 @@
                       <div class="infor">
                         <p class="txt">
                           <span>
-                            <em class="emp">Required fields</em>Group name </span>
+                            <em class="emp">Required fields</em>Group name</span>
                         </p>
                         <div class="name_box">
                           <input type="text" class="lw_input" placeholder="Group name" v-model="form.name">
@@ -45,7 +45,7 @@
                     <div class="body">
                       <div class="field">
                         <i class="hd">
-                          <em class="emp">Required field</em>Master(s) </i>
+                          <em class="emp">Required field</em>Master(s)</i>
                         <div class="box srch_member">
                           <div class="task">
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
@@ -55,7 +55,7 @@
                       </div>
                       <div class="field">
                         <i class="hd">
-                          <em class="emp">Required field</em>Member(s) </i>
+                          <em class="emp">Required field</em>Member(s)</i>
                         <div class="box srch_member">
                           <div class="task">
                             <input type="text" class="lw_input" autocomplete="off" placeholder="Search by name or ID" value="">
@@ -72,6 +72,7 @@
             <select-members-modal
               :visible="visibleSelectMembers"
               :dataSelected="selectMembersData"
+              :title="memberModalType"
               @close="closeSelectMembersModal"
               @submitData="handleSubmitMembers"
             >
@@ -143,7 +144,6 @@ export default {
     },
     closeSelectMembersModal(){
       this.visibleSelectMembers = false;
-      
     },
     handleSubmitMembers(data){
       if(this.memberModalType=='master'){

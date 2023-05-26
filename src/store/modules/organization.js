@@ -21,9 +21,9 @@ const actions = {
         org => {
           commit('setOrgMembers', org);
         },
-        error => {
-          commit('getOrgMembersFailure', error);
-        }
+        // error => {
+        //   commit('getOrgMembersFailure', error);
+        // }
       );
   },
   updateOrganization({ dispatch, commit }, organization) {
@@ -33,6 +33,7 @@ const actions = {
           commit('updateOrganizationSuccess', organization);
         },
         error => {
+          commit('updateOrganizationFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -44,6 +45,7 @@ const actions = {
           commit('updateOrganizationSuccess', organization);
         },
         error => {
+          commit('updateHeadOrganizationFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -54,18 +56,21 @@ const mutations = {
     setOrganization(state, organization) {
       state.organization = organization
     },
-    updateOrganizationSuccess(state, organization) {
-      state.organization = organization
-    },
     setOrgMembers(state, orgMembers) {
       state.orgMembers = orgMembers
     },
     setOrgHead(state, orgHead) {
       state.orgHead = orgHead
     },
-    getOrgMembersFailure(state){
-      state.orgMembers = [];
-    }
+    // getOrgMembersFailure(state){
+    //   state.orgMembers = [];
+    // },
+    updateOrganizationFailure(state, error) {
+      state.status = {}
+    },
+    updateHeadOrganizationFailure(state, error) {
+      state.status = {}
+    },
 };
 
 export const organization = {

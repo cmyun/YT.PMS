@@ -1,5 +1,5 @@
 <template>
-  <div v-if="message" :class="`alert ${type}`">{{message}}</div>
+  <div v-if="message && typeof message == 'string'" :class="`alert ${type}`">{{message}}</div>
   <router-view />
 </template>
 <script>
@@ -23,8 +23,7 @@ export default {
         this.clear()
         }, 6000);
     }
-  },
-  
+  }
 };
 </script>
 <style lang="scss">
@@ -6721,15 +6720,6 @@ a {
 .memberView {
   display: flex;
   .organization {
-    // flex: 0 0 auto;
-    // width: 240px;
-    // position: relative;
-    // border: 1px solid #e5e5e6;
-    // box-sizing: border-box;
-    // border-right: 0;
-    // min-height: 0;
-    // min-width: 0;
-    // padding: 13px;
     ul {
       padding-left: 0;
     }
@@ -6781,7 +6771,7 @@ a {
   display: table-cell;
   padding: 10px 10px 10px 0;
   box-sizing: border-box;
-  
+  vertical-align: middle;
   &.move {
     width: 10px;
   }

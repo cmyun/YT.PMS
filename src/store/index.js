@@ -3,6 +3,7 @@ import { account } from './modules/account';
 import { alert } from './modules/alert';
 import { members } from './modules/members';
 import { member } from './modules/member';
+import { users } from './modules/users';
 import { positions } from './modules/positions';
 import { types } from './modules/types';
 import { levels } from './modules/levels';
@@ -17,6 +18,7 @@ export default createStore({
     alert,
     members,
     member,
+    users,
     positions,
     types,
     levels,

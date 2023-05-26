@@ -1,7 +1,7 @@
 <template>
   <div class="modal1" v-if="visible">
       <div class="modal-body">
-        <Form @submit.prevent="submitForm">
+        <Form @submit="submitForm">
           <div id="modal-root">
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
@@ -226,15 +226,12 @@ export default {
       if (oldName === newName) {
         return obj;
       }
-      
       if (Object.prototype.hasOwnProperty.call(obj, oldName)) {
         obj[newName] = obj[oldName];
         delete obj[oldName];
       }
-      
       return obj;
     }
-    
   },
   watch: {
     group(newVal) {

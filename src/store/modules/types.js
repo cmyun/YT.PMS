@@ -4,7 +4,6 @@ const state = {
   status: null,
   types: []
 }
-
 const actions = {
   getTypes({ commit }) {
     positionService.getTypes()
@@ -15,13 +14,11 @@ const actions = {
       );
   }
 };
-
 const mutations = {
   setTypes(state, types) {
     state.types = types
   }
 };
-
 export const types = {
   namespaced: true,
   state,

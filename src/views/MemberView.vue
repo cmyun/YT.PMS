@@ -1,16 +1,18 @@
 <template>
   <div class="contact wrap">
-    <Header/>
+    <Header
+      :title="'Admin'"
+    />
     <Sidebar/>
     <div id="container">
       <div id="content" class="contents fix_layout">
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Member</span></h3>
-          
           <div class="task_area">
+            <button type="button" class="btn_save" @click="refreshHandle">Refresh</button>
             <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
             <button type="button" class="btn_cancel" @click="openModal">Add members</button>
-            <button type="button" class="btn_save" >Approval</button>
+            <button type="button" class="btn_save" @click="openSelectApproval">Approval</button>
           </div>
         </div>
         <div class="contentsBody contents_body">
@@ -31,17 +33,7 @@
             <div class="fix_contents member_list">
               <div class="fix_head memlist_head">
                 <div class="listHead list_head">
-                  <h1><span class="groupName">{{user.name}}</span><em class="cnt">{{members.length}}</em></h1>
-                  <div class="taskArea">
-                    <button type="button" class="btnSearch">
-                      <i class="bi bi-search"></i>
-                    </button>
-                    <div class="btnCombo ms-3">
-                      <button type="button" class="btnFilter">
-                        <i class="bi bi-filter"></i>
-                      </button>
-                    </div>
-                  </div>
+                  <h1><strong class="groupName">{{getOrganizationName(selectedId)}}</strong><em class="cnt">{{members.length}}</em></h1>
                 </div>
               </div>
               <div class="fixBody fix_body">
@@ -52,7 +44,7 @@
                       <label for="default-id-3-all"></label>
                     </div>
                     <div class="lwTh profile"></div>
-                    <div class="lwTh userName">First name</div>
+                    <div class="lwTh userName">Name</div>
                     <div class="lwTh title">Level</div>
                     <div class="lwTh status">Account Status</div>
                     <div class="lwTh detail">Remark</div>
@@ -68,18 +60,18 @@
                         <div class="lwTd profile">
                           <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
                         </div>
-                        <div class="lwTd userName">
-                          <span class="nameCover">
+                        <div class="lwTd userName user_name">
+                          <span class="name_cover">
                             <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
                             <span class="name_en"></span>
                           </span>
-                          <span class="team"></span>
+                          <span class="team">{{ getOrganizationName(member.organization_ID) }}</span>
                         </div>
                         <div class="lwTd title">
-                          <span class="ellipsis_element">{{ member.position_ID }}</span>
+                          <span class="ellipsis_element">{{ member.level }}</span>
                         </div>
                         <div class="lwTd status">
-                          <span class="msg using">{{member.isUse ? 'In use' : ''}}</span>
+                          <span class="msg using">{{member.status}}</span>
                         </div>
                         <div class="lwTd detail"></div>
                       </div>
@@ -93,19 +85,26 @@
       </div>
     </div>
     <modal-form :title="title" :visible="visible" @close="closeModal" 
-      @submit="submitForm" >
+      @submit="submitForm">
     </modal-form>
     <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
       @confirm="handleDelete">
     </confirmation-box>
+    <select-approval
+      :visible="visibleSelectApproval"
+      :dataSelected="users"
+      @close="closeSelectApproval"
+      @submitData="handleSubmitApproval"
+    >
+    </select-approval>
   </div>
 </template>
 
 <script>
-
 import Header from "@/components/Header.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import ModalForm from '@/components/ModalForm.vue';
+import SelectApproval from "@/components/SelectApproval.vue";
 import ConfirmationBox from '@/components/ConfirmationBox.vue';
 import ElMessageBox from '@/components/ElMessageBox.vue';
 import OrganizationList from "@/components/OrganizationList.vue";
@@ -118,6 +117,7 @@ export default {
     Sidebar,
     OrganizationList,
     ModalForm,
+    SelectApproval,
     ConfirmationBox,
   },
   data(){
@@ -127,7 +127,8 @@ export default {
       title: 'Modal Form',
       visible: false,
       visibleConf: false,
-      selectedId: 0
+      selectedId: 0,
+      visibleSelectApproval: false
     }
   },
   computed: {
@@ -136,6 +137,7 @@ export default {
     ...mapState('positions', ['positions']),
     ...mapState('account', ['user']),
     ...mapState('members', ['status']),
+    ...mapState('users', ['users']),
 
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
@@ -146,6 +148,7 @@ export default {
     this.getMembersByOrg(0);
     this.getOrganizations();
     this.getPositions();
+    this.getUsers();
   },
   methods: {
     ...mapActions('members', ['getMembersByOrg']),
@@ -153,6 +156,8 @@ export default {
     ...mapActions('positions', ['getPositions']),
     ...mapActions('members', ['addMember']),
     ...mapActions('members', ['deleteMember']),
+    ...mapActions('users', ['getUsers']),
+    ...mapActions('users', ['addUsers']),
     checkAll(){
       this.selected = [];
       if (!this.selectAll) {
@@ -214,7 +219,6 @@ export default {
     },
     submitForm(data){
       this.addMember(data);
-      console.log(this.status)
       if(!this.status){
         this.closeModal();
       }
@@ -238,6 +242,24 @@ export default {
         }
       });
       return nameList;
+    },
+    getOrganizationName(id){
+      const organization = this.organizations.find((item) => item.id === id);
+      return organization.name;
+    },
+    refreshHandle(){
+      this.getMembersByOrg(this.selectedId);
+    },
+    openSelectApproval(){
+      this.visibleSelectApproval = true
+    },
+    closeSelectApproval(){
+      this.visibleSelectApproval = false
+    },
+    handleSubmitApproval(data){
+      console.log(data);
+      // this./user-management/users/approval
+      this.addUsers(data);
     }
   }
 };
@@ -247,8 +269,10 @@ export default {
     text-decoration: none;
     color: #2c3e50;
   }
-
   .lw_table_scoll .tb_cols_memberlist {
     flex: 0 1 auto;
+  }
+  .name {
+    font-weight: bold;
   }
 </style>

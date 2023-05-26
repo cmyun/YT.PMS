@@ -8,6 +8,8 @@ export const userService = {
   getAll,
   getById,
   getInfoById,
+  getUsers,
+  addUsers,
   getByOrg,
   update,
   delete: _delete
@@ -54,7 +56,6 @@ function addMember(user) {
     },
     body: JSON.stringify(user)
   };
-  
   return fetch(`${apiUrl}/user-management/users`, requestOptions).then(handleResponse);
 }
 function getAll() {
@@ -77,6 +78,23 @@ function getInfoById(id) {
     headers: authHeader()
   };
   return fetch(`${apiUrl}/user-management/users/${id}/details`, requestOptions).then(handleResponse);
+}
+function getUsers(id) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  };
+  return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
+}
+function addUsers(ids){
+  const requestOptions = {
+    method: 'POST',
+    headers: { 
+      ...authHeader(), 
+      'Content-Type': 'application/json' },
+    body: JSON.stringify(ids)
+  };
+  return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
 }
 function getByOrg(orgId) {
   const requestOptions = {
@@ -111,11 +129,13 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        // logout();
-        // location.reload(true);
+        logout();
+        location.reload(true);
       }
       // const error = (data && data.message) || response.statusText;
-      const error = data || response.statusText;
+      const error = data;
+      console.log(response);
+      console.log(data);
       return Promise.reject(error);
     }
     return data;
