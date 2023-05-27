@@ -22,8 +22,8 @@
                   <div class="name_box">
                     <h4 class="name">{{ group.name }}</h4>
                   </div>
-                  <p class="caption">1</p>
-                  <button type="button" @click="deleteGroup(group.id)">
+                  <!-- <p class="caption">1</p> -->
+                  <button type="button" @click="openConf">
                     <em>Delete group</em>
                   </button>
                 </div>
@@ -65,13 +65,13 @@
                     </div>
                     <div class="infor" style="cursor: pointer;">
                       <div class="name_box">
-                        <strong class="name">{{ member.userName }}</strong>
+                        <strong class="name">{{ '' + member.userName }}</strong>
                       </div>
                       <div class="txt">
-                        <span class="email">{{ member.position + '/ ' + member.level }}</span>
+                        <span class="email">{{ member.level + '/ ' + member.position + '/ ' + member.organization }}</span>
                       </div>
                     </div>
-                    <span class="master">{{ member.isMaster ? 'Master(s)' : '' }}</span>
+                    <span class="master">{{ member.master }}</span>
                   </li>
                 </ul>
               </div>
@@ -88,11 +88,15 @@
         </edit-group-modal>
         <group-master-modal :title="'title'" 
           :visible="visibleMasterModal" 
-          :masterIds="groupMasters.map(obj => obj.id)"
+          :masterIds="groupWhole.filter(obj => obj.isMaster).map(obj => obj.id)"
           @close="closeGroupMasterModal" 
           @submitMaster="handleSubmitMasters"
           >
         </group-master-modal>
+        <confirmation-box :visible="visibleConf"
+          @close="closeConf" 
+          @confirm="handleDelete">
+        </confirmation-box>
       </div>
     </div>
   </div>
@@ -100,6 +104,7 @@
 <script>
 import EditGroupModal from '@/components/EditGroupModal.vue';
 import GroupMasterModal from '@/components/GroupMasterModal.vue';
+import ConfirmationBox from '@/components/ConfirmationBox.vue';
 import {mapState, mapActions} from 'vuex';
 export default {
   name: 'GroupDetailModal',
@@ -111,10 +116,12 @@ export default {
   },
   components: {
     EditGroupModal,
-    GroupMasterModal
+    GroupMasterModal,
+    ConfirmationBox
   },
   computed: {
     ...mapState('group', ['group']),
+    ...mapState('group', ['status']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
@@ -123,11 +130,14 @@ export default {
     return {
       visibleEdit: false,
       activeTab: 'tab1',
-      visibleMasterModal: false
+      visibleMasterModal: false,
+      visibleConf: false,
+
     }
   },
   methods: {
     ...mapActions('group', ['updateGroupMasters']),
+    ...mapActions('groups', ['deleteGroup']),
     close() {
       this.$emit('close');
     },
@@ -149,14 +159,38 @@ export default {
       this.updateGroupMasters({
         group: group, 
         ids: selected})
-      this.closeGroupMasterModal();
+      setTimeout(() => {
+        this.status == null ? this.closeGroupMasterModal() : '';
+      }, 1000);
     },
-    deleteGroup(id){
-      this.$emit('delete', id);
-    },
+    // deleteGroup(id){
+    //   this.$emit('delete', id);
+    // },
     submitEditGroup(){
       
-    }
+    },
+    handleDelete(conf){
+      if(conf){
+        this.deleteGroup([this.group.id]);
+        setTimeout(() => {
+          if(this.status == null){
+            this.closeConf();
+            this.selected = [];
+          }
+          if(this.visibleDetail){
+            this.closeGroupDetail();
+          }
+        }, 1000);
+        
+        
+      }
+    },
+    closeConf(){
+      this.visibleConf = false;
+    },
+    openConf(){
+      this.visibleConf = true;
+    },
   }
 }
 </script>
@@ -166,4 +200,5 @@ export default {
   display: block;
   border: none;
 }
+
 </style>

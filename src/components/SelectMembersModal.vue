@@ -33,7 +33,7 @@
                           <span class="check_cover">
                             <input type="checkbox" class="lw_checkbox" v-model="selectAll" @click="checkAll()">
                           </span>
-                          <span class="group_name">{{ group.name }}</span>
+                          <span class="group_name">{{ getOrganizationName(this.selectedId) }}</span>
                           <em class="cnt">{{ members.length }}</em>
                         </h1>
                       </div>
@@ -53,7 +53,8 @@
                             </div>
                             <div class="lw_td user_name">
                               <span class="name_cover">
-                                <span class="name">{{ item.name }}</span>
+                                <span class="name"><strong>{{ item.name }}</strong></span>
+                                <span class="team">{{ item.organizationName }}</span>
                               </span>
                             </div>
                           </div>
@@ -130,10 +131,10 @@ export default {
   },
   watch: {
     dataSelected(newVal) {
-    this.selectAll = this.members.length == this.selected.length ? true : false;
-    this.selected = newVal.map(obj => obj.user_ID)
-    this.selectedArr = this.getCommonElements(this.members, newVal)
-  },
+      this.selectAll = this.members.length == this.selected.length ? true : false;
+      this.selected = newVal.map(obj => obj.user_ID)
+      this.selectedArr = this.getCommonElements(this.members, newVal)
+    },
   },
   methods: {
     ...mapActions('members', ['getMembersByOrg']),
@@ -172,7 +173,20 @@ export default {
       this.$emit('close');
     },
     submitForm() {
-      this.$emit('submitData', this.selected);
+      const memList = this.members.filter(item=>this.selected.includes(item.id));
+      const arr = [];
+      console.log(this.members)
+      memList.forEach(obj => {
+        arr.push({
+          'user_ID': obj.id,
+          'userName': obj.name,
+          'organization': obj.organizationName,
+          'level': obj.level,
+          'position': obj.position,
+        })
+      });
+      console.log(arr);
+      this.$emit('submitData', this.selected, arr);
     },
     onDataUp(data) {
       this.selectedId = data.id;
@@ -216,7 +230,11 @@ export default {
         });
       });
       return commonElements;
-    }
+    },
+    getOrganizationName(id){
+      const organization = this.organizations.find((item) => item.id === id);
+      return organization.name;
+    },
   }
 }
 </script>
@@ -226,5 +244,8 @@ export default {
 }
 .selected_list_box02 {
   padding: 0 0 0 111px !important;
+}
+.name_cover .team {
+  display: block;
 }
 </style>

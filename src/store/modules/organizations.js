@@ -25,6 +25,7 @@ const actions = {
         }
       );
   },
+  
   deleteOrg({ dispatch, commit }, id) {
     organizationService.delete(id)
       .then(
@@ -58,7 +59,7 @@ const mutations = {
   moveOrgSuccess(state, targetId, ids) {
   },
   moveOrgFailure(state, error) {
-    state.status = {}
+    state.status = 'error';
   },
   addOrgSuccess(state, org) {
     let organizations = state.organizations;
@@ -66,7 +67,7 @@ const mutations = {
     state.organizations = organizations;
   },
   addOrgFailure(state, error) {
-    state.status = {}
+    state.status = 'error';
   },
   deleteOrgSuccess(state, id) {
     let organizations = state.organizations;
@@ -74,7 +75,7 @@ const mutations = {
     state.organizations = filteredData;
   },
   deleteOrgFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
 };
 

@@ -43,7 +43,7 @@ function updateOrganization(organization) {
       'Content-Type': 'application/json' },
     body: JSON.stringify(organization)
   };
-  return fetch(`${apiUrl}/organization-management/organizations/${organization.organization.id}`, requestOptions).then(handleResponse);
+  return fetch(`${apiUrl}/organization-management/organizations/${organization.id}`, requestOptions).then(handleResponse);
 }
 function updateHeadOrganization(organization, uid) {
   const requestOptions = {

@@ -67,3 +67,8 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+  .lw_radio {
+    clip: initial !important;
+  }
+</style>

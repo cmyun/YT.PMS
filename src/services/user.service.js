@@ -86,15 +86,16 @@ function getUsers(id) {
   };
   return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
 }
-function addUsers(ids){
+function addUsers(data){
+  console.log(data)
   const requestOptions = {
     method: 'POST',
     headers: { 
       ...authHeader(), 
       'Content-Type': 'application/json' },
-    body: JSON.stringify(ids)
+    body: JSON.stringify(data)
   };
-  return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
+  return fetch(`${apiUrl}/user-management/users/approval`, requestOptions).then(handleResponse);
 }
 function getByOrg(orgId) {
   const requestOptions = {
@@ -129,8 +130,8 @@ function handleResponse(response) {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
-        logout();
-        location.reload(true);
+        // logout();
+        // location.reload(true);
       }
       // const error = (data && data.message) || response.statusText;
       const error = data;

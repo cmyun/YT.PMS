@@ -18,7 +18,7 @@
                 </div>
                 <div class="list_cont">
                   <ul class="member_list">
-                    <li class="has_thmb" v-for="master in groupMasters" :key="master">
+                    <li class="has_thmb" v-for="whole in groupWhole" :key="whole">
                       <div class="thumb">
                         <span class="thmb_area">
                           <img src="../assets/img_profile.png" loading="lazy" alt="">
@@ -26,14 +26,14 @@
                       </div>
                       <div class="infor">
                         <div class="name_box">
-                          <strong class="name">{{ master.userName }}</strong>
+                          <strong class="name">{{ whole.userName + '' }}</strong>
                         </div>
                         <div class="txt">
-                          <span class="email">{{ master.position + '/ ' + master.level }}</span>
+                          <span class="email">{{  whole.level + '/ ' + whole.position + '/ ' + whole.organization }}</span>
                         </div>
                       </div>
                       <span class="slct">
-                        <input :name="master.id" type="checkbox" class="lw_checkbox" :value="master.id" :id="master.id" v-model="selected">
+                        <input :name="whole.id" type="checkbox" class="lw_checkbox" :value="whole.id" :id="whole.id" v-model="selected">
                       </span>
                     </li>
                   </ul>
@@ -74,10 +74,11 @@ export default {
   computed: {
     ...mapState('group', ['group']),
     ...mapState('group', ['groupMasters']),
+    ...mapState('group', ['groupWhole']),
   },
   watch: {
     masterIds(newVal) {
-        this.selected = newVal
+      this.selected = newVal
     }
   },
   

@@ -19,14 +19,17 @@ const mutations = {
   success(state, message) {
     state.type = 'alert-success';
     state.message = message;
+    console.log(state)
   },
   error(state, message) {
     state.type = 'alert-danger';
     state.message = message;
+    console.log(state)
   },
   clear(state) {
     state.type = null;
     state.message = null;
+    console.log(state)
   }
 };
 

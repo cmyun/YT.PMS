@@ -9,6 +9,7 @@
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Group</span></h3>
           <div class="task_area">
+            <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button>
             <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
             <button type="button" class="btn_save" @click="openAddGroupModal">Add group</button>
           </div>
@@ -19,16 +20,6 @@
               <div class="fix_head memlist_head">
                 <div class="listHead list_head">
                   <h1><span class="groupName">Total</span><em class="cnt">{{groups.length}}</em></h1>
-                  <div class="taskArea">
-                    <button type="button" class="btnSearch">
-                      <i class="bi bi-search"></i>
-                    </button>
-                    <div class="btnCombo ms-3">
-                      <button type="button" class="btnFilter">
-                        <i class="bi bi-filter"></i>
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="fixBody fix_body">
@@ -45,25 +36,25 @@
                   </div>
                 </div>
                 <div class="tableScoll lw_table_scoll">
-                  <div class="memberlistTable lw_table tb_cols_memberlist" v-if="groups.length">
+                  <div class="memberlistTable lw_table" v-if="groups.length">
                     <div class="lw_table tb_cols_memberlist">
                       <div class="lwTr" v-for="group in groups" :key="group.id">
-                        <div class="lwTd check">
+                        <div class="lwTd tw_td check">
                           <input :name="group.id" :value="group.id" type="checkbox" class="lw_checkbox" :id="group.id" v-model="selected" @change='updateCheckall()'>
                         </div>
-                        <div class="lwTd profile">
+                        <div class="lwTd tw_td profile">
                           <span class="thumb_cover"><img src="../assets/img_group.png" alt=""></span>
                         </div>
-                        <div class="lwTd userName">
-                          <span class="nameCover">
-                            <a href="javascript:void(0)" @click="openGroupDetail(group.id)" class="name">{{ group.name }}</a>
-                            <span class="name_en"></span>
+                        <div class="lwTd tw_td userName">
+                          <span class="nameCover ellipsis_cover">
+                            <a href="javascript:void(0)" @click="openGroupDetail(group.id)" class="name ellipsis_element"><strong>{{ group.name }}</strong></a>
+                            <span class="cnt">{{'   ' + group.count }}</span>
                           </span>
                         </div>
-                        <div class="lwTd title">
+                        <div class="lwTd tw_td title">
                           <span class="ellipsis_element">{{ group.userName }}</span>
                         </div>
-                        <div class="lwTd status">
+                        <div class="lwTd tw_td status">
                           <span class="msg using">{{group.cDate}}</span>
                         </div>
                       </div>
@@ -128,6 +119,7 @@ export default {
   },
   computed: {
     ...mapState('groups', ['groups']),
+    ...mapState('groups', ['status']),
     ...mapState('group', ['group']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
@@ -170,22 +162,23 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteGroup(this.selected);
-        this.closeConf();
-        this.selected = [];
-        if(this.visibleDetail){
-          this.closeGroupDetail();
-        }
+        setTimeout(() => {
+          if(this.status == null){
+            this.closeConf();
+            this.selected = [];
+            if(this.visibleDetail){
+              this.closeGroupDetail();
+            }
+          }
+        }, 1000);
+        
       }
-
     },
     openAddGroupModal() {
       this.visible = true;
     },
     closeAddGroupModal() {
       this.visible = false;
-    },
-    submitForm(data){
-      this.closeModal()
     },
     closeConf(){
       this.visibleConf = false;
@@ -216,7 +209,10 @@ export default {
     },
     closeGroupDetail(){
       this.visibleDetail = false;
-    }
+    },
+    refreshHandle(){
+      this.getAll();
+    },
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="modal1" v-if="visible">
       <div class="modal-body">
-        <Form @submit="submitForm">
+        <form @submit.prevent="submitForm">
           <div id="modal-root">
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
@@ -68,7 +68,7 @@
               </div>
             </div>
           </div>
-        </Form>
+        </form>
       </div>
   </div>
 </template>
@@ -97,16 +97,25 @@ export default {
       form: {
         name: '',
         description: '',
-        isNotify: false,
-        isDisclose: false
+        isNotify: true,
+        isDisclose: true
       },
-      visibleAdvance: false
+      visibleAdvance: true
     }
+  },
+  computed: {
+    ...mapState('organizations', ['status']),
   },
   methods: {
     ...mapActions('organizations', ['addOrg']),
     close() {
       this.$emit('close');
+      this.form = {
+        name: '',
+        description: '',
+        isNotify: true,
+        isDisclose: true
+      }
     },
     submitForm(){
       const form = {
@@ -115,7 +124,9 @@ export default {
         type: ''
       }
       this.addOrg(form);
-      this.close();
+      setTimeout(() => {
+        this.status == null ? this.close() : '';
+      }, 1000);
     },
     multiSubmitForm(){
       const form = {

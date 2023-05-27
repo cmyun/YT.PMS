@@ -96,6 +96,7 @@ export default {
     ...mapState('organizations', ['organizations']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
+    
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;

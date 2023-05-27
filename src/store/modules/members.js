@@ -65,7 +65,7 @@ const mutations = {
     state.members = members;
   },
   addMemberFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
   deleteMemberSuccess(state, id) {
     let members = state.members;
@@ -73,7 +73,7 @@ const mutations = {
     state.members = filteredData;
   },
   deleteMemberFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
   getMembersFailure(state) {
     state.members = [];

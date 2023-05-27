@@ -42,7 +42,7 @@ const actions = {
     organizationService.updateHeadOrganization(organization, uid)
       .then(
         organization => {
-          commit('updateOrganizationSuccess', organization);
+          commit('updateHeadOrganizationFailure', organization);
         },
         error => {
           commit('updateHeadOrganizationFailure', error);
@@ -65,11 +65,14 @@ const mutations = {
     // getOrgMembersFailure(state){
     //   state.orgMembers = [];
     // },
+    updateOrganizationSuccess(state, error) {
+      state.organization = organization
+    },
     updateOrganizationFailure(state, error) {
-      state.status = {}
+      state.status = 'error';
     },
     updateHeadOrganizationFailure(state, error) {
-      state.status = {}
+      state.status = 'error';
     },
 };
 

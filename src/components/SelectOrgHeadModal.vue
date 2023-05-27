@@ -87,3 +87,9 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.member_list {
+  display: block;
+  border: none;
+}
+</style>

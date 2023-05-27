@@ -1,7 +1,6 @@
 <template>
   <div class="backdrop" v-if="visible" @click="hideConfirmation"></div>
   <div class="confirmation" v-if="visible">
-    <!-- <h2>Are you sure you want to delete these members: {{ index.join(", ") }}</h2> -->
     <h2>Are you sure you want to delete the selected item?</h2>
     <div class="btn_box">
       <button type="button" class="lw_btn"  @click="hideConfirmation">Cancel</button>
@@ -14,7 +13,7 @@
 export default {
   name: 'ConfirmationBox',
   props: {
-    index: Array,
+    // index: Array,
     visible: {
       type: Boolean,
       default: false
@@ -49,5 +48,12 @@ export default {
   background-color: #fff;
   padding: 20px;
   z-index: 20000;
+}
+h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.btn_box {
+  text-align: right;
 }
 </style>

@@ -6,6 +6,7 @@ import MemberView from "../views/MemberView.vue";
 import GroupView from "../views/GroupView.vue";
 import OrganizationView from "../views/OrganizationView.vue";
 import MemberDetail from "../views/MemberDetail.vue";
+import MemberEdit from "../views/MemberEdit.vue";
 import TaskView from "../views/TaskView.vue";
 import UserInfo from "../views/UserInfo.vue";
 
@@ -34,6 +35,12 @@ const routes = [
     path: '/member/:id', 
     name: "MemberDetail",
     component: MemberDetail,
+    props: true
+  },
+  {
+    path: '/member/edit/:id',
+    name: 'MemberEdit',
+    component: MemberEdit,
     props: true
   },
   {

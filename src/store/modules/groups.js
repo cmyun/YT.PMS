@@ -24,9 +24,7 @@ const actions = {
           commit('deleteGroupSuccess', id);
         },
         error => {
-          commit('deleteGroupFailure', error)
-        },
-        error => {
+          commit('deleteGroupFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -38,6 +36,7 @@ const actions = {
           commit('addGroupSuccess', group);
         },
         error => {
+          commit('addGroupFailure', error);
           dispatch('alert/error', error, { root: true });
         }
       );
@@ -59,10 +58,10 @@ const mutations = {
     state.groups = filteredData;
   },
   deleteGroupFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
   addGroupFailure(state, group) {
-    state.status = {};
+    state.status = 'error';
   },
 };
 

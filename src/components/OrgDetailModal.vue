@@ -114,6 +114,7 @@ export default {
     ...mapState('organization', ['organization']),
     ...mapState('organization', ['orgMembers']),
     ...mapState('organization', ['orgHead']),
+    ...mapState('organization', ['status']),
   },
   data(){
     return {
@@ -144,8 +145,12 @@ export default {
       this.updateHeadOrganization({
         organization: organization, 
         uid: selected
-      })
-      this.closeGroupMasterModal();
+      });
+      setTimeout(() => {
+        if(this.status == null){
+          this.closeGroupMasterModal();
+        }
+        }, 1000);
     },
     deleteOrg(id){
       this.$emit('delete', id);
@@ -153,3 +158,9 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.member_list {
+  display: block;
+  border: none;
+}
+</style>

@@ -1,12 +1,12 @@
 <template>
   <div class="modal1" v-if="visible">
       <div class="modal-body">
-        <Form @submit="submitForm">
+        <form @submit.prevent="submitForm">
           <div id="modal-root">
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
                 <div class="tit_box">
-                  <h3 class="tit">Edit organization </h3>
+                  <h3 class="tit">Edit organization</h3>
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
@@ -74,7 +74,7 @@
             >
             </select-members-modal>
           </div>
-        </Form>
+        </form>
       </div>
   </div>
 </template>
@@ -110,7 +110,7 @@ export default {
         isNotify: false,
         isDisclose: false
       },
-      visibleAdvance: false
+      visibleAdvance: true
     }
   },
   computed: {
@@ -119,10 +119,15 @@ export default {
   methods: {
     ...mapActions('organization', ['updateOrganization']),
     close() {
+      
       this.$emit('close');
     },
     submitForm(){
-      this.updateOrganization(this.form);
+      const form = {
+        ...this.form,
+        note: ''
+      }
+      this.updateOrganization(form);
     }
   },
   watch: {

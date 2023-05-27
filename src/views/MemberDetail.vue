@@ -10,7 +10,9 @@
           <h3 class="title"><span class="txt">Member Information</span></h3>
           <div class="taskArea">
             <div class="btnGroup">
-              <button type="button" class="btn_save" @click="openModal">Edit member information</button>
+              <!-- <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name"></router-link> -->
+              <router-link :to="{ name: 'MemberEdit', params: { id: member.id } }" class="btn_save">Edit member information</router-link>
+              <!-- <button type="button" class="btn_save" @click="openModal">Edit member information</button> -->
             </div>
           </div>
         </div>
@@ -27,8 +29,9 @@
                   <strong>{{ member.name }}</strong>
                 </div>
                 <div class="box">
-                  <span class="position">Management</span>
-                  <span class="email">{{ member.nickname }}</span>
+                  <span class="position">{{ member.level }}</span>
+                  <span class="position">{{ member.organizationName }}</span>
+                  <span class="email">{{ member.position }}</span>
                   <div class="status">
                     <p class="pont">{{ member.status }}</p>
                   </div>
@@ -45,7 +48,7 @@
                   </li>
                   <li class="box">
                     <em class="h_li">Organization/ position</em>
-                    <ul class="txt_box">{{ member.organization?member.organization:'' + '/ ' + member.position?member.position:'' }}</ul>
+                    <ul class="txt_box">{{ member.organizationName + '/ ' + member.position }}</ul>
                   </li>
                   <li class="box">
                     <em class="h_li">Employment type</em>
@@ -56,19 +59,20 @@
                     <span class="txt">{{ member.level }}</span>
                   </li>
                   <li class="box">
-                    <em class="h_li">Extension</em>
+                    <em class="h_li">Office</em>
+                    <span class="txt">{{ member.office }}</span>
                   </li>
                   <li class="box">
-                    <em class="h_li">Mobile phone</em>
+                    <em class="h_li">Mobile</em>
                     <ul class="txt_box">{{ member.mobile }}</ul>
                   </li>
                   <li class="box">
-                    <em class="h_li">ID</em>
-                    <span class="txt">{{ member.nickname }}</span>
+                    <em class="h_li">E-mail</em>
+                    <a :href="`mailto:${member.email}`" class="link">{{ member.email }}</a>
                   </li>
                   <li class="box">
-                    <em class="h_li">Personal Email</em>
-                    <a :href="`mailto:${member.email}`" class="link">{{ member.email }}</a>
+                    <em class="h_li">Status</em>
+                    <span class="txt">{{ member.status }}</span>
                   </li>
                 </ul>
               </div>
@@ -122,6 +126,7 @@ export default {
   },
   computed: {
     ...mapState('member', ['member']),
+    ...mapState('member', ['status']),
     ...mapState('positions', ['positions']),
 
     newOrganizations(){
@@ -146,7 +151,11 @@ export default {
     },
     submitForm(data){
       this.updateUser(data);
-      this.closeModal()
+      setTimeout(() => {
+        if(this.status == null){
+          this.closeModal()
+        }
+      }, 1000);
     }
   }
 }
@@ -567,5 +576,15 @@ ul {
 }}
 .sub_page .contents.sub {
     display: block;
+}
+@media screen and (min-width: 768px){
+  .dashboard .field .list .box .h_li {
+    width: 175px;
+  }
+}
+a.btn_save {
+  &:hover {
+    color: #FFF;
+  }
 }
 </style>

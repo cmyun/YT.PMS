@@ -67,15 +67,21 @@ export default {
   },
   methods: {
     ...mapActions('organizations', ['moveOrg']),
+    ...mapActions('organizations', ['status']),
     close() {
       this.$emit('close');
     },
     submitForm() {
       this.moveOrg({tid:this.targetOrgId, ids:this.selected2});
       this.$emit('submit');
-      this.close();
+      setTimeout(() => {
+        if(this.status == null){
+          this.close();
+        }
+        }, 1000);
     },
     updateTargetOrg(item){
+      console.log(item)
       this.targetOrgId = item.id
     }
   }
@@ -129,6 +135,6 @@ export default {
   color: #157efb;
 }
 .lw_radio {
-  clip: initial;
+  clip: initial !important;
 }
 </style>

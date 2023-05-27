@@ -39,7 +39,7 @@ const mutations = {
     state.member = member
   },
   updateFailure(state, error) {
-    state.status = {}
+    state.status = 'error';
   },
 };
 

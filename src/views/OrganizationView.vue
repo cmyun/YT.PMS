@@ -9,6 +9,7 @@
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Organization</span></h3>
             <div class="task_area">
+              <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button>
               <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
               <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
               <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
@@ -135,6 +136,7 @@ export default {
   },
   computed: {
     ...mapState('organizations', ['organizations']),
+    ...mapState('organizations', ['status']),
     ...mapState('organization', ['organization']),
     ...mapState('organization', ['orgMembers']),
     newOrganizations(){
@@ -152,6 +154,9 @@ export default {
     ...mapActions('organization', ['getOrgMembers']),
     ...mapActions('organizations', ['getOrganizations']),
     closeMove(){
+      this.selected = []
+      this.selectAll = false;
+      this.selectedOrgs = []
       this.visibleEdittingBar = false;
     },
     openMove(){
@@ -193,13 +198,19 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteOrg(this.selected);
-        this.closeConf();
-        this.selected = [];
-        this.selectedOrgs = []
-        if(this.visibleDetail){
-          this.closeOrgDetail();
-          location.reload();
-        }
+        setTimeout(() => {
+          if(this.status == null){
+            this.closeConf();
+            this.selected = [];
+            this.selectedOrgs = []
+            if(this.visibleDetail){
+              this.closeOrgDetail();
+              location.reload();
+            }
+          }
+        }, 1000);
+        
+        
       }
     },
     deleteOrg02(id){
@@ -211,9 +222,6 @@ export default {
     },
     closeAddOrgModal() {
       this.visible = false;
-    },
-    submitForm(data){
-      this.closeModal()
     },
     closeConf(){
       this.visibleConf = false;
@@ -323,7 +331,10 @@ export default {
     handleSubmitMoveOrg(){
       this.selected = []
       this.selectedOrgs = []
-    }
+    },
+    refreshHandle(){
+      this.getOrganizations();
+    },
   },
   
 };

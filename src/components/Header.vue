@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     getUsername(){
-        return Array.from(this.user.name)[0];
+      return Array.from(this.user.name)[0];
     },
     ...mapActions({
       logout: 'account/logout'

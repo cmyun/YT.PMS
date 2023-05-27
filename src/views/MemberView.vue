@@ -9,7 +9,7 @@
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Member</span></h3>
           <div class="task_area">
-            <button type="button" class="btn_save" @click="refreshHandle">Refresh</button>
+            <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button>
             <button type="button" class="btn_delete02" @click="openConf" :disabled="!selected.length">Delete</button>
             <button type="button" class="btn_cancel" @click="openModal">Add members</button>
             <button type="button" class="btn_save" @click="openSelectApproval">Approval</button>
@@ -87,7 +87,8 @@
     <modal-form :title="title" :visible="visible" @close="closeModal" 
       @submit="submitForm">
     </modal-form>
-    <confirmation-box :visible="visibleConf" :index="getMemberName()" @close="closeConf" 
+    <confirmation-box :visible="visibleConf" 
+      @close="closeConf" 
       @confirm="handleDelete">
     </confirmation-box>
     <select-approval
@@ -207,8 +208,14 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteMember(this.selected);  
-        this.closeConf();
-        this.selected = [];
+        
+        setTimeout(() => {
+          if(this.status == null){
+            this.closeConf();
+            this.selected = [];
+          }
+        }, 1000);
+        
       }
     },
     openModal() {
@@ -219,7 +226,7 @@ export default {
     },
     submitForm(data){
       this.addMember(data);
-      if(!this.status){
+      if(this.status==null){
         this.closeModal();
       }
     },
@@ -233,16 +240,16 @@ export default {
     openConf(){
       this.visibleConf = true;
     },
-    getMemberName(){
-      const nameList = [];
-      this.selected.forEach((id) => {
-        const obj = this.members.find((item) => item.id === id);
-        if (obj) {
-          nameList.push(obj.name);
-        }
-      });
-      return nameList;
-    },
+    // getMemberName(){
+    //   const nameList = [];
+    //   this.selected.forEach((id) => {
+    //     const obj = this.members.find((item) => item.id === id);
+    //     if (obj) {
+    //       nameList.push(obj.name);
+    //     }
+    //   });
+    //   return nameList;
+    // },
     getOrganizationName(id){
       const organization = this.organizations.find((item) => item.id === id);
       return organization.name;
@@ -257,8 +264,9 @@ export default {
       this.visibleSelectApproval = false
     },
     handleSubmitApproval(data){
-      console.log(data);
-      // this./user-management/users/approval
+      const ids = {
+        'ids': data
+      }
       this.addUsers(data);
     }
   }

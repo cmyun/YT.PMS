@@ -1,5 +1,6 @@
 <template>
   <div v-if="message && typeof message == 'string'" :class="`alert ${type}`">{{message}}</div>
+  <div v-if="typeof message == 'object' && message" :class="`alert ${type}`">{{message.title}}</div>
   <router-view />
 </template>
 <script>
@@ -21,7 +22,7 @@ export default {
     message(newVal, oldVal){
       setTimeout(() => {
         this.clear()
-        }, 6000);
+      }, 6000);
     }
   }
 };
@@ -7071,7 +7072,6 @@ button:not(:disabled),
   box-sizing: border-box;
   padding: 0 20px;
   color: #222;
-  // overflow: auto;
 }
 
 .contents_body .contents_body_inner {

@@ -102,10 +102,10 @@ const mutations = {
     state.group = group
   },
   updateGroupFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
   updateGroupMastersFailure(state, error) {
-    state.status = {};
+    state.status = 'error';
   },
 };
 
