@@ -11,6 +11,7 @@ import { organization } from './modules/organization';
 import { organizations } from './modules/organizations';
 import { groups } from './modules/groups';
 import { group } from './modules/group';
+import { tasks } from './modules/tasks';
 
 export default createStore({
   modules: {
@@ -25,7 +26,8 @@ export default createStore({
     organization,
     organizations,
     groups,
-    group
+    group,
+    tasks
   }
 });
 

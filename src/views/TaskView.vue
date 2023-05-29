@@ -1,363 +1,799 @@
 <template>
-  <Header/>
-  <div id="container">
-  <div id="lnbArea" class="nav_lnb">
-    <div class="main_pane">
-      <div class="core_button">
-        <a class="skin_corp_bg skin_corp_txt" style="cursor: pointer;">
-          <strong>New Task</strong>
-        </a>
-      </div>
-    </div>
-    <div class="scroll_pane">
-      <div class="menu_cover">
-        <div class="menu_box">
-          <div class="head_bar">
-            <strong>My Tasks</strong>
-          </div>
-          <ul class="lnb_tree">
-            <li>
-              <div class="task_all menu_item  ">
-                <a class="item_txt">All Tasks</a>
-                <span class="unread_cnt">
-                  <a>1</a>
-                </span>
-              </div>
-            </li>
-            <li>
-              <div class="assign menu_item selected ">
-                <a class="item_txt">Tasks assigned to me</a>
-                <span class="unread_cnt">
-                  <a>1</a>
-                </span>
-              </div>
-            </li>
-            <li>
-              <div class="charge menu_item  ">
-                <a class="item_txt">Tasks I assigned</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="menu_box">
-          <div class="head_bar">
-            <strong>Team/Group Tasks</strong>
-          </div>
-          <ul class="lnb_tree">
-            <li>
-              <div class="group menu_item  ">
-                <a class="item_txt">1</a>
-                <button class="btn_more side_btn">
-                </button>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer" id="worksCommonCopyright" style="display: block;">
-      </div>
-    </div>
-    <button class="btn_fold_lnb">
-    </button>
-    <div class="split_bar" draggable="true" style="left: 250px;"></div>
-  </div>
-  <div class="contents">
-    <section class="content_head">
-      <div class="title_container">
-        <div class="search_cover">
-          <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
-          <button type="button" class="btn_search_option">Advanced</button>
-        </div>
-        <div class="heading_cover">
-          <div class="folder_title">
-            <span class="cnt">
-              <strong class="cnt_label">Incomplete</strong>
-              <a class="unread">3</a>
-              <strong class="cnt_label">All</strong>
-              <a class="total">4</a>
-            </span>
-            <button type="button" class="btn_refresh">
-            </button>
+  <div class="wrap">
+    <Header
+      :title="'Task'"
+    />
+    <div id="container">
+      <div id="lnbArea" class="nav_lnb">
+        <div class="main_pane">
+          <div class="core_button">
+            <a class="skin_corp_bg skin_corp_txt" style="cursor: pointer;" @click="openTaskCreate">
+              <strong>New Task</strong>
+            </a>
           </div>
         </div>
-        
-      </div>
-      <div class="search_area">
-        <div class="column">
-          <div class="item_cover">
-            <span class="item_label">Content</span>
-            <span class="item_value">
-              <span class="input_cover">
-                <input type="text" class="lw_input" value="">
-              </span>
-            </span>
-          </div>
-          <div class="item_cover">
-            <span class="item_label">Deadline</span>
-            <span class="item_value">
-              <span class="date_cover">
-                <span class="input_cover">
-                  <input type="text" class="lw_input" placeholder="Select dates" value="2022. 5. 23">
-                </span>
-                <span class="input_cover">
-                  <input type="text" class="lw_input" placeholder="Select dates" value="2024. 5. 23">
-                </span>
-              </span>
-            </span>
-          </div>
-        </div>
-        <div class="column">
-          <div class="item_cover">
-            <span class="item_label">Assigner</span>
-            <span class="item_value">
-              <div class="member_list">
-                <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
+        <div class="scroll_pane">
+          <div class="menu_cover">
+            <div class="menu_box">
+              <div class="head_bar">
+                <strong>My Tasks</strong>
               </div>
-            </span>
-          </div>
-          <div class="item_cover">
-            <span class="item_label">Assignee</span>
-            <span class="item_value">
-              <div class="member_list">
-                <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
-              </div>
-            </span>
-          </div>
-        </div>
-        <div class="column flow_column">
-        </div>
-        <div class="column search_button">
-          <button type="button" class="btn_search">Search</button>
-        </div>
-      </div>
-    </section>
-    <section class="content_body">
-      <section class="main_cont">
-        <div class="list_cover">
-          <div class="list_filter">
-            <div class="btn_drop_cover">
-              <button type="button" class="btn_order">By date registered</button>
-            </div>
-            <div class="view_completed">
-              <span class="toggle_cover">
-                <input type="checkbox" class="lw_checkbox" id="toggle1" checked="">
-                <label for="toggle1">Show completed tasks</label>
-              </span>
-            </div>
-          </div>
-          <div class="todo_list">
-            <div class="todo_item completed selected">
-              <button type="button" class="btn_status on">
-                <span class="page_tooltip">Mark as incomplete</span>
-              </button>
-              <div class="title_cover">
-                <p class="content">tesst3</p>
-                <span class="attachment">
-                </span>
-              </div>
-              <div class="info">
-                <span class="date">No Deadline</span>
-                <span class="name">Assigner : test test</span>
-              </div>
-              <button type="button" class="btn_important">
-              </button>
-            </div>
-            <div class="todo_item">
-              <button type="button" class="btn_status">
-                <span class="page_tooltip">Mark as complete</span>
-              </button>
-              <div class="title_cover">
-                <p class="content">tesst2</p>
-                <span class="attachment">
-                </span>
-              </div>
-              <div class="info">
-                <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
-                </span>
-                <span class="name">Assigner : test test</span>
-              </div>
-              <button type="button" class="btn_important">
-              </button>
-            </div>
-            <div class="todo_item">
-              <button type="button" class="btn_status">
-                <span class="page_tooltip">Mark as complete</span>
-              </button>
-              <div class="title_cover">
-                <p class="content">tesst</p>
-              </div>
-              <div class="info">
-                <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
-                </span>
-                <span class="name">Assigner : test test</span>
-              </div>
-              <button type="button" class="btn_important">
-              </button>
-            </div>
-            <div class="todo_item reddot">
-              <button type="button" class="btn_status">
-                <span class="page_tooltip">Mark as complete</span>
-              </button>
-              <div class="title_cover">
-                <p class="content">Create a task for today!</p>
-              </div>
-              <div class="info">
-                <span class="date">No Deadline</span>
-                <span class="name">Assigner : test test</span>
-              </div>
-              <button type="button" class="btn_important">
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="side_cont">
-        <div class="split_bar" draggable="true"></div>
-        <div class="scroll_cover">
-          <div class="view_cover">
-            <div class="view_info">
-              <div class="view_action">
-                <span class="status complete">Completed</span>
-                <button type="button" class="btn_window">
-                </button>
-                <button type="button" class="btn_modify">
-                </button>
-                <div class="btn_drop_cover">
-                  <button type="button" class="btn_action_more">
-                  </button>
-                </div>
-              </div>
-              <div class="item_cover">
-                <div class="item_value">
-                  <div id="translateTarget" class="hero_content">
-                    <div class="title">tesst3</div>
-                    <div class="content"></div>
+              <ul class="lnb_tree">
+                <li v-for="task in taskBar" :key="task" @click="selectValue(task.id)">
+                  <div :class="['task_all menu_item', {selected: selectedTaskBar == task.id}]">
+                    <a class="item_txt">{{ task.value }}</a>
+                    <!-- <span class="unread_cnt">
+                      <a>1</a>
+                    </span> -->
                   </div>
-                </div>
+                </li>
+              </ul>
+            </div>
+            <div class="menu_box">
+              <div class="head_bar">
+                <strong>Team/Group Tasks</strong>
+              </div>
+              {{ affiliations }}
+              <ul class="lnb_tree" v-if="affiliations.length">
+                <li v-for="aff in affiliations" :key="aff">
+                  <div class="group menu_item">
+                    <a class="item_txt">{{ aff.division }}</a>
+                    <button class="btn_more side_btn">
+                    </button>
+                  </div>
+                </li>
+              </ul>
+              <ul class="lnb_tree">
+                <li>
+                  <div class="group menu_item selected ">
+                    <a class="item_txt">1</a>
+                    <button class="btn_more side_btn">
+                      <i class="blind">more</i>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- <button class="btn_fold_lnb"></button> -->
+        <div class="split_bar" draggable="true" style="left: 250px;"></div>
+      </div>
+      <div class="contents">
+        <section class="content_head">
+          <div class="title_container">
+            <div class="search_cover">
+              <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
+              <button type="button" :class="['btn_search_option', {on:visibleSearchAdvanced}]" @click="showSearchAdvance">Advanced</button>
+            </div>
+            <div class="heading_cover">
+              <div class="folder_title">
+                <span class="cnt">
+                  <strong class="cnt_label">Incomplete</strong>
+                  <a class="unread">3</a>
+                  <strong class="cnt_label">All</strong>
+                  <a class="total">4</a>
+                </span>
+                <button type="button" class="btn_refresh">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="search_area" v-show="visibleSearchAdvanced">
+            <div class="column">
+              <div class="item_cover">
+                <span class="item_label">Content</span>
+                <span class="item_value">
+                  <span class="input_cover">
+                    <input type="text" class="lw_input" value="">
+                  </span>
+                </span>
               </div>
               <div class="item_cover">
                 <span class="item_label">Deadline</span>
-                <div class="item_value">
-                  <span class="date">None</span>
-                </div>
+                <span class="item_value">
+                  <span class="date_cover">
+                    <span class="input_cover">
+                      <input type="text" class="lw_input" placeholder="Select dates" value="2022. 5. 23">
+                    </span>
+                    <span class="input_cover">
+                      <input type="text" class="lw_input" placeholder="Select dates" value="2024. 5. 23">
+                    </span>
+                  </span>
+                </span>
               </div>
-              <div class="item_cover">
-                <span class="item_label">Group</span>
-                <div class="item_value">
-                  <span class="group_name">1</span>
-                </div>
-              </div>
+            </div>
+            <div class="column">
               <div class="item_cover">
                 <span class="item_label">Assigner</span>
-                <div class="item_value">
-                  <div class="member_list completed">
-                    <span class="added_member" style="cursor: pointer;">
-                      <span class="name">test test</span>
-                    </span>
+                <span class="item_value">
+                  <div class="member_list">
+                    <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
                   </div>
-                </div>
+                </span>
               </div>
               <div class="item_cover">
                 <span class="item_label">Assignee</span>
-                <div class="item_value">
-                  <div class="member_list completed">
-                    <span class="added_member" style="cursor: pointer;">
-                      <span class="name">test test</span>
+                <span class="item_value">
+                  <div class="member_list">
+                    <input class="member_input" type="text" name="" placeholder="" autocomplete="nope" value="">
+                  </div>
+                </span>
+              </div>
+            </div>
+            <div class="column flow_column">
+            </div>
+            <div class="column search_button">
+              <button type="button" class="btn_search">Search</button>
+            </div>
+          </div>
+        </section>
+        <section class="content_body">
+          <section class="main_cont">
+            <div class="list_cover">
+              <div class="list_filter">
+                <div class="btn_drop_cover">
+                  <button type="button" class="btn_order">By date registered</button>
+                </div>
+                <div class="view_completed">
+                  <span class="toggle_cover">
+                    <input type="checkbox" class="lw_checkbox" id="toggle1" checked="">
+                    <label for="toggle1">Show completed tasks</label>
+                  </span>
+                </div>
+              </div>
+              <div class="todo_list">
+                <div class="todo_item completed selected">
+                  <button type="button" class="btn_status on">
+                    <span class="page_tooltip">Mark as incomplete</span>
+                  </button>
+                  <div class="title_cover">
+                    <p class="content">tesst3</p>
+                    <span class="attachment">
+                    </span>
+                  </div>
+                  <div class="info">
+                    <span class="date">No Deadline</span>
+                    <span class="name">Assigner : test test</span>
+                  </div>
+                  <!-- <button type="button" class="btn_important"> -->
+                  <!-- </button> -->
+                </div>
+                <div class="todo_item">
+                  <button type="button" class="btn_status">
+                    <span class="page_tooltip">Mark as complete</span>
+                  </button>
+                  <div class="title_cover">
+                    <p class="content">tesst2</p>
+                    <span class="attachment">
+                    </span>
+                  </div>
+                  <div class="info">
+                    <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
+                    </span>
+                    <span class="name">Assigner : test test</span>
+                  </div>
+                  <!-- <button type="button" class="btn_important"> -->
+                  <!-- </button> -->
+                </div>
+                <div class="todo_item">
+                  <button type="button" class="btn_status">
+                    <span class="page_tooltip">Mark as complete</span>
+                  </button>
+                  <div class="title_cover">
+                    <p class="content">tesst</p>
+                  </div>
+                  <div class="info">
+                    <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
+                    </span>
+                    <span class="name">Assigner : test test</span>
+                  </div>
+                  <!-- <button type="button" class="btn_important"> -->
+                  <!-- </button> -->
+                </div>
+                <div class="todo_item reddot">
+                  <button type="button" class="btn_status">
+                    <span class="page_tooltip">Mark as complete</span>
+                  </button>
+                  <div class="title_cover">
+                    <p class="content">Create a task for today!</p>
+                  </div>
+                  <div class="info">
+                    <span class="date">No Deadline</span>
+                    <span class="name">Assigner : test test</span>
+                  </div>
+                  <!-- <button type="button" class="btn_important"> -->
+                  <!-- </button> -->
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="side_cont">
+            <div class="split_bar" draggable="true"></div>
+            <div class="scroll_cover">
+              <div class="view_cover">
+                <div class="view_info">
+                  <div class="view_action">
+                    <span class="status complete">Completed</span>
+                    <button type="button" class="btn_window">
+                    </button>
+                    <button type="button" class="btn_modify">
+                    </button>
+                    <div class="btn_drop_cover">
+                      <button type="button" class="btn_action_more" @click="visibleActionMore = !visibleActionMore"></button>
+                      <div class="ly_context" v-show="visibleActionMore">
+                        <ul class="selector">
+                          <li>
+                            <a>Delete</a>
+                          </li>
+                          <li>
+                            <a>Copy</a>
+                          </li>
+                          <li>
+                            <a>Translate</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item_cover">
+                    <div class="item_value">
+                      <div id="translateTarget" class="hero_content">
+                        <div class="title">tesst3</div>
+                        <div class="content"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item_cover">
+                    <span class="item_label">Deadline</span>
+                    <div class="item_value">
+                      <span class="date">None</span>
+                    </div>
+                  </div>
+                  <div class="item_cover">
+                    <span class="item_label">Group</span>
+                    <div class="item_value">
+                      <span class="group_name">1</span>
+                    </div>
+                  </div>
+                  <div class="item_cover">
+                    <span class="item_label">Assigner</span>
+                    <div class="item_value">
+                      <div class="member_list completed">
+                        <span class="added_member" style="cursor: pointer;">
+                          <span class="name">test test</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item_cover">
+                    <span class="item_label">Assignee</span>
+                    <div class="item_value">
+                      <div class="member_list completed">
+                        <span class="added_member" style="cursor: pointer;">
+                          <span class="name">test test</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item_cover file_attachment">
+                    <div class="item_value">
+                      <div class="lw_file_attach_view">
+                        <div class="file_infor">
+                          <span class="file_tit">
+                            <button type="button" class="btn_toggle">
+                            </button>Attached file <em class="cnt">4</em> Files <span class="file_size">(111.77KB)</span>
+                          </span>
+                        </div>
+                        <div class="file_wrap">
+                          <ul class="file_list">
+                            <li>
+                              <span class="file_name">
+                                <i class="lw_file lw_file_png">png file</i>
+                                <a href="#" class="file_name_txt" title="Capture1.PNG">Capture1.PNG</a>
+                              </span>
+                              <span class="file_size">68.08KB</span>
+                              <div class="file_btn_area">
+                                <button type="button" class="btn_down_pc" title="Save to PC">
+                                </button>
+                                <button type="button" class="btn_down_drive" title="Save to Folder">
+                                </button>
+                              </div>
+                            </li>
+                            <li>
+                              <span class="file_name">
+                                <i class="lw_file lw_file_png">png file</i>
+                                <a href="#" class="file_name_txt" title="Capture.PNG">Capture.PNG</a>
+                              </span>
+                              <span class="file_size">14.02KB</span>
+                              <div class="file_btn_area">
+                                <button type="button" class="btn_down_pc" title="Save to PC">
+                                </button>
+                                <button type="button" class="btn_down_drive" title="Save to Folder">
+                                </button>
+                              </div>
+                            </li>
+                            <li>
+                              <span class="file_name">
+                                <i class="lw_file lw_file_png">png file</i>
+                                <a href="#" class="file_name_txt" title="Capture2.PNG">Capture2.PNG</a>
+                              </span>
+                              <span class="file_size">29.33KB</span>
+                              <div class="file_btn_area">
+                                <button type="button" class="btn_down_pc" title="Save to PC">
+                                </button>
+                                <button type="button" class="btn_down_drive" title="Save to Folder">
+                                </button>
+                              </div>
+                            </li>
+                            <li>
+                              <span class="file_name">
+                                <i class="lw_file lw_file_txt">txt file</i>
+                                <a href="#" class="file_name_txt" title="change.txt">change.txt</a>
+                              </span>
+                              <span class="file_size">347bytes</span>
+                              <div class="file_btn_area">
+                                <button type="button" class="btn_down_pc" title="Save to PC">
+                                </button>
+                                <button type="button" class="btn_down_drive" title="Save to Folder">
+                                </button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="btn_cover">
+                    <button type="button" class="btn_status">Incomplete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="write_cover">
+                <div class="btn_cover">
+                  <button type="button" class="btn_cancel">Cancel</button>
+                  <button type="button" class="btn_save">Save</button>
+                </div>
+                <div class="item_cover">
+                  <div class="item_value">
+                    <span class="textarea_cover">
+                      <textarea type="text" class="lw_textarea" placeholder="Enter task information">tesst</textarea>
                     </span>
                   </div>
                 </div>
-              </div>
-              <div class="item_cover file_attachment">
-                <div class="item_value">
-                  <div class="lw_file_attach_view">
-                    <div class="file_infor">
-                      <span class="file_tit">
-                        <button type="button" class="btn_toggle">
-                        </button>Attached file <em class="cnt">4</em> Files <span class="file_size">(111.77KB)</span>
+                <div class="item_cover">
+                  <span class="item_label">Deadline</span>
+                  <div class="item_value expire_date">
+                    <span class="toggle_cover">
+                      <input type="checkbox" name="period_preset" id="period_preset_01_" readonly="" checked="">
+                      <label for="period_preset_01_">None</label>
+                      <input type="checkbox" name="period_preset" id="period_preset_02_" readonly="">
+                      <label for="period_preset_02_">Today</label>
+                      <input type="checkbox" name="period_preset" id="period_preset_03_" readonly="">
+                      <label for="period_preset_03_">Tomorrow</label>
+                      <input type="checkbox" name="period_preset" id="period_preset_04_" readonly="">
+                      <label for="period_preset_04_">Next Week</label>
+                    </span>
+                    <span class="date_cover">
+                      <span class="input_cover">
+                        <input type="text" class="lw_input" placeholder="Select dates" value="2023. 5. 29. (Mon)">
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div class="item_cover">
+                  <span class="item_label">Team/Group</span>
+                  <div class="item_value">
+                    <span class="group_name">1</span>
+                  </div>
+                </div>
+                <div class="item_cover">
+                  <span class="item_label">Assigner <div class="tooltip_cover">
+                      <a class="ico_help" style="cursor: pointer;">
+                        <i class="blind">Help</i>
+                      </a>
+                    </div>
+                  </span>
+                  <div class="item_value">
+                    <div class="member_list completed">
+                      <span class="added_member" style="cursor: pointer;">
+                        <span class="name">test test</span>
+                        <button type="button" class="btn_remove">
+                          <i class="blind">Select to delete</i>
+                        </button>
                       </span>
                     </div>
-                    <div class="file_wrap">
-                      <ul class="file_list">
-                        <li>
-                          <span class="file_name">
-                            <i class="lw_file lw_file_png">png file</i>
-                            <a href="#" class="file_name_txt" title="Capture1.PNG">Capture1.PNG</a>
-                          </span>
-                          <span class="file_size">68.08KB</span>
-                          <div class="file_btn_area">
-                            <button type="button" class="btn_down_pc" title="Save to PC">
-                            </button>
-                            <button type="button" class="btn_down_drive" title="Save to Folder">
-                            </button>
-                          </div>
-                        </li>
-                        <li>
-                          <span class="file_name">
-                            <i class="lw_file lw_file_png">png file</i>
-                            <a href="#" class="file_name_txt" title="Capture.PNG">Capture.PNG</a>
-                          </span>
-                          <span class="file_size">14.02KB</span>
-                          <div class="file_btn_area">
-                            <button type="button" class="btn_down_pc" title="Save to PC">
-                            </button>
-                            <button type="button" class="btn_down_drive" title="Save to Folder">
-                            </button>
-                          </div>
-                        </li>
-                        <li>
-                          <span class="file_name">
-                            <i class="lw_file lw_file_png">png file</i>
-                            <a href="#" class="file_name_txt" title="Capture2.PNG">Capture2.PNG</a>
-                          </span>
-                          <span class="file_size">29.33KB</span>
-                          <div class="file_btn_area">
-                            <button type="button" class="btn_down_pc" title="Save to PC">
-                            </button>
-                            <button type="button" class="btn_down_drive" title="Save to Folder">
-                            </button>
-                          </div>
-                        </li>
-                        <li>
-                          <span class="file_name">
-                            <i class="lw_file lw_file_txt">txt file</i>
-                            <a href="#" class="file_name_txt" title="change.txt">change.txt</a>
-                          </span>
-                          <span class="file_size">347bytes</span>
-                          <div class="file_btn_area">
-                            <button type="button" class="btn_down_pc" title="Save to PC">
-                            </button>
-                            <button type="button" class="btn_down_drive" title="Save to Folder">
-                            </button>
-                          </div>
-                        </li>
-                      </ul>
+                  </div>
+                </div>
+                <div class="item_cover">
+                  <span class="item_label">Assignee <div class="tooltip_cover">
+                      <a class="ico_help" style="cursor: pointer;">
+                        <i class="blind">Help</i>
+                      </a>
+                    </div>
+                  </span>
+                  <div class="item_value">
+                    <div class="member_list completed">
+                      <span class="added_member" style="cursor: pointer;">
+                        <span class="name">test test</span>
+                        <button type="button" class="btn_remove">
+                          <i class="blind">Select to delete</i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="item_cover file_attachment fold">
+                  <span class="item_label">Attach File <button type="button" class="btn_toggle">
+                      <i class="blind">Expand/collapse attachments box</i>
+                    </button>
+                  </span>
+                  <div class="item_value">
+                    <div class="lw_file_attach_write">
+                      <div class="file_infor">
+                        <label class="btn_attach">
+                          <input type="file" class="btn_attach" multiple="" style="display: none;">My PC </label>
+                        <button type="button" class="btn_attach">Folder</button>
+                        <p class="total_volume">Attached file <em class="cnt">0</em> Files 0KB </p>
+                      </div>
+                      <div class="file_wrap">
+                        <table class="file_head">
+                          <colgroup>
+                            <col class="col_file_del">
+                            <col class="col_file_name">
+                            <col class="col_file_size">
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th class="file_del"></th>
+                              <th class="file_name">
+                                <p class="file_cell">File name</p>
+                              </th>
+                              <th class="file_size">
+                                <p class="file_cell">Size</p>
+                              </th>
+                            </tr>
+                          </thead>
+                        </table>
+                        <div class="file_scroll_box">
+                          <table class="file_cont">
+                            <colgroup>
+                              <col class="col_file_del">
+                              <col class="col_file_name">
+                              <col class="col_file_size">
+                            </colgroup>
+                            <tbody>
+                              <tr>
+                                <td colspan="3">
+                                  <div class="empty attach">
+                                    <p class="sub_msg">Drag and drop a file with the mouse.</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="btn_cover">
-                <button type="button" class="btn_status">Incomplete</button>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-    </section>
+          </section>
+        </section>
+      </div>
+    </div>
+    <div id="lnb_layer">
+      <div class="ly_context" style="display: block; top: 329px; left: 228px;">
+        <ul class="selector">
+          <li>
+            <a style="cursor: pointer;">Team/Group details</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <task-create
+      :visible="visibleTaskCreate"
+      @close="closeTaskCreate"
+    >
+    </task-create>
   </div>
-</div>
 </template>
 <script>
 import Header from "@/components/Header.vue";
+import TaskCreate from '@/components/TaskCreate.vue'
+import { mapState, mapActions } from 'vuex';
 export default {
   name: "TaskView",
+  data(){
+    return {
+      taskBar: [
+        { id: 0, value: 'All Tasks' },
+        { id: 1, value: 'Tasks assigned to me' },
+        { id: 2, value: 'Tasks I assigned' }
+      ],
+      selectedTaskBar: 0,
+      visibleSearchAdvanced: false,
+      visibleTaskCreate: false,
+      visibleActionMore: false
+    }
+  },
   components: {
     Header,
+    TaskCreate
   },
+  computed: {
+    ...mapState('tasks', ['tasks']),
+    ...mapState('tasks', ['status']),
+    ...mapState('account', ['user']),
+    ...mapState('tasks', ['affiliations']),
+  },
+  created() {
+    this.getAffiliations(0);
+    this.getTasks();
+  },
+  methods: {
+    ...mapActions('tasks', ['getTasks']),
+    // getAffiliations
+    ...mapActions('tasks', ['getAffiliations']),
+    // ...mapActions('tasks', ['getAffiliations']),
+    // ...mapActions('tasks', ['status']),
+    selectValue(id){
+      this.selectedTaskBar = id;
+    },
+    showSearchAdvance(){
+      this.visibleSearchAdvanced = !this.visibleSearchAdvanced
+    },
+    openTaskCreate(){
+      this.visibleTaskCreate = true;
+    },
+    closeTaskCreate(){
+      this.visibleTaskCreate = false;
+    }
+  }
 }
 </script>
+<style scoped>
+.write_cover {
+  width: 100%;
+  min-width: 490px;
+  box-sizing: border-box;
+  padding: 0 20px 32px;
+}
+.btn_cover button+.btn_drop_cover, .btn_cover button+button {
+  margin-left: 8px;
+}
+
+.write_cover .btn_cover {
+  padding: 0 16px 16px;
+  border-bottom: 1px solid #e5e5e6;
+  margin: 0 -20px 20px;
+  text-align: left;
+}
+.write_cover .item_cover~.item_cover {
+  padding-top: 12px;
+}
+.write_cover .item_cover {
+  position: relative;
+}
+.write_cover .item_cover .item_label {
+  clear: both;
+  float: left;
+  color: #222;
+  line-height: 1.5;
+  font-size: 14px;
+  width: 114px;
+  padding-top: 8px;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.write_cover .item_label {
+  font-weight: 700;
+  text-align: left;
+}
+.write_cover .item_cover~.item_cover {
+  padding-top: 12px;
+}
+.write_cover .item_cover {
+  position: relative;
+}
+.write_cover .item_value.expire_date {
+  flex-wrap: wrap;
+  margin-bottom: -8px;
+}
+.write_cover .item_cover .item_label+.item_value {
+  margin-left: 114px;
+}
+.write_cover .item_cover .item_value {
+  display: flex;
+  position: relative;
+}
+.write_cover .textarea_cover {
+  flex: 1 1 auto;
+}
+.write_cover .item_value.expire_date .date_cover {
+  margin-bottom: 8px;
+}
+.write_cover .item_value.expire_date .toggle_cover {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.write_cover .item_value .toggle_cover {
+  font-size: 0;
+  flex: 0 0 auto;
+}
+.write_cover .item_value .toggle_cover label:first-of-type {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.write_cover .item_value .toggle_cover input:checked+label {
+  border-color: #157efb;
+  color: #157efb;
+  position: relative;
+  z-index: 10;
+}
+.write_cover .item_value .toggle_cover label {
+  display: inline-block;
+  border: 1px solid #c5c5c6;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 9px 12px;
+  box-sizing: border-box;
+}
+.write_cover .item_value .toggle_cover input {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+.write_cover .item_value.expire_date {
+  flex-wrap: wrap;
+  margin-bottom: -8px;
+}
+.write_cover .item_value .date_cover, .write_cover .item_value .input_cover {
+  flex: 1 1 auto;
+}
+.write_cover .item_value.expire_date .toggle_cover {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.write_cover .item_value .toggle_cover {
+  font-size: 0;
+  flex: 0 0 auto;
+}
+.lw_file_attach_write .file_wrap {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+.lw_file_attach_write .file_wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.write_cover .item_value .group_name {
+  font-size: 14px;
+  color: #222;
+  line-height: 20px;
+  padding: 8px 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  word-wrap: normal;
+}
+.lw_file_attach_write .file_head {
+  background-color: #fafafb;
+}
+.lw_file_attach_write .file_infor .btn_attach.hover, .lw_file_attach_write .file_infor .btn_attach:hover {
+  background-color: rgba(0,0,0,.05);
+}
+.lw_file_attach_write .file_infor {
+  display: flex;
+  margin-bottom: 8px;
+}
+.lw_file_attach_write .file_infor .btn_attach~.btn_attach {
+  margin-left: 8px;
+}
+.lw_file_attach_write .file_infor .total_volume {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  text-align: right;
+  padding: 11px 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #767676;
+}
+.lw_file_attach_write .file_infor .btn_attach {
+  font-size: 14px;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 40px;
+  border-radius: 2px;
+  line-height: 21px;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 8px 12px 9px;
+  min-width: 64px;
+  border: 1px solid #c5c5c6;
+  background: #fff;
+  color: #222;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.view_cover .view_action .btn_drop_cover .ly_context {
+  left: auto;
+  right: 0;
+  top: 100%;
+}
+.ly_context {
+  display: block;
+  top: 329px;
+  left: 228px;
+}
+.ly_context, .ly_context ul {
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+.ly_context {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #c5c5c6;
+  border-radius: 2px;
+  z-index: 100;
+}
+#header {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+.contents {
+  max-width: none;
+  min-width: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+.view_cover .view_action .status.complete {
+  color: #07b53b;
+}
+#container {
+  position: relative;
+  flex: 1 1 auto;
+  z-index: 20;
+  display: flex;
+  min-height: 0;
+  top: auto;
+  left: auto;
+  flex-direction: initial;
+}
+.view_cover .view_action .status.complete:before {
+  content: "";
+  background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+  background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+  background-size: 318px 311px;
+  background-position: -274px -76px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 4px 0 0;
+}
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+</style>
 <style lang="scss">
-
-
 .nav_lnb {
   background-color: #fff;
   border-right: 1px solid #c5c5c7;
@@ -1981,6 +2417,25 @@ ul.lnb_tree {
   width: 20px;
   height: 20px;
   display: inline-block;
+}
+.lw_file_attach_write .file_wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.lw_file_attach_write .file_head th {
+  font-size: 12px;
+  color: #434343;
+  font-weight: 400;
+  text-align: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.lw_file_attach_write .file_head {
+  background-color: #fafafb;
 }
 .lnb_tree .menu_item:focus, 
 .lnb_tree .menu_item:hover {

@@ -6,7 +6,7 @@
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_page ly_member_add freeplan freeplan">
                 <div class="tit_box">
-                  <h3 class="tit"> Add </h3>
+                  <h3 class="tit">Add</h3>
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>

@@ -68,7 +68,7 @@
                         <strong class="name">{{ '' + member.userName }}</strong>
                       </div>
                       <div class="txt">
-                        <span class="email">{{ member.level + '/ ' + member.position + '/ ' + member.organization }}</span>
+                        <span class="email">{{ member.level + '/ ' + member.position + ' ' + member.organization }}</span>
                       </div>
                     </div>
                     <span class="master">{{ member.master }}</span>

@@ -87,7 +87,6 @@ function getUsers(id) {
   return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
 }
 function addUsers(data){
-  console.log(data)
   const requestOptions = {
     method: 'POST',
     headers: { 

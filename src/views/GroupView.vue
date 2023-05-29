@@ -135,8 +135,8 @@ export default {
     ...mapActions('groups', ['getAll']),
     ...mapActions('groups', ['deleteGroup']),
     ...mapActions('group', ['getGroupInfo']),
-    ...mapActions('group', ['getGroupMasters']),
-    ...mapActions('group', ['getGroupMembers']),
+    // ...mapActions('group', ['getGroupMasters']),
+    // ...mapActions('group', ['getGroupMembers']),
     ...mapActions('group', ['getGroupWhole']),
     ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
@@ -202,10 +202,12 @@ export default {
     },
     openGroupDetail(id){
       this.visibleDetail = true;
-      this.getGroupInfo(id);
-      this.getGroupMasters(id);
-      this.getGroupMembers(id);
-      this.getGroupWhole(id);
+      if(id){
+        this.getGroupInfo(id);
+        this.getGroupMasters(id);
+        this.getGroupMembers(id);
+        this.getGroupWhole(id);
+      }
     },
     closeGroupDetail(){
       this.visibleDetail = false;

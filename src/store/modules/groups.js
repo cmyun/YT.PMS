@@ -7,15 +7,15 @@ const state = {
 
 const actions = {
   getAll({ dispatch, commit }) {
-  groupService.getAll()
-    .then(
-      groups => {
-        commit('setGroups', groups);
-      },
-      error => {
-        dispatch('alert/error', error, { root: true });
-      }
-    );
+    groupService.getAll()
+      .then(
+        groups => {
+          commit('setGroups', groups);
+        },
+        error => {
+          dispatch('alert/error', error, { root: true });
+        }
+      );
   },
   deleteGroup({ dispatch, commit }, id) {
     groupService.delete(id)
