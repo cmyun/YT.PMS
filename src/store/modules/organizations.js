@@ -29,7 +29,7 @@ const actions = {
   deleteOrg({ dispatch, commit }, id) {
     organizationService.delete(id)
       .then(
-        user => {
+        id => {
           commit('deleteOrgSuccess', id);
         },
         error => {

@@ -20,7 +20,7 @@
               </div>
               <ul class="lnb_tree">
                 <li v-for="task in taskBar" :key="task" @click="selectValue(task.id)">
-                  <div :class="['task_all menu_item', {selected: selectedTaskBar == task.id}]">
+                  <div :class="['task_all menu_item', {selected: selectedTaskBar == task.id}, task.class]">
                     <a class="item_txt">{{ task.value }}</a>
                     <!-- <span class="unread_cnt">
                       <a>1</a>
@@ -33,17 +33,16 @@
               <div class="head_bar">
                 <strong>Team/Group Tasks</strong>
               </div>
-              {{ affiliations }}
-              <ul class="lnb_tree" v-if="affiliations.length">
-                <li v-for="aff in affiliations" :key="aff">
-                  <div class="group menu_item">
-                    <a class="item_txt">{{ aff.division }}</a>
-                    <button class="btn_more side_btn">
-                    </button>
+              <!-- {{ affiliations }} -->
+              <ul class="lnb_tree" v-if="affiliations.length" ref="lnb_tree">
+                <li v-for="aff in affiliations" :key="aff" @click="onSelectTeam(aff)">
+                  <div :class="['group menu_item', {selected: aff.division_ID==selectedTeam.division_ID}]">
+                    <a class="item_txt">{{ aff.name }}</a>
+                    <button type="button" class="btn_more side_btn" @click="event=>onSelectGroupDetail(event, aff.division_ID)"></button>
                   </div>
                 </li>
               </ul>
-              <ul class="lnb_tree">
+              <!-- <ul class="lnb_tree">
                 <li>
                   <div class="group menu_item selected ">
                     <a class="item_txt">1</a>
@@ -52,7 +51,7 @@
                     </button>
                   </div>
                 </li>
-              </ul>
+              </ul> -->
             </div>
           </div>
         </div>
@@ -62,21 +61,22 @@
       <div class="contents">
         <section class="content_head">
           <div class="title_container">
-            <div class="search_cover">
-              <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
-              <button type="button" :class="['btn_search_option', {on:visibleSearchAdvanced}]" @click="showSearchAdvance">Advanced</button>
-            </div>
             <div class="heading_cover">
               <div class="folder_title">
+                <strong class="folder_name">{{ selectedTeam.name }}</strong>
                 <span class="cnt">
                   <strong class="cnt_label">Incomplete</strong>
-                  <a class="unread">3</a>
+                  <a class="unread">{{ incompletedTask }}</a>
                   <strong class="cnt_label">All</strong>
-                  <a class="total">4</a>
+                  <a class="total">{{ tasks.length }}</a>
                 </span>
                 <button type="button" class="btn_refresh">
                 </button>
               </div>
+            </div>
+            <div class="search_cover">
+              <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
+              <button type="button" :class="['btn_search_option', {on:visibleSearchAdvanced}]" @click="showSearchAdvance">Advanced</button>
             </div>
           </div>
           <div class="search_area" v-show="visibleSearchAdvanced">
@@ -133,7 +133,18 @@
             <div class="list_cover">
               <div class="list_filter">
                 <div class="btn_drop_cover">
-                  <button type="button" class="btn_order">By date registered</button>
+                  <button type="button" class="btn_order" @click="visibleDropCover=!visibleDropCover">By date registered</button>
+                  {{ tasks }}
+                  <div class="ly_context" v-show="visibleDropCover">
+                    <ul class="selector">
+                      <li class="on">
+                        <a>By date registered</a>
+                      </li>
+                      <li class="">
+                        <a>By deadline</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <div class="view_completed">
                   <span class="toggle_cover">
@@ -143,7 +154,7 @@
                 </div>
               </div>
               <div class="todo_list">
-                <div class="todo_item completed selected">
+                <div class="todo_item completed" v-for="task in tasks" :key="task" @click="onSelectTodoItem(task)">
                   <button type="button" class="btn_status on">
                     <span class="page_tooltip">Mark as incomplete</span>
                   </button>
@@ -159,7 +170,7 @@
                   <!-- <button type="button" class="btn_important"> -->
                   <!-- </button> -->
                 </div>
-                <div class="todo_item">
+                <!-- <div class="todo_item">
                   <button type="button" class="btn_status">
                     <span class="page_tooltip">Mark as complete</span>
                   </button>
@@ -172,10 +183,10 @@
                     <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
                     </span>
                     <span class="name">Assigner : test test</span>
-                  </div>
+                  </div> -->
                   <!-- <button type="button" class="btn_important"> -->
                   <!-- </button> -->
-                </div>
+                <!-- </div>
                 <div class="todo_item">
                   <button type="button" class="btn_status">
                     <span class="page_tooltip">Mark as complete</span>
@@ -187,24 +198,10 @@
                     <span class="date">Deadline : <em class=""> 5. 29. (Mon)</em>
                     </span>
                     <span class="name">Assigner : test test</span>
-                  </div>
+                  </div> -->
                   <!-- <button type="button" class="btn_important"> -->
                   <!-- </button> -->
-                </div>
-                <div class="todo_item reddot">
-                  <button type="button" class="btn_status">
-                    <span class="page_tooltip">Mark as complete</span>
-                  </button>
-                  <div class="title_cover">
-                    <p class="content">Create a task for today!</p>
-                  </div>
-                  <div class="info">
-                    <span class="date">No Deadline</span>
-                    <span class="name">Assigner : test test</span>
-                  </div>
-                  <!-- <button type="button" class="btn_important"> -->
-                  <!-- </button> -->
-                </div>
+                <!-- </div> -->
               </div>
             </div>
           </section>
@@ -212,7 +209,7 @@
             <div class="split_bar" draggable="true"></div>
             <div class="scroll_cover">
               <div class="view_cover">
-                <div class="view_info">
+                <div class="view_info" style="display:none">
                   <div class="view_action">
                     <span class="status complete">Completed</span>
                     <button type="button" class="btn_window">
@@ -348,8 +345,12 @@
                     <button type="button" class="btn_status">Incomplete</button>
                   </div>
                 </div>
+                <div class="empty folder">
+                  <p class="msg">No tasks selected. </p>
+                  <p class="sub_msg">Select a task to see the details.</p>
+                </div>
               </div>
-              <div class="write_cover">
+              <div class="write_cover" style="display:none">
                 <div class="btn_cover">
                   <button type="button" class="btn_cancel">Cancel</button>
                   <button type="button" class="btn_save">Save</button>
@@ -483,11 +484,14 @@
         </section>
       </div>
     </div>
-    <div id="lnb_layer">
-      <div class="ly_context" style="display: block; top: 329px; left: 228px;">
+    <div id="lnb_layer" ref="lnb_layer" >
+      <div class="ly_context"
+      :style="{ left: targetElementLeft, top: targetElementTop }"
+      v-show="visibleGroupDetail"
+      >
         <ul class="selector">
           <li>
-            <a style="cursor: pointer;">Team/Group details</a>
+            <a>Team/Group details</a>
           </li>
         </ul>
       </div>
@@ -508,14 +512,20 @@ export default {
   data(){
     return {
       taskBar: [
-        { id: 0, value: 'All Tasks' },
-        { id: 1, value: 'Tasks assigned to me' },
-        { id: 2, value: 'Tasks I assigned' }
+        { id: 0, class: 'task_all', value: 'All Tasks' },
+        { id: 1, class: 'assign', value: 'Tasks assigned to me' },
+        { id: 2, class: 'charge', value: 'Tasks I assigned' }
       ],
-      selectedTaskBar: 0,
+      selectedTaskBar: null,
       visibleSearchAdvanced: false,
       visibleTaskCreate: false,
-      visibleActionMore: false
+      visibleActionMore: false,
+      visibleDropCover: false,
+      selectedTeam: {},
+      visibleGroupDetail: false,
+      targetElementLeft: '0px',
+      targetElementTop: '0px',
+      incompletedTask: 0
     }
   },
   components: {
@@ -527,17 +537,19 @@ export default {
     ...mapState('tasks', ['status']),
     ...mapState('account', ['user']),
     ...mapState('tasks', ['affiliations']),
+    // ...mapState('account', )
   },
   created() {
     this.getAffiliations(0);
-    this.getTasks();
+  },
+  watch: {
+    affiliations(newVal) {
+      this.selectedTeam = newVal.length ? newVal[0] : {};
+    },
   },
   methods: {
-    ...mapActions('tasks', ['getTasks']),
-    // getAffiliations
+    ...mapActions('tasks', ['searchTasks']),
     ...mapActions('tasks', ['getAffiliations']),
-    // ...mapActions('tasks', ['getAffiliations']),
-    // ...mapActions('tasks', ['status']),
     selectValue(id){
       this.selectedTaskBar = id;
     },
@@ -549,11 +561,77 @@ export default {
     },
     closeTaskCreate(){
       this.visibleTaskCreate = false;
+    },
+    onSelectTeam(team){
+      this.selectedTeam = team;
+    },
+    onSelectGroupDetail(e, id){
+      this.visibleGroupDetail = true;
+      const sourcePos = e.target.getBoundingClientRect();
+      this.targetElementLeft = sourcePos.right + 'px';
+      this.targetElementTop = sourcePos.top + 'px';
+    },
+    handleOutsideClick(event){
+      const lnb_tree = this.$refs.lnb_tree;
+      const lnb_layer = this.$refs.lnb_layer;
+      if (lnb_tree && !lnb_tree.contains(event.target) && lnb_layer && !lnb_layer.contains(event.target)) {
+        this.visibleGroupDetail = false;
+      }
     }
-  }
+  },
+  mounted() {
+    document.addEventListener('click', this.handleOutsideClick);
+  },
 }
 </script>
 <style scoped>
+.empty.folder:before, .empty.todo:before {
+  content: "";
+  background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+  background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+  background-size: 318px 311px;
+  display: inline-block;
+  display: block;
+}
+.empty.folder:before {
+  background-position: -174px -76px;
+  width: 40px;
+  height: 40px;
+}
+.empty .msg {
+  color: #222;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.empty .sub_msg {
+  color: #767676;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.empty:before {
+  margin: 0 auto 12px;
+}
+.view_cover .empty {
+  padding-top: 177px;
+}
+.folder_title .folder_name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  word-wrap: normal;
+  font-weight: 700;
+  font-size: 16px;
+  color: #222;
+  padding-right: 12px;
+  vertical-align: top;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
 .write_cover {
   width: 100%;
   min-width: 490px;
@@ -563,19 +641,30 @@ export default {
 .btn_cover button+.btn_drop_cover, .btn_cover button+button {
   margin-left: 8px;
 }
-
+.btn_drop_cover {
+  position: relative;
+  display: inline-block;
+}
+.btn_drop_cover .ly_context {
+  margin-top: 4px;
+  top: 100%;
+  left: 0;
+}
 .write_cover .btn_cover {
   padding: 0 16px 16px;
   border-bottom: 1px solid #e5e5e6;
   margin: 0 -20px 20px;
   text-align: left;
 }
-.write_cover .item_cover~.item_cover {
+/* .write_cover .item_cover~.item_cover {
   padding-top: 12px;
-}
+} */
 .write_cover .item_cover {
   position: relative;
 }
+/* .lw_file_attach_write .file_head th .file_cell {
+  margin-bottom: 0;
+} */
 .write_cover .item_cover .item_label {
   clear: both;
   float: left;
@@ -595,8 +684,15 @@ export default {
 .write_cover .item_cover~.item_cover {
   padding-top: 12px;
 }
-.write_cover .item_cover {
+/* .write_cover .item_cover {
   position: relative;
+} */
+.write_cover .item_cover:after {
+  content: "";
+  height: 0;
+  overflow: hidden;
+  clear: both;
+  display: block;
 }
 .write_cover .item_value.expire_date {
   flex-wrap: wrap;
@@ -664,10 +760,48 @@ export default {
   border: 1px solid #ddd;
   border-radius: 2px;
 }
-.lw_file_attach_write .file_wrap table {
+/* .lw_file_attach_write .file_wrap table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+} */
+.lw_file_attach_write .file_wrap table td {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.lw_file_attach_write .file_cont td {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.empty.attach {
+  padding-top: 14px;
+  height: 67px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.empty {
+  text-align: center;
+}
+.empty.attach .sub_msg {
+  font-size: 12px;
+  margin-top: 7px;
+}
+.empty .sub_msg {
+  color: #767676;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.empty.attach:before {
+  content: "";
+  background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+  background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+  background-size: 318px 311px;
+  background-position: -298px -76px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  display: block;
+  margin: 0 auto;
 }
 .write_cover .item_value .group_name {
   font-size: 14px;
@@ -683,6 +817,7 @@ export default {
   white-space: nowrap;
   max-width: 100%;
   word-wrap: normal;
+  text-align: left;
 }
 .lw_file_attach_write .file_head {
   background-color: #fafafb;
@@ -746,12 +881,28 @@ export default {
   box-sizing: border-box;
   margin-bottom: 0;
 }
+.ly_context ul {
+  padding: 8px 0;
+  min-width: 100px;
+  max-height: 174px;
+  overflow: auto;
+  text-align: left;
+}
 .ly_context {
   position: absolute;
   background-color: #fff;
   border: 1px solid #c5c5c6;
   border-radius: 2px;
   z-index: 100;
+}
+.lw_checkbox {
+  position: absolute;
+  top: 3px;
+  /* clip: rect(0 0 0 0); */
+}
+.ly_context a {
+  color: #222 !important;
+  cursor: pointer;
 }
 #header {
   box-sizing: border-box;
@@ -994,7 +1145,10 @@ export default {
 ul.lnb_tree {
   padding-left: 0;
 }
-
+.lnb_tree li .ly_context {
+  left: 100%;
+  top: 0;
+}
 .lnb_tree li {
   padding: 2px 0 0;
   position: relative;
@@ -1112,11 +1266,6 @@ ul.lnb_tree {
   height: 20px;
   display: inline-block;
 }
-
-.lnb_tree .menu_item.task_all.selected .item_txt:before {
-  background-position: -172px -215px
-}
-
 .lnb_tree .menu_item.assign .item_txt:before {
   background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
   background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
@@ -1125,6 +1274,9 @@ ul.lnb_tree {
   width: 20px;
   height: 20px;
   display: inline-block;
+}
+.lnb_tree .menu_item.task_all.selected .item_txt:before {
+  background-position: -172px -215px
 }
 
 .lnb_tree .menu_item.assign.selected .item_txt:before {
@@ -1248,11 +1400,13 @@ ul.lnb_tree {
 .content_body,.content_body .main_cont {
   flex: 1 1 auto;
   overflow: auto;
+  
 }
 
 .content_body .main_cont {
   min-width: 420px;
   position: relative;
+  width: 68.5%;
 }
 
 .content_body .side_cont {
@@ -1261,6 +1415,7 @@ ul.lnb_tree {
   padding-left: 3px;
   position: relative;
   box-sizing: border-box;
+  width: 31.5%;
 }
 
 .content_body .side_cont .split_bar {
@@ -1295,7 +1450,7 @@ ul.lnb_tree {
 .title_container {
   display: flex;
   padding-bottom: 16px;
-  // justify-content: space-between;
+  justify-content: space-between;
 }
 
 .title_container .search_cover {
@@ -1503,6 +1658,7 @@ ul.lnb_tree {
   line-height: 0;
   vertical-align: top;
   margin-left: 4px;
+  position: relative;
 }
 
 .list_cover .list_filter .view_completed .toggle_cover label {
@@ -2207,8 +2363,88 @@ ul.lnb_tree {
   color: transparent;
   vertical-align: top;
 }
-.lw_file.lw_file_rtf, .lw_file.lw_file_txt {
-  background-position: -88px -116px;
+.lw_file.lw_file_ai {
+  background-position: -32px -4px
+}
+
+.lw_file.lw_file_doc,.lw_file.lw_file_docx {
+  background-position: -116px -88px
+}
+
+.lw_file.lw_file_exe {
+  background-position: -32px -32px
+}
+
+.lw_file.lw_file_fla,.lw_file.lw_file_swf {
+  background-position: -60px -4px
+}
+
+.lw_file.lw_file_csv,.lw_file.lw_file_epub,.lw_file.lw_file_gul,.lw_file.lw_file_one,.lw_file.lw_file_pub {
+  background-position: -88px -32px
+}
+
+.lw_file.lw_file_htm,.lw_file.lw_file_html {
+  background-position: -88px -60px
+}
+
+.lw_file.lw_file_hml,.lw_file.lw_file_hwp {
+  background-position: -4px -88px
+}
+
+.lw_file.lw_file_bmp,.lw_file.lw_file_cdr,.lw_file.lw_file_emf,.lw_file.lw_file_gif,.lw_file.lw_file_heic,.lw_file.lw_file_heif,.lw_file.lw_file_ico,.lw_file.lw_file_jp2,.lw_file.lw_file_jpeg,.lw_file.lw_file_jpg,.lw_file.lw_file_png,.lw_file.lw_file_ref,.lw_file.lw_file_svg,.lw_file.lw_file_tgf,.lw_file.lw_file_tif,.lw_file.lw_file_tiff,.lw_file.lw_file_wmf {
+  background-position: -4px -4px
+}
+
+.lw_file.lw_file_3g2,.lw_file.lw_file_3gp,.lw_file.lw_file_asf,.lw_file.lw_file_avi,.lw_file.lw_file_flv,.lw_file.lw_file_ftv,.lw_file.lw_file_gpp,.lw_file.lw_file_k3g,.lw_file.lw_file_m1v,.lw_file.lw_file_m2v,.lw_file.lw_file_mkl,.lw_file.lw_file_mkv,.lw_file.lw_file_mov,.lw_file.lw_file_mp4,.lw_file.lw_file_mpeg,.lw_file.lw_file_mpg,.lw_file.lw_file_mts,.lw_file.lw_file_rm,.lw_file.lw_file_skm,.lw_file.lw_file_ts,.lw_file.lw_file_webm,.lw_file.lw_file_wmv {
+  background-position: -116px -4px
+}
+
+.lw_file.lw_file_mid,.lw_file.lw_file_mp3,.lw_file.lw_file_ra,.lw_file.lw_file_wav,.lw_file.lw_file_wma {
+  background-position: -88px -88px
+}
+
+.lw_file.lw_file_ndoc {
+  background-position: -116px -116px
+}
+
+.lw_file.lw_file_nfrm {
+  background-position: -32px -60px
+}
+
+.lw_file.lw_file_nppt {
+  background-position: -32px -116px
+}
+
+.lw_file.lw_file_nxls {
+  background-position: -4px -32px
+}
+
+.lw_file.lw_file_pdf {
+  background-position: -4px -116px
+}
+
+.lw_file.lw_file_ppt,.lw_file.lw_file_pptx {
+  background-position: -116px -60px
+}
+
+.lw_file.lw_file_psd {
+  background-position: -60px -116px
+}
+
+.lw_file.lw_file_rtf,.lw_file.lw_file_txt {
+  background-position: -88px -116px
+}
+
+.lw_file.lw_file_xls,.lw_file.lw_file_xlsb,.lw_file.lw_file_xlsm,.lw_file.lw_file_xlsx {
+  background-position: -116px -32px
+}
+
+.lw_file.lw_file_7z,.lw_file.lw_file_alz,.lw_file.lw_file_gz,.lw_file.lw_file_rar,.lw_file.lw_file_zip {
+  background-position: -144px -4px
+}
+
+.lw_file.lw_file_multi {
+  background-position: -60px -88px
 }
 .btn_toggle:before {
   content: "";
@@ -2433,6 +2669,94 @@ ul.lnb_tree {
   line-height: 18px;
   padding-top: 4px;
   padding-bottom: 4px;
+}
+.lw_file_attach_write .file_head th .file_cell {
+  margin-bottom: 0;
+}
+.lw_file_attach_write .file_wrap table .file_size {
+  text-align: right;
+  padding-right: 33px;
+}
+.lw_file_attach_write .file_wrap .file_scroll_box {
+  position: relative;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 4px 0;
+  max-height: 87px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.lw_file_attach_write .file_wrap .col_file_del {
+  width: 35px;
+}
+.lw_file_attach_write .file_wrap .col_file_size {
+  width: 126px;
+}
+.lw_file_attach_write .file_cont .file_del {
+  padding-left: 5px;
+  text-align: center;
+}
+.lw_file_attach_write .file_wrap table td {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.lw_file_attach_write .file_cont td {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.lw_file_attach_write .file_wrap .btn_file_del {
+  border: 0;
+  background-color: transparent;
+  padding: 6px;
+  line-height: 0;
+  vertical-align: top;
+}
+.lw_file_attach_write .file_wrap .btn_file_del:before {
+  content: "";
+  background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),to(transparent)),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+  background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
+  background-size: 318px 311px;
+  background-position: -176px -295px;
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+}
+.lw_file_attach_write .file_cont .file_name .file_cell {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  line-height: 20px;
+}
+.lw_file_attach_write .file_cont .file_name .lw_file {
+  font-size: 0;
+  line-height: 0;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin-right: 8px;
+}
+.lw_file_attach_write .file_cont .file_name .file_name_txt {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  word-wrap: normal;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: #222;
+  font-size: 14px;
+  min-width: 0;
+}
+.lw_file_attach_write .file_wrap .col_file_del {
+  width: 35px;
+}
+.lw_file_attach_write .file_wrap .col_file_size {
+  width: 126px;
 }
 .lw_file_attach_write .file_head {
   background-color: #fafafb;

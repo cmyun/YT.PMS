@@ -277,7 +277,6 @@ export default {
       this.member = newVal.map(obj => obj.user_ID);
       this.memberArr = newVal;
     },
-
   },
 };
 </script>

@@ -6,7 +6,7 @@
             <div class="ly_wrap dimmed en_US ua_win">
               <div class="ly_common ly_write">
                 <div class="tit_box">
-                  <h3 class="tit">Add</h3>
+                  <h3 class="tit">Write</h3>
                 </div>
                 <div class="layer_body">
                   <div class="write_cover">
@@ -45,10 +45,10 @@
                           <span class="lw_selectbox_label">1</span>
                           <div class="lw_selectbox_layer" style="display: none;">
                             <ul>
-                              <li class="" style="cursor: pointer;">
+                              <li class="">
                                 <a>None</a>
                               </li>
-                              <li class="on" style="cursor: pointer;">
+                              <li class="on">
                                 <a>1</a>
                               </li>
                             </ul>
@@ -58,14 +58,14 @@
                     </div>
                     <div class="item_cover">
                       <span class="item_label">Assigner <div class="tooltip_cover">
-                          <a class="ico_help" style="cursor: pointer;">
+                          <a class="ico_help">
                             <i class="blind">Help</i>
                           </a>
                         </div>
                       </span>
                       <div class="item_value">
                         <div class="member_list completed">
-                          <span class="added_member" style="cursor: pointer;">
+                          <span class="added_member">
                             <span class="name">test test</span>
                             <button type="button" class="btn_remove">
                               <i class="blind">Select to delete</i>
@@ -76,14 +76,14 @@
                     </div>
                     <div class="item_cover">
                       <span class="item_label">Assignee <div class="tooltip_cover">
-                          <a class="ico_help" style="cursor: pointer;">
+                          <a class="ico_help">
                             <i class="blind">Help</i>
                           </a>
                         </div>
                       </span>
                       <div class="item_value">
                         <div class="member_list completed">
-                          <span class="added_member" style="cursor: pointer;">
+                          <span class="added_member">
                             <span class="name">test test</span>
                             <button type="button" class="btn_remove">
                               <i class="blind">Select to delete</i>
@@ -101,7 +101,7 @@
                         <div class="lw_file_attach_write">
                           <div class="file_infor">
                             <label class="btn_attach">
-                              <input type="file" class="btn_attach" multiple="" style="display: none;">My PC </label>
+                              <input type="file" class="btn_attach" multiple="" @change="handleFileUpload" style="display: none;">My PC </label>
                             <button type="button" class="btn_attach">Folder</button>
                             <p class="total_volume">Attached file <em class="cnt">0</em> Files 0KB </p>
                           </div>
@@ -132,11 +132,27 @@
                                   <col class="col_file_size">
                                 </colgroup>
                                 <tbody>
-                                  <tr>
+                                  <tr v-if="!selectedFiles.length">
                                     <td colspan="3">
                                       <div class="empty attach">
                                         <p class="sub_msg">Drag and drop a file with the mouse.</p>
                                       </div>
+                                    </td>
+                                  </tr>
+                                  <tr v-else v-for="(file, index) in selectedFiles" :key="file.name">
+                                    <td class="file_del">
+                                      <button type="button" class="btn_file_del" @click="removeFile(index)">
+                                        <i class="blind">Delete attached file</i>
+                                      </button>
+                                    </td>
+                                    <td class="file_name">
+                                      <p class="file_cell">
+                                        <i :class="['lw_file', 'lw_file_'+getFileExtension(file.name)]"></i>
+                                        <span class="file_name_txt" :title="file.name">{{file.name}}</span>
+                                      </p>
+                                    </td>
+                                    <td class="file_size">
+                                      <p class="file_cell">{{ formatFileSize(file.size) }}</p>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -148,7 +164,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="btn_box">
+                <div class="btn_cover">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
                   <button class="lw_btn_point">Save</button>
                 </div>
@@ -188,7 +204,8 @@ export default {
         isNotify: true,
         isDisclose: true
       },
-      visibleAdvance: true
+      visibleAdvance: true,
+      selectedFiles: []
     }
   },
   computed: {
@@ -196,6 +213,26 @@ export default {
   },
   methods: {
     // ...mapActions('organizations', ['addOrg']),
+    removeFile(index) {
+      this.selectedFiles.splice(index, 1);
+    },
+    formatFileSize(sizeInBytes) {
+      if (sizeInBytes < 1024) {
+        return sizeInBytes + ' bytes';
+      } else if (sizeInBytes < 1024 * 1024) {
+        const sizeInKilobytes = (sizeInBytes / 1024).toFixed(2);
+        return sizeInKilobytes + ' KB';
+      } else if (sizeInBytes < 1024 * 1024 * 1024) {
+        const sizeInMegabytes = (sizeInBytes / (1024 * 1024)).toFixed(2);
+        return sizeInMegabytes + ' MB';
+      } else {
+        const sizeInGigabytes = (sizeInBytes / (1024 * 1024 * 1024)).toFixed(2);
+        return sizeInGigabytes + ' GB';
+      }
+    },
+    getFileExtension(filename) {
+      return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+    },
     close() {
       this.$emit('close');
       // this.form = {
@@ -230,6 +267,31 @@ export default {
       //   isDisclose: false
       // }
     },
+    handleFileUpload(event) {
+      this.selectedFiles = Array.from(event.target.files);
+      console.log(event.target.files)
+      console.log(this.selectedFiles)
+    },
+    // uploadFiles() {
+    //   const formData = new FormData();
+
+    //   // Append each selected file to the formData object
+    //   this.selectedFiles.forEach((file) => {
+    //     formData.append('files', file);
+    //   });
+
+    //   // Send the formData to the server using Axios
+    //   axios
+    //     .post('/upload', formData)
+    //     .then((response) => {
+    //       // Handle the server's response
+    //       console.log('Files uploaded successfully:', response.data);
+    //     })
+    //     .catch((error) => {
+    //       // Handle any errors that occur during the upload
+    //       console.error('Error uploading files:', error);
+    //     });
+    // }
   }
 };
 </script>
@@ -272,6 +334,16 @@ export default {
   height: 40px;
   padding-top: 9px;
   padding-bottom: 9px;
+}
+.write_cover {
+  width: 100%;
+  min-width: 490px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 20px 32px;
+}
+.lw_file_attach_write .file_infor .btn_attach~.btn_attach {
+  margin-left: 8px;
 }
 .select_cover .lw_selectbox_label.hover, .select_cover .lw_selectbox_label:hover {
   background-color: rgba(0,0,0,.05);
@@ -615,5 +687,58 @@ export default {
 .lw_toggle {
   position: absolute;
   clip: rect(0 0 0 0);
+}
+.ly_common.ly_write .layer_body {
+  overflow: auto;
+}
+.ly_common .layer_body {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}
+.ly_wrap.dimmed .ly_alert, .ly_wrap.dimmed .ly_common {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  text-align: left;
+  white-space: normal;
+  vertical-align: middle;
+  position: relative;
+  z-index: 10;
+  max-height: 100%;
+}
+.ly_common {
+  flex-direction: column;
+}
+#modal-root .ly_common {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ly_wrap.dimmed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  text-align: center;
+  white-space: nowrap;
+  height: 100%;
+}
+.ly_common .btn_cover {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  text-align: right;
+  padding-top: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-top: 1px solid #e5e5e6;
 }
 </style>

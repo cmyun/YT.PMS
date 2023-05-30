@@ -7,14 +7,6 @@ const state = {
 }
 
 const actions = {
-  getTasks({ commit }) {
-    taskService.getTasks()
-      .then(
-        tasks => {
-          commit('setTasks', tasks);
-        }
-      );
-  },
   getAffiliations({ dispatch, commit }, id) {
     taskService.getAffiliations(id)
       .then(
@@ -26,16 +18,45 @@ const actions = {
         }
       );
   },
+  searchTasks({ dispatch, commit }) {
+    taskService.searchTasks()
+      .then(
+        tasks => {
+          commit('setTasks', tasks);
+        },
+        error => {
+          commit('searchTasksFailure', error);
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  },
+  deleteTask({ dispatch, commit }, id) {
+    taskService.delete(id)
+      .then(
+        id => {
+          commit('deleteTaskSuccess', id);
+        },
+        error => {
+          commit('deleteTaskFailure', error);
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  },
 };
 
 const mutations = {
   setTasks(state, tasks) {
     state.tasks = tasks
   },
+  searchTasksFailure(state, error) {
+    state.status = 'error';
+  },
   setAffiliations(state, affiliations) {
     state.affiliations = affiliations
-  }
-
+  },
+  deleteTaskFailure(state, error) {
+    state.status = 'error';
+  },
 };
 
 export const tasks = {
