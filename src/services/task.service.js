@@ -14,6 +14,7 @@ function getAffiliations(id) {
   return fetch(`${apiUrl}/task-management/tasks/${id}/affiliations`, requestOptions).then(handleResponse);
 }
 function searchTasks(condition) {
+  console.log(condition);
   const requestOptions = {
     method: 'POST',
     headers: { 

@@ -18,10 +18,11 @@ const actions = {
         }
       );
   },
-  searchTasks({ dispatch, commit }) {
-    taskService.searchTasks()
+  searchTasks({ dispatch, commit }, condition) {
+    taskService.searchTasks(condition)
       .then(
         tasks => {
+          console.log(tasks);
           commit('setTasks', tasks);
         },
         error => {
@@ -49,6 +50,7 @@ const mutations = {
     state.tasks = tasks
   },
   searchTasksFailure(state, error) {
+    state.tasks = []
     state.status = 'error';
   },
   setAffiliations(state, affiliations) {

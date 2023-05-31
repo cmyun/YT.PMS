@@ -62,7 +62,7 @@
                         </div>
                         <div class="lwTd userName user_name">
                           <span class="name_cover">
-                            <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name }}</router-link>
+                            <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name">{{ member.name + ' - ' + member.id }}</router-link>
                             <span class="name_en"></span>
                           </span>
                           <span class="team">{{ getOrganizationName(member.organization_ID) }}</span>

@@ -296,6 +296,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.btn_cover button+.btn_drop_cover, 
+.btn_cover button+button {
+  margin-left: 8px;
+}
 .empty.attach {
   padding-top: 14px;
   height: 67px;

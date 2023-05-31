@@ -7,7 +7,7 @@
       <div id="lnbArea" class="nav_lnb">
         <div class="main_pane">
           <div class="core_button">
-            <a class="skin_corp_bg skin_corp_txt" style="cursor: pointer;" @click="openTaskCreate">
+            <a class="skin_corp_bg skin_corp_txt" @click="openTaskCreate">
               <strong>New Task</strong>
             </a>
           </div>
@@ -19,9 +19,9 @@
                 <strong>My Tasks</strong>
               </div>
               <ul class="lnb_tree">
-                <li v-for="task in taskBar" :key="task" @click="selectValue(task.id)">
-                  <div :class="['task_all menu_item', {selected: selectedTaskBar == task.id}, task.class]">
-                    <a class="item_txt">{{ task.value }}</a>
+                <li v-for="item in taskBar" :key="item" @click="selectValue(item.id)">
+                  <div :class="['task_all menu_item', {selected: selectedTaskBar == item.id}, item.class]">
+                    <a class="item_txt">{{ item.value }}</a>
                     <!-- <span class="unread_cnt">
                       <a>1</a>
                     </span> -->
@@ -33,7 +33,7 @@
               <div class="head_bar">
                 <strong>Team/Group Tasks</strong>
               </div>
-              <!-- {{ affiliations }} -->
+              {{ affiliations }}
               <ul class="lnb_tree" v-if="affiliations.length" ref="lnb_tree">
                 <li v-for="aff in affiliations" :key="aff" @click="onSelectTeam(aff)">
                   <div :class="['group menu_item', {selected: aff.division_ID==selectedTeam.division_ID}]">
@@ -74,7 +74,7 @@
                 </button>
               </div>
             </div>
-            <div class="search_cover">
+            <div class="search_cover" v-if="selectedTaskBar">
               <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
               <button type="button" :class="['btn_search_option', {on:visibleSearchAdvanced}]" @click="showSearchAdvance">Advanced</button>
             </div>
@@ -134,7 +134,6 @@
               <div class="list_filter">
                 <div class="btn_drop_cover">
                   <button type="button" class="btn_order" @click="visibleDropCover=!visibleDropCover">By date registered</button>
-                  {{ tasks }}
                   <div class="ly_context" v-show="visibleDropCover">
                     <ul class="selector">
                       <li class="on">
@@ -154,18 +153,20 @@
                 </div>
               </div>
               <div class="todo_list">
-                <div class="todo_item completed" v-for="task in tasks" :key="task" @click="onSelectTodoItem(task)">
-                  <button type="button" class="btn_status on">
-                    <span class="page_tooltip">Mark as incomplete</span>
+                {{ tasks }}
+                <div :class="['todo_item', {completed: task.isComplete, selected:selectedTask.id==task.id}]" v-for="task in tasks" :key="task" @click="onSelectTodoItem(task)">
+                  <button type="button" :class="['btn_status', {on:task.isComplete}]">
+                    <span class="page_tooltip">Mark as {{task.isComplete ? 'incomplete' : 'complete'}}</span>
                   </button>
                   <div class="title_cover">
-                    <p class="content">tesst3</p>
-                    <span class="attachment">
+                    <p class="content">{{ task.content }}</p>
+                    <span class="attachment" v-if="task.isAttach">
                     </span>
                   </div>
                   <div class="info">
-                    <span class="date">No Deadline</span>
-                    <span class="name">Assigner : test test</span>
+                    <span class="date" v-if="task.deadlineToString">Deadline : <em :class="{outof: new Date(task.deadline) < new Date()}">{{ task.deadlineToString }}</em></span>
+                    <span class="date" v-else>No Deadline</span>
+                    <span class="name">Assignee : {{ task.aUserName }}</span>
                   </div>
                   <!-- <button type="button" class="btn_important"> -->
                   <!-- </button> -->
@@ -209,9 +210,10 @@
             <div class="split_bar" draggable="true"></div>
             <div class="scroll_cover">
               <div class="view_cover">
-                <div class="view_info" style="display:none">
+                <div class="view_info" v-if="selectedTask && !isEditTask">
                   <div class="view_action">
-                    <span class="status complete">Completed</span>
+                    <span class="status" v-if="!selectedTask.isComplete">Incompleted</span>
+                    <span class="status complete" v-else>Completed</span>
                     <button type="button" class="btn_window">
                     </button>
                     <button type="button" class="btn_modify">
@@ -257,7 +259,7 @@
                     <span class="item_label">Assigner</span>
                     <div class="item_value">
                       <div class="member_list completed">
-                        <span class="added_member" style="cursor: pointer;">
+                        <span class="added_member">
                           <span class="name">test test</span>
                         </span>
                       </div>
@@ -267,7 +269,7 @@
                     <span class="item_label">Assignee</span>
                     <div class="item_value">
                       <div class="member_list completed">
-                        <span class="added_member" style="cursor: pointer;">
+                        <span class="added_member">
                           <span class="name">test test</span>
                         </span>
                       </div>
@@ -345,7 +347,7 @@
                     <button type="button" class="btn_status">Incomplete</button>
                   </div>
                 </div>
-                <div class="empty folder">
+                <div class="empty folder" v-if="!selectedTask">
                   <p class="msg">No tasks selected. </p>
                   <p class="sub_msg">Select a task to see the details.</p>
                 </div>
@@ -390,14 +392,14 @@
                 </div>
                 <div class="item_cover">
                   <span class="item_label">Assigner <div class="tooltip_cover">
-                      <a class="ico_help" style="cursor: pointer;">
+                      <a class="ico_help">
                         <i class="blind">Help</i>
                       </a>
                     </div>
                   </span>
                   <div class="item_value">
                     <div class="member_list completed">
-                      <span class="added_member" style="cursor: pointer;">
+                      <span class="added_member">
                         <span class="name">test test</span>
                         <button type="button" class="btn_remove">
                           <i class="blind">Select to delete</i>
@@ -408,14 +410,14 @@
                 </div>
                 <div class="item_cover">
                   <span class="item_label">Assignee <div class="tooltip_cover">
-                      <a class="ico_help" style="cursor: pointer;">
+                      <a class="ico_help">
                         <i class="blind">Help</i>
                       </a>
                     </div>
                   </span>
                   <div class="item_value">
                     <div class="member_list completed">
-                      <span class="added_member" style="cursor: pointer;">
+                      <span class="added_member">
                         <span class="name">test test</span>
                         <button type="button" class="btn_remove">
                           <i class="blind">Select to delete</i>
@@ -525,7 +527,21 @@ export default {
       visibleGroupDetail: false,
       targetElementLeft: '0px',
       targetElementTop: '0px',
-      incompletedTask: 0
+      incompletedTask: 0,
+      selectedTask: {},
+      isEditTask: false,
+      tasksInfo: {
+        user_ID: 0,
+        division: "O",
+        division_ID: 9,
+        isComplete: false,
+        sort: "R",
+        content: "",
+        deadlineStart: "",
+        deadlineEnd: "",
+        assigner: "",
+        assignee: ""
+      }
     }
   },
   components: {
@@ -536,22 +552,52 @@ export default {
     ...mapState('tasks', ['tasks']),
     ...mapState('tasks', ['status']),
     ...mapState('account', ['user']),
-    ...mapState('tasks', ['affiliations']),
-    // ...mapState('account', )
+    ...mapState('tasks', ['affiliations'])
   },
   created() {
     this.getAffiliations(0);
+    // const a = {
+    //   user_ID: 0,
+    //   division: "",
+    //   division_ID: 0,
+    //   isComplete: false,
+    //   sort: "R",
+    //   content: "",
+    //   deadlineStart: "",
+    //   deadlineEnd: "",
+    //   assigner: "",
+    //   assignee: ""
+    // }
+    this.searchTasks(this.tasksInfo);
   },
   watch: {
     affiliations(newVal) {
       this.selectedTeam = newVal.length ? newVal[0] : {};
     },
+    tasks(newVal){
+      const incompletedTask = newVal.filter(item => !item.isComplete);
+      this.incompletedTask = incompletedTask.length;
+    },
+    tasksInfo:{
+      handler(newValue, oldValue) {
+        this.searchTasks(newValue);
+      },
+      deep: true
+    } 
   },
   methods: {
     ...mapActions('tasks', ['searchTasks']),
     ...mapActions('tasks', ['getAffiliations']),
     selectValue(id){
+      this.selectedTeam = {}
       this.selectedTaskBar = id;
+      if(id==1){
+        this.tasksInfo.assignee = this.user.name;
+      } else if(id==2){
+        this.tasksInfo.assigner = this.user.name;
+      }
+      this.tasksInfo.division = '';
+      this.tasksInfo.division_ID = 0;
     },
     showSearchAdvance(){
       this.visibleSearchAdvanced = !this.visibleSearchAdvanced
@@ -564,6 +610,12 @@ export default {
     },
     onSelectTeam(team){
       this.selectedTeam = team;
+      this.selectedTaskBar = null;
+      this.tasksInfo.division = team.division;
+      this.tasksInfo.division_ID = team.division_ID;
+      this.tasksInfo.assignee = '';
+      this.tasksInfo.assigner = '';
+      console.log(this.tasksInfo);
     },
     onSelectGroupDetail(e, id){
       this.visibleGroupDetail = true;
@@ -577,6 +629,9 @@ export default {
       if (lnb_tree && !lnb_tree.contains(event.target) && lnb_layer && !lnb_layer.contains(event.target)) {
         this.visibleGroupDetail = false;
       }
+    },
+    onSelectTodoItem(task){
+      this.selectedTask = task;
     }
   },
   mounted() {
@@ -585,7 +640,9 @@ export default {
 }
 </script>
 <style scoped>
-.empty.folder:before, .empty.todo:before {
+
+.empty.folder:before,
+.empty.todo:before {
   content: "";
   background-image: url(https://static.worksmobile.net/static/wm/task/sp_task_ed9a9469.png);
   background-image: linear-gradient(transparent,transparent),url(https://static.worksmobile.net/static/wm/task/sp_task_55d77550.svg);
@@ -656,15 +713,9 @@ export default {
   margin: 0 -20px 20px;
   text-align: left;
 }
-/* .write_cover .item_cover~.item_cover {
-  padding-top: 12px;
-} */
 .write_cover .item_cover {
   position: relative;
 }
-/* .lw_file_attach_write .file_head th .file_cell {
-  margin-bottom: 0;
-} */
 .write_cover .item_cover .item_label {
   clear: both;
   float: left;
@@ -684,9 +735,6 @@ export default {
 .write_cover .item_cover~.item_cover {
   padding-top: 12px;
 }
-/* .write_cover .item_cover {
-  position: relative;
-} */
 .write_cover .item_cover:after {
   content: "";
   height: 0;
@@ -760,11 +808,6 @@ export default {
   border: 1px solid #ddd;
   border-radius: 2px;
 }
-/* .lw_file_attach_write .file_wrap table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-} */
 .lw_file_attach_write .file_wrap table td {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1051,6 +1094,7 @@ export default {
   position: relative;
   width: 50%;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .ncs .main_pane .core_button a {

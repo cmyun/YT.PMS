@@ -63,42 +63,42 @@
     </div>
     <div class="login_area">
       <div class="user_profile">
-        <button type="button" class="user_profile" @click="toggleNav()">{{ getUsername() }}</button>
+        <button type="button" class="user_profile" ref="user_profile" @click="toggleNav()">{{ getUsername() }}</button>
       </div>
-      <div class="gnb_user" :class="{active: navActive}" >
+      <div class="gnb_user" :class="{active: navActive}" ref="gnb_user">
         <div class="user_info">
           <p class="profile">{{ getUsername() }}</p>
           <div class="infor">
             {{ user.name }}
           </div>
-      </div>
-      <ul>
-        <li>
-          <router-link to="/settings">
-            My Information
-          </router-link>
-        </li>
-        <li v-show="user.isAdmin">
-          <router-link to="/member">
-            Member
-          </router-link>
-        </li>
-        <li v-show="user.isAdmin">
-          <router-link to="/organization">
-            Organization
-          </router-link>
-        </li>
-        <li v-show="user.isAdmin">
-          <router-link to="/group">
-            Group
-          </router-link>
-        </li>
-        <li>
-          <button type="button" @click="handleLogout">
-            Logout
-          </button>
-        </li>
-      </ul>
+        </div>
+        <ul>
+          <li>
+            <router-link to="/settings">
+              My Information
+            </router-link>
+          </li>
+          <li v-show="user.isAdmin">
+            <router-link to="/member">
+              Member
+            </router-link>
+          </li>
+          <li v-show="user.isAdmin">
+            <router-link to="/organization">
+              Organization
+            </router-link>
+          </li>
+          <li v-show="user.isAdmin">
+            <router-link to="/group">
+              Group
+            </router-link>
+          </li>
+          <li>
+            <button type="button" @click="handleLogout">
+              Logout
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </header>
@@ -135,8 +135,18 @@ export default {
       location.reload(true);
     },
     toggleNav(){
-        this.navActive = !this.navActive;
+      this.navActive = !this.navActive;
     },
+    handleOutsideClick(event){
+      const gnb_user = this.$refs.gnb_user;
+      const user_profile = this.$refs.user_profile;
+      if (gnb_user && !gnb_user.contains(event.target) && user_profile && !user_profile.contains(event.target)) {
+        this.navActive = false;
+      }
+    }
+  },
+  mounted() {
+    document.addEventListener('click', this.handleOutsideClick);
   },
 };
 </script>
