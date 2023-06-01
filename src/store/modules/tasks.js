@@ -22,7 +22,6 @@ const actions = {
     taskService.searchTasks(condition)
       .then(
         tasks => {
-          console.log(tasks);
           commit('setTasks', tasks);
         },
         error => {

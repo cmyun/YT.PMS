@@ -30,6 +30,18 @@ const actions = {
         }
       );
   },
+  updateTaskStatus({ dispatch, commit }, task) {
+    taskService.updateTaskStatus(task)
+      .then(
+        res => {
+          commit('updateTaskStatusSuccess', res);
+        },
+        error => {
+          commit('updateTaskStatusFailure', error);
+          dispatch('alert/error', error, { root: true });
+        }
+      );
+  },
 };
 
 const mutations = {
@@ -38,6 +50,12 @@ const mutations = {
   },
   setFiles(state, files) {
     state.files = files
+  },
+  updateTaskStatusSuccess(state, task){
+    state.task = task;
+  },
+  updateTaskStatusFailure(state, error){
+    state.status = 'error';
   }
 };
 

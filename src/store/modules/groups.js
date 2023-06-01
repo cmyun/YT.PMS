@@ -60,7 +60,7 @@ const mutations = {
   deleteGroupFailure(state, error) {
     state.status = 'error';
   },
-  addGroupFailure(state, group) {
+  addGroupFailure(state, error) {
     state.status = 'error';
   },
 };

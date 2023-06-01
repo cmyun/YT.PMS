@@ -155,7 +155,10 @@
               <div class="todo_list">
                 {{ tasks }}
                 <div :class="['todo_item', {completed: task.isComplete, selected:selectedTask.id==task.id}]" v-for="task in tasks" :key="task" @click="onSelectTodoItem(task)">
-                  <button type="button" :class="['btn_status', {on:task.isComplete}]">
+                  <button type="button" 
+                  :class="['btn_status', {on:task.isComplete}]"
+                  @click="handleUpdateTaskStatus(task)"
+                  >
                     <span class="page_tooltip">Mark as {{task.isComplete ? 'incomplete' : 'complete'}}</span>
                   </button>
                   <div class="title_cover">
@@ -209,14 +212,19 @@
           <section class="side_cont">
             <div class="split_bar" draggable="true"></div>
             <div class="scroll_cover">
-              <div class="view_cover">
+              <div class="view_cover" v-if="!isEditTask">
                 <div class="view_info" v-if="Object.keys(selectedTask).length && !isEditTask">
                   <div class="view_action">
-                    <span class="status" v-if="selectedTask=={}">Incompleted</span>
+                    <span class="status" v-if="!selectedTask.isComplete">Incompleted</span>
                     <span class="status complete" v-else>Completed</span>
-                    <button type="button" class="btn_window">
+                    <div class="task_area">
+                      <!-- <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button> -->
+                      <button type="button" class="btn_save">Edit</button>
+                      <button type="button" class="btn_delete02">Delete</button>
+                    </div>
+                    <!-- <button type="button" class="btn_window">
                     </button>
-                    <button type="button" class="btn_modify">
+                    <button type="button" class="btn_modify" @click="handleEditTask">
                     </button>
                     <div class="btn_drop_cover">
                       <button type="button" class="btn_action_more" @click="visibleActionMore = !visibleActionMore"></button>
@@ -233,7 +241,7 @@
                           </li>
                         </ul>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="item_cover">
                     <div class="item_value">
@@ -275,24 +283,24 @@
                       </div>
                     </div>
                   </div>
-                  <div class="item_cover file_attachment">
+                  <div class="item_cover file_attachment" v-if="files.length">
                     <div class="item_value">
                       <div class="lw_file_attach_view">
                         <div class="file_infor">
                           <span class="file_tit">
                             <button type="button" class="btn_toggle">
-                            </button>Attached file <em class="cnt">4</em> Files <span class="file_size">(111.77KB)</span>
+                            </button>Attached file <em class="cnt">{{ files.length }}</em> Files 
+                            <!-- <span class="file_size">(111.77KB)</span> -->
                           </span>
                         </div>
                         <div class="file_wrap">
-                          
                           <ul class="file_list">
-                            <li>
+                            <li v-for="file in files" :key="file">
                               <span class="file_name">
-                                <i class="lw_file lw_file_png">png file</i>
-                                <a href="#" class="file_name_txt" title="Capture1.PNG">Capture1.PNG</a>
+                                <i :class="['lw_file', 'lw_file_'+getFileExtension(file.name)]">{{getFileExtension(file.name)}} file</i>
+                                <a href="#" class="file_name_txt" :title="file.name">{{ file.name }}</a>
                               </span>
-                              <span class="file_size">68.08KB</span>
+                              <!-- <span class="file_size">68.08KB</span> -->
                               <div class="file_btn_area">
                                 <button type="button" class="btn_down_pc" title="Save to PC">
                                 </button>
@@ -300,7 +308,7 @@
                                 </button>
                               </div>
                             </li>
-                            <li>
+                            <!-- <li>
                               <span class="file_name">
                                 <i class="lw_file lw_file_png">png file</i>
                                 <a href="#" class="file_name_txt" title="Capture.PNG">Capture.PNG</a>
@@ -338,14 +346,17 @@
                                 <button type="button" class="btn_down_drive" title="Save to Folder">
                                 </button>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="btn_cover">
-                    <button type="button" class="btn_status">Incomplete</button>
+                    <button type="button" 
+                    :class="['btn_status',{complete:!selectedTask.isComplete}]"
+                    @click="handleUpdateTaskStatus(selectedTask)"
+                    >{{selectedTask.isComplete?'Incomplete':'Complete'}}</button>
                   </div>
                 </div>
                 <div class="empty folder" v-if="!Object.keys(selectedTask).length">
@@ -362,7 +373,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="write_cover" v-if="Object.keys(selectedTask).length && isEditTask">
+              <!-- <div class="write_cover" v-if="Object.keys(selectedTask).length && isEditTask">
                 <div class="btn_cover">
                   <button type="button" class="btn_cancel">Cancel</button>
                   <button type="button" class="btn_save">Save</button>
@@ -490,7 +501,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </section>
         </section>
@@ -561,10 +572,12 @@ export default {
   computed: {
     ...mapState('tasks', ['tasks']),
     ...mapState('task', ['histories']),
-    ...mapState('tasks', ['status']),
+    // ...mapState('tasks', ['status']),
     ...mapState('account', ['user']),
     ...mapState('tasks', ['affiliations']),
-    ...mapState('tasks', ['files'])
+    ...mapState('task', ['files']),
+    ...mapState('task', ['task']),
+    ...mapState('task', ['status'])
   },
   created() {
     this.getAffiliations(0);
@@ -596,13 +609,20 @@ export default {
         this.searchTasks(newValue);
       },
       deep: true
-    } 
+    },
+    task(newVal){
+      if(Object.keys(newVal).length){
+        const newObj = { ...this.selectedTask, ...newVal};
+        this.selectedTask = newObj;
+      }
+    }
   },
   methods: {
     ...mapActions('tasks', ['searchTasks']),
     ...mapActions('tasks', ['getAffiliations']),
     ...mapActions('task', ['getHistories']),
     ...mapActions('task', ['getFiles']),
+    ...mapActions('task', ['updateTaskStatus']),
     selectValue(id){
       this.selectedTeam = {}
       this.selectedTaskBar = id;
@@ -651,6 +671,26 @@ export default {
       this.selectedTask = task;
       this.getHistories(task.id);
       this.getFiles(task.id);
+    },
+    getFileExtension(filename) {
+      return filename.slice((filename.lastIndexOf('.') - 1 >>> 0) + 2);
+    },
+    handleEditTask(){
+      this.isEditTask = true;
+    },
+    handleUpdateTaskStatus(task){
+      const taskStatus = {
+        id: task.id,
+        isComplete: !task.isComplete
+      }
+      this.updateTaskStatus(taskStatus);
+      console.log(this.status);
+      // setTimeout(() => {
+        // if(this.status == null){
+        //   this.selectedTask = this.task;
+        //   console.log(this.selectedTask)
+        // }
+      // }, 1000);
     }
   },
   mounted() {

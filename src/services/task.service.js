@@ -4,6 +4,7 @@ export const taskService = {
   getAffiliations,
   getHistories,
   getFiles,
+  updateTaskStatus,
   delete: _delete
 };
 const apiUrl = 'http://dev.yunwootech.com:52304';
@@ -39,6 +40,16 @@ function getFiles(id) {
     headers: authHeader()
   };
   return fetch(`${apiUrl}/task-management/tasks/${id}/files`, requestOptions).then(handleResponse);
+}
+function updateTaskStatus(task) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 
+      ...authHeader(), 
+      'Content-Type': 'application/json' },
+    body: JSON.stringify(task)
+  };
+  return fetch(`${apiUrl}/task-management/tasks/status`, requestOptions).then(handleResponse);
 }
 function _delete(id) {
   const requestOptions = {

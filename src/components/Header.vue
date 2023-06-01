@@ -253,7 +253,7 @@ export default {
   border-radius: 50%;
   background-color: rgb(235, 235, 245);
   font-size: 20px !important;
-  color: #fff;
+  color: #000;
   line-height: 1.5;
   text-align: center;
   text-transform: uppercase;

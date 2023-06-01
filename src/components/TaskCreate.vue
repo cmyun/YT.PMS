@@ -269,8 +269,6 @@ export default {
     },
     handleFileUpload(event) {
       this.selectedFiles = Array.from(event.target.files);
-      console.log(event.target.files)
-      console.log(this.selectedFiles)
     },
     // uploadFiles() {
     //   const formData = new FormData();
