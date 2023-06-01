@@ -1,11 +1,20 @@
 import { groupService } from '../../services';
 
 const state = {
-  status: null,
   group: [],
   groupMasters: [],
   groupMembers: [],
-  groupWhole: []
+  groupWhole: [],
+  apiStatus: {
+    updateGroupMasters: {
+      error: false,
+      message: ''
+    },
+    updateGroup: {
+      error: false,
+      message: ''
+    }
+  }
 }
 
 const actions = {
@@ -58,8 +67,10 @@ const actions = {
       .then(
         group => {
           commit('updateGroupMastersSuccess', group);
+          dispatch('alert/success', 'Update successful!', { root: true });
         },
         error => {
+          console.log(error);
           commit('updateGroupMastersFailure', error);
           dispatch('alert/error', error, { root: true });
         }
@@ -70,6 +81,7 @@ const actions = {
       .then(
         group => {
           commit('updateGroupSuccess', group);
+          dispatch('alert/success', 'Update successful!', { root: true });
         },
         error => {
           commit('updateGroupFailure', error);
@@ -93,19 +105,23 @@ const mutations = {
     state.groupWhole = groupWhole
   },
   updateGroupMastersSuccess(state, group) {
-    state.groupMasters = group
-  },
-  updateGroupMembersSuccess(state, group) {
-    state.groupMembers = group
+    state.groupMasters = group;
+    state.apiStatus['updateGroupMasters'].error = false;
+    state.apiStatus['updateGroupMasters'].status = 'Update successful!';
   },
   updateGroupSuccess(state, group) {
-    state.group = group
+    state.group = group;
+    state.apiStatus['updateGroup'].error = false;
+    state.apiStatus['updateGroup'].message = 'Update successful';
   },
   updateGroupFailure(state, error) {
-    state.status = 'error';
+    state.apiStatus['updateGroup'].error = true;
+    state.apiStatus['updateGroup'].message = error;
   },
   updateGroupMastersFailure(state, error) {
-    state.status = 'error';
+    state.apiStatus['updateGroupMasters'].error = true;
+    state.apiStatus['updateGroupMasters'].message = error;
+    console.log(state.apiStatus);
   },
 };
 

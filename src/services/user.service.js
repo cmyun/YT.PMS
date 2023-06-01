@@ -135,7 +135,6 @@ function handleResponse(response) {
       // const error = (data && data.message) || response.statusText;
       const error = data;
       console.log(response);
-      console.log(data);
       return Promise.reject(error);
     }
     return data;

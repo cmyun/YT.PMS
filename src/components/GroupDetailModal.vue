@@ -7,6 +7,7 @@
         <div class="ly_wrap dimmed en_US ua_win">
           <div class="ly_common ly_page ly_member_detail freeplan">
             <h3 class="tit">Group info</h3>
+            {{ apiStatus }}
             <div class="btn_box full">
               <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
               <button type="button" class="lw_btn_text" @click="openGroupMasterModal(group.id)">Change master</button>
@@ -88,7 +89,7 @@
         </edit-group-modal>
         <group-master-modal :title="'title'" 
           :visible="visibleMasterModal" 
-          :masterIds="groupWhole.filter(obj => obj.isMaster).map(obj => obj.id)"
+          
           @close="closeGroupMasterModal" 
           @submitMaster="handleSubmitMasters"
           >
@@ -121,7 +122,8 @@ export default {
   },
   computed: {
     ...mapState('group', ['group']),
-    ...mapState('group', ['status']),
+    // ...mapState('group', ['status']),
+    ...mapState('group', ['apiStatus']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
@@ -158,29 +160,28 @@ export default {
       const group = this.group
       this.updateGroupMasters({
         group: group, 
-        ids: selected})
-      setTimeout(() => {
-        this.status == null ? this.closeGroupMasterModal() : '';
-      }, 1000);
+        ids: selected}
+      )
+      if(!this.apiStatus.updateGroupMasters.error) {
+        this.closeGroupMasterModal();
+      }
     },
-    // deleteGroup(id){
-    //   this.$emit('delete', id);
-    // },
+    
     submitEditGroup(){
       
     },
     handleDelete(conf){
       if(conf){
         this.deleteGroup([this.group.id]);
-        setTimeout(() => {
-          if(this.status == null){
+        // setTimeout(() => {
+          // if(this.status == null){
             this.closeConf();
             this.selected = [];
-          }
+          // }
           if(this.visibleDetail){
             this.closeGroupDetail();
           }
-        }, 1000);
+        // }, 1000);
         
         
       }

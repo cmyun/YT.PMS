@@ -188,6 +188,7 @@ export default {
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
+    ...mapState('group', ['apiStatus'])
   },
   created(){
     this.getGroupMasters(this.group.id);
@@ -198,6 +199,7 @@ export default {
     ...mapActions('group', ['updateGroup']),
     ...mapActions('group', ['getGroupMasters']),
     ...mapActions('group', ['getGroupMembers']),
+    ...mapActions('group', ['getGroupWhole']),
     close() {
       this.$emit('close');
     },
@@ -216,8 +218,6 @@ export default {
       
     },
     handleSubmitMembers(data, arr){
-      console.log(data)
-      console.log(this.members);
       if(this.memberModalType=='master'){
         this.master = data;
         this.masterArr = arr;
@@ -237,6 +237,12 @@ export default {
         members: this.member
       }
       this.updateGroup(group);
+      if(!this.apiStatus.updateGroup.error){
+        this.getGroupWhole(this.group.id);
+        this.getGroupMasters(this.group.id);
+        this.getGroupMembers(this.group.id);
+        this.close();
+      }
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {

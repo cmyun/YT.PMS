@@ -61,14 +61,14 @@ export default {
       type: Boolean,
       default: false
     },
-    masterIds: {
-      type: Array,
-      default: () => []
-    }
+    // masterIds: {
+    //   type: Array,
+    //   default: () => []
+    // }
   },
   data(){
     return {
-      selected: this.masterIds
+      selected: []
     }
   },
   computed: {
@@ -77,8 +77,11 @@ export default {
     ...mapState('group', ['groupWhole']),
   },
   watch: {
-    masterIds(newVal) {
-      this.selected = newVal
+    // masterIds(newVal) {
+    //   this.selected = newVal
+    // },
+    groupWhole(newVal) {
+      this.selected = newVal.filter(obj => obj.isMaster).map(obj => obj.id);
     }
   },
   
