@@ -76,8 +76,8 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-  const expiresTime = loggedIn.expiresTime;
-  console.log(expiresTime);
+  // const expiresTime = loggedIn.expiresTime;
+  // console.log(expiresTime);
   if (authRequired && !loggedIn) {
     return next('/login');
   }

@@ -14,6 +14,7 @@ import { organizations } from './modules/organizations';
 import { groups } from './modules/groups';
 import { group } from './modules/group';
 import { tasks } from './modules/tasks';
+import { task } from './modules/task';
 
 Vue.use(Vuex);
 
@@ -31,6 +32,7 @@ export const store = new Vuex.Store({
     organizations,
     groups,
     group,
-    tasks
+    tasks,
+    task
   }
 });

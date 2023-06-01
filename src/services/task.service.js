@@ -2,6 +2,8 @@ import { authHeader } from '../helpers';
 export const taskService = {
   searchTasks,
   getAffiliations,
+  getHistories,
+  getFiles,
   delete: _delete
 };
 const apiUrl = 'http://dev.yunwootech.com:52304';
@@ -14,7 +16,6 @@ function getAffiliations(id) {
   return fetch(`${apiUrl}/task-management/tasks/${id}/affiliations`, requestOptions).then(handleResponse);
 }
 function searchTasks(condition) {
-  console.log(condition);
   const requestOptions = {
     method: 'POST',
     headers: { 
@@ -24,6 +25,20 @@ function searchTasks(condition) {
     body: JSON.stringify(condition)
   };
   return fetch(`${apiUrl}/task-management/tasks/search-conditions`, requestOptions).then(handleResponse);
+}
+function getHistories(id) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  };
+  return fetch(`${apiUrl}/task-management/tasks/${id}/historys`, requestOptions).then(handleResponse);
+}
+function getFiles(id) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  };
+  return fetch(`${apiUrl}/task-management/tasks/${id}/files`, requestOptions).then(handleResponse);
 }
 function _delete(id) {
   const requestOptions = {

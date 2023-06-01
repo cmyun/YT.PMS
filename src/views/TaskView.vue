@@ -35,9 +35,9 @@
               </div>
               {{ affiliations }}
               <ul class="lnb_tree" v-if="affiliations.length" ref="lnb_tree">
-                <li v-for="aff in affiliations" :key="aff" @click="onSelectTeam(aff)">
+                <li v-for="aff in affiliations" :key="aff" >
                   <div :class="['group menu_item', {selected: aff.division_ID==selectedTeam.division_ID}]">
-                    <a class="item_txt">{{ aff.name }}</a>
+                    <a class="item_txt" @click="onSelectTeam(aff)">{{ aff.name }}</a>
                     <button type="button" class="btn_more side_btn" @click="event=>onSelectGroupDetail(event, aff.division_ID)"></button>
                   </div>
                 </li>
@@ -74,7 +74,7 @@
                 </button>
               </div>
             </div>
-            <div class="search_cover" v-if="selectedTaskBar">
+            <div class="search_cover" v-if="selectedTaskBar!=null">
               <input type="text" class="search" placeholder="Search for tasks" autocomplete="off" value="">
               <button type="button" :class="['btn_search_option', {on:visibleSearchAdvanced}]" @click="showSearchAdvance">Advanced</button>
             </div>
@@ -210,9 +210,9 @@
             <div class="split_bar" draggable="true"></div>
             <div class="scroll_cover">
               <div class="view_cover">
-                <div class="view_info" v-if="selectedTask && !isEditTask">
+                <div class="view_info" v-if="Object.keys(selectedTask).length && !isEditTask">
                   <div class="view_action">
-                    <span class="status" v-if="!selectedTask.isComplete">Incompleted</span>
+                    <span class="status" v-if="selectedTask=={}">Incompleted</span>
                     <span class="status complete" v-else>Completed</span>
                     <button type="button" class="btn_window">
                     </button>
@@ -238,7 +238,7 @@
                   <div class="item_cover">
                     <div class="item_value">
                       <div id="translateTarget" class="hero_content">
-                        <div class="title">tesst3</div>
+                        <div class="title">{{ selectedTask.content }}</div>
                         <div class="content"></div>
                       </div>
                     </div>
@@ -246,13 +246,13 @@
                   <div class="item_cover">
                     <span class="item_label">Deadline</span>
                     <div class="item_value">
-                      <span class="date">None</span>
+                      <span class="date">{{ selectedTask.deadlineToString ? selectedTask.deadlineToString : 'None' }}</span>
                     </div>
                   </div>
                   <div class="item_cover">
                     <span class="item_label">Group</span>
                     <div class="item_value">
-                      <span class="group_name">1</span>
+                      <span class="group_name">{{ selectedTask.divisionName }}</span>
                     </div>
                   </div>
                   <div class="item_cover">
@@ -260,7 +260,7 @@
                     <div class="item_value">
                       <div class="member_list completed">
                         <span class="added_member">
-                          <span class="name">test test</span>
+                          <span class="name">{{ selectedTask.rUserName }}</span>
                         </span>
                       </div>
                     </div>
@@ -270,7 +270,7 @@
                     <div class="item_value">
                       <div class="member_list completed">
                         <span class="added_member">
-                          <span class="name">test test</span>
+                          <span class="name">{{ selectedTask.aUserName }}</span>
                         </span>
                       </div>
                     </div>
@@ -285,6 +285,7 @@
                           </span>
                         </div>
                         <div class="file_wrap">
+                          
                           <ul class="file_list">
                             <li>
                               <span class="file_name">
@@ -347,12 +348,21 @@
                     <button type="button" class="btn_status">Incomplete</button>
                   </div>
                 </div>
-                <div class="empty folder" v-if="!selectedTask">
+                <div class="empty folder" v-if="!Object.keys(selectedTask).length">
                   <p class="msg">No tasks selected. </p>
                   <p class="sub_msg">Select a task to see the details.</p>
                 </div>
+                <div class="action_history" v-if="histories.length">
+                  <div class="title">Task History <span class="cnt">{{ histories.length }}</span></div>
+                  <ul class="act_list">
+                    <li v-for="history in histories" :key="history">
+                      <span class="date">{{ history.date }}</span>
+                      <p class="act">{{ history.content }}</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div class="write_cover" style="display:none">
+              <div class="write_cover" v-if="Object.keys(selectedTask).length && isEditTask">
                 <div class="btn_cover">
                   <button type="button" class="btn_cancel">Cancel</button>
                   <button type="button" class="btn_save">Save</button>
@@ -550,9 +560,11 @@ export default {
   },
   computed: {
     ...mapState('tasks', ['tasks']),
+    ...mapState('task', ['histories']),
     ...mapState('tasks', ['status']),
     ...mapState('account', ['user']),
-    ...mapState('tasks', ['affiliations'])
+    ...mapState('tasks', ['affiliations']),
+    ...mapState('tasks', ['files'])
   },
   created() {
     this.getAffiliations(0);
@@ -569,6 +581,7 @@ export default {
     //   assignee: ""
     // }
     this.searchTasks(this.tasksInfo);
+    
   },
   watch: {
     affiliations(newVal) {
@@ -588,15 +601,20 @@ export default {
   methods: {
     ...mapActions('tasks', ['searchTasks']),
     ...mapActions('tasks', ['getAffiliations']),
+    ...mapActions('task', ['getHistories']),
+    ...mapActions('task', ['getFiles']),
     selectValue(id){
       this.selectedTeam = {}
       this.selectedTaskBar = id;
       if(id==1){
         this.tasksInfo.assignee = this.user.name;
+        this.tasksInfo.division = 'W';
       } else if(id==2){
         this.tasksInfo.assigner = this.user.name;
+        this.tasksInfo.division = 'A';
+      }else {
+        this.tasksInfo.division = 'R';
       }
-      this.tasksInfo.division = '';
       this.tasksInfo.division_ID = 0;
     },
     showSearchAdvance(){
@@ -615,7 +633,6 @@ export default {
       this.tasksInfo.division_ID = team.division_ID;
       this.tasksInfo.assignee = '';
       this.tasksInfo.assigner = '';
-      console.log(this.tasksInfo);
     },
     onSelectGroupDetail(e, id){
       this.visibleGroupDetail = true;
@@ -632,6 +649,8 @@ export default {
     },
     onSelectTodoItem(task){
       this.selectedTask = task;
+      this.getHistories(task.id);
+      this.getFiles(task.id);
     }
   },
   mounted() {
@@ -1265,7 +1284,7 @@ ul.lnb_tree {
 
 .lnb_tree .menu_item .item_txt {
   display: inline-block;
-  flex: 0 1 auto;
+  // flex: 0 1 auto;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -1277,7 +1296,10 @@ ul.lnb_tree {
   line-height: 20px;
   text-decoration: none;
   vertical-align: top;
+  flex: 1 1 auto;
+  text-align: left;
 }
+
 
 .lnb_tree .menu_item .item_txt:before {
   content: "";
