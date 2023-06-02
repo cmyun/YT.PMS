@@ -183,18 +183,10 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 export default {
   name: 'TaskCreate',
   props: {
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
     visible: {
       type: Boolean,
       default: false
     },
-    // organization: {
-    //   type: Object,
-    //   default: ()=>{}
-    // }
   },
   data(){
     return {
@@ -208,11 +200,7 @@ export default {
       selectedFiles: []
     }
   },
-  computed: {
-    // ...mapState('organizations', ['status']),
-  },
   methods: {
-    // ...mapActions('organizations', ['addOrg']),
     removeFile(index) {
       this.selectedFiles.splice(index, 1);
     },

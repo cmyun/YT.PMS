@@ -9,7 +9,7 @@
               <h3 class="tit">Change master</h3>
               <div class="btn_box full">
                 <button type="button" class="lw_btn" @click="close">Cancel</button>
-                <button class="lw_btn_point">Save</button>
+                <button class="lw_btn_point" :disabled="!selected.length">Save</button>
               </div>
               <div class="scroller">
                 <div class="list_hd">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="list_cont">
                   <ul class="member_list">
-                    <li class="has_thmb" v-for="whole in groupWhole" :key="whole">
+                    <li class="has_thmb" v-for="whole in newGroupWhole" :key="whole">
                       <div class="thumb">
                         <span class="thmb_area">
                           <img src="../assets/img_profile.png" loading="lazy" alt="">
@@ -61,27 +61,30 @@ export default {
       type: Boolean,
       default: false
     },
-    // masterIds: {
-    //   type: Array,
-    //   default: () => []
-    // }
+    masterIds: {
+      type: Array,
+      default: () => []
+    },
+    groupWhole: {
+      type: Array,
+      required: true
+    }
   },
   data(){
     return {
-      selected: []
+      selected: [],
+      newGroupWhole: []
     }
   },
   computed: {
     ...mapState('group', ['group']),
-    ...mapState('group', ['groupMasters']),
-    ...mapState('group', ['groupWhole']),
   },
   watch: {
-    // masterIds(newVal) {
-    //   this.selected = newVal
-    // },
+    masterIds(newVal) {
+      this.selected = newVal
+    },
     groupWhole(newVal) {
-      this.selected = newVal.filter(obj => obj.isMaster).map(obj => obj.id);
+      this.newGroupWhole = newVal
     }
   },
   

@@ -51,6 +51,7 @@ function getGroupWhole(id) {
   return fetch(`${apiUrl}/group-management/groups/${id}/whole`, requestOptions).then(handleResponse);
 }
 function updateGroupMasters(group, ids) {
+  console.log(group)
   const requestOptions = {
     method: 'PUT',
     headers: { 
@@ -62,6 +63,7 @@ function updateGroupMasters(group, ids) {
   return fetch(`${apiUrl}/group-management/groups/${group.id}/masters`, requestOptions).then(handleResponse);
 }
 function updateGroup(group) {
+  console.log(group.group.id)
   const requestOptions = {
     method: 'PUT',
     headers: { 
@@ -105,7 +107,6 @@ function handleResponse(response) {
       }
       // const error = (data && data.message) || response.statusText;
       const error = data || response.statusText;
-      console.log(response);
       return Promise.reject(error);
     }
     return data;

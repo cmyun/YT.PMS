@@ -84,10 +84,14 @@
         </div>
       </div>
     </div>
-    <modal-form :title="title" :visible="visible" @close="closeModal" 
+    <modal-form 
+      :title="title" 
+      :visible="visible" 
+      @close="closeModal" 
       @submit="submitForm">
     </modal-form>
-    <confirmation-box :visible="visibleConf" 
+    <confirmation-box 
+      :visible="visibleConf" 
       @close="closeConf" 
       @confirm="handleDelete">
     </confirmation-box>
@@ -137,7 +141,7 @@ export default {
     ...mapState('organizations', ['organizations']),
     ...mapState('positions', ['positions']),
     ...mapState('account', ['user']),
-    ...mapState('members', ['status']),
+    ...mapState('members', ['apiStatus']),
     ...mapState('users', ['users']),
 
     newOrganizations(){
@@ -208,14 +212,8 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteMember(this.selected);  
-        
-        setTimeout(() => {
-          if(this.status == null){
-            this.closeConf();
-            this.selected = [];
-          }
-        }, 1000);
-        
+        this.closeConf();
+        this.selected = [];
       }
     },
     openModal() {
@@ -226,9 +224,11 @@ export default {
     },
     submitForm(data){
       this.addMember(data);
-      if(this.status==null){
-        this.closeModal();
-      }
+      setTimeout(() => {
+        if(!this.apiStatus.addMember.error){
+          this.closeModal();
+        }
+      }, 1000);
     },
     onDataUp(data){
       this.selectedId = data.id;
@@ -240,16 +240,6 @@ export default {
     openConf(){
       this.visibleConf = true;
     },
-    // getMemberName(){
-    //   const nameList = [];
-    //   this.selected.forEach((id) => {
-    //     const obj = this.members.find((item) => item.id === id);
-    //     if (obj) {
-    //       nameList.push(obj.name);
-    //     }
-    //   });
-    //   return nameList;
-    // },
     getOrganizationName(id){
       const organization = this.organizations.find((item) => item.id === id);
       return organization.name;

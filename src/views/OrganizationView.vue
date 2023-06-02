@@ -70,6 +70,7 @@
     </div>
     <add-org-modal :title="title" 
       :visible="visible" 
+      @fetchData="refreshHandle"
       @close="closeAddOrgModal" 
     >
     </add-org-modal>
@@ -136,7 +137,7 @@ export default {
   },
   computed: {
     ...mapState('organizations', ['organizations']),
-    ...mapState('organizations', ['status']),
+    ...mapState('organizations', ['apiStatus']),
     ...mapState('organization', ['organization']),
     ...mapState('organization', ['orgMembers']),
     newOrganizations(){
@@ -153,6 +154,7 @@ export default {
     ...mapActions('organization', ['getOrganizationInfo']),
     ...mapActions('organization', ['getOrgMembers']),
     ...mapActions('organizations', ['getOrganizations']),
+    ...mapActions('organizations', ['moveOrg']),
     closeMove(){
       this.selected = []
       this.selectAll = false;
@@ -199,18 +201,16 @@ export default {
       if(conf){
         this.deleteOrg(this.selected);
         setTimeout(() => {
-          if(this.status == null){
+          if(!this.apiStatus.deleteOrg.error){
             this.closeConf();
             this.selected = [];
             this.selectedOrgs = []
             if(this.visibleDetail){
               this.closeOrgDetail();
-              location.reload();
             }
+            this.refreshHandle();
           }
         }, 1000);
-        
-        
       }
     },
     deleteOrg02(id){
@@ -250,6 +250,7 @@ export default {
     },
     closeOrgDetail(){
       this.visibleDetail = false;
+      this.refreshHandle();
     },
     buildTree(data, parent, level) {
       const tree = [];
@@ -328,9 +329,16 @@ export default {
       const item = this.findElementById(this.newOrganizations, org.id);
       this.updateCheckall(item);
     },
-    handleSubmitMoveOrg(){
-      this.selected = []
-      this.selectedOrgs = []
+    handleSubmitMoveOrg(data){
+      this.moveOrg(data);
+      setTimeout(()=>{
+        if(!this.apiStatus.moveOrg.error){
+          this.selected = []
+          this.selectedOrgs = []
+          this.closeSelectOrgModal();
+          this.refreshHandle()
+        }
+      })
     },
     refreshHandle(){
       this.getOrganizations();

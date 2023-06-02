@@ -308,7 +308,7 @@ export default {
     box-sizing: border-box;
     overflow: hidden;
     font-size: 20px !important;
-    color: #fff;
+    color: #000;
     line-height: 1.5;
     text-align: center;
     text-transform: uppercase;

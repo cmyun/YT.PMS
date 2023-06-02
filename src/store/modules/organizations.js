@@ -1,8 +1,21 @@
 import { organizationService } from '../../services';
 
 const state = {
-  status: null,
-  organizations: []
+  organizations: [],
+  apiStatus: {
+    moveOrg: {
+      error: false,
+      message: null
+    },
+    deleteOrg: {
+      error: false,
+      message: null
+    },
+    addOrg: {
+      error: false,
+      message: null
+    }
+  }
 }
 const actions = {
   getOrganizations({ commit }) {
@@ -18,6 +31,7 @@ const actions = {
       .then(
         (tid, ids) => {
           commit('moveOrgSuccess', tid, ids);
+          dispatch('alert/success', 'Move successful', { root: true });
         },
         error => {
           commit('moveOrgFailure', error);
@@ -31,6 +45,7 @@ const actions = {
       .then(
         id => {
           commit('deleteOrgSuccess', id);
+          dispatch('alert/success', 'Delete successful', { root: true });
         },
         error => {
           commit('deleteOrgFailure', error);
@@ -43,6 +58,7 @@ const actions = {
       .then(
         user => {
           commit('addOrgSuccess', org);
+          dispatch('alert/success', 'Add successful', { root: true });
         },
         error => {
           commit('addOrgFailure', error);
@@ -57,25 +73,31 @@ const mutations = {
     state.organizations = organizations
   },
   moveOrgSuccess(state, targetId, ids) {
+    state.apiStatus.moveOrg.error = false;
+    state.apiStatus.moveOrg.message = null;
   },
   moveOrgFailure(state, error) {
-    state.status = 'error';
+    state.apiStatus.moveOrg.error = true;
+    state.apiStatus.moveOrg.message = error;
   },
   addOrgSuccess(state, org) {
-    let organizations = state.organizations;
-    organizations.push(org.org);
-    state.organizations = organizations;
+    state.apiStatus.addOrg.error = false;
+    state.apiStatus.addOrg.message = null;
   },
   addOrgFailure(state, error) {
-    state.status = 'error';
+    state.apiStatus.addOrg.error = true;
+    state.apiStatus.addOrg.message = error;
   },
   deleteOrgSuccess(state, id) {
     let organizations = state.organizations;
     const filteredData = organizations.filter(item => !id.includes(item.id));
     state.organizations = filteredData;
+    state.apiStatus.deleteOrg.error = false;
+    state.apiStatus.deleteOrg.message = null;
   },
   deleteOrgFailure(state, error) {
-    state.status = 'error';
+    state.apiStatus.deleteOrg.error = true;
+    state.apiStatus.deleteOrg.message = error;
   },
 };
 

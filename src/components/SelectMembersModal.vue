@@ -135,6 +135,11 @@ export default {
       this.selected = newVal.map(obj => obj.user_ID)
       this.selectedArr = this.getCommonElements(this.members, newVal)
     },
+    visible(newVal){
+      if(newVal){
+        this.getMembersByOrg(0);
+      }
+    }
   },
   methods: {
     ...mapActions('members', ['getMembersByOrg']),
@@ -175,7 +180,6 @@ export default {
     submitForm() {
       const memList = this.members.filter(item=>this.selected.includes(item.id));
       const arr = [];
-      console.log(this.members)
       memList.forEach(obj => {
         arr.push({
           'user_ID': obj.id,
@@ -185,12 +189,14 @@ export default {
           'position': obj.position,
         })
       });
-      console.log(arr);
       this.$emit('submitData', this.selected, arr);
     },
     onDataUp(data) {
       this.selectedId = data.id;
       this.getMembersByOrg(data.id);
+      setTimeout(()=>{
+        this.updateCheckall();
+      }, 1000)
     },
     checkAll(){
       this.selected = [];
@@ -203,7 +209,7 @@ export default {
       }
     },
     updateCheckall(){
-      if(this.members.length == this.selected.length){
+      if(this.members.length <= this.selected.length){
         this.selectAll = true;
         this.selectedArr = this.members;
       }else{

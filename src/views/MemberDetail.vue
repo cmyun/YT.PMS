@@ -11,8 +11,8 @@
           <div class="taskArea">
             <div class="btnGroup">
               <!-- <router-link :to="{ name: 'MemberDetail', params: { id: member.id } }" class="name"></router-link> -->
-              <router-link :to="{ name: 'MemberEdit', params: { id: member.id } }" class="btn_save">Edit member information</router-link>
-              <!-- <button type="button" class="btn_save" @click="openModal">Edit member information</button> -->
+              <!-- <router-link :to="{ name: 'MemberEdit', params: { id: member.id } }" class="btn_save">Edit member information</router-link> -->
+              <button type="button" class="btn_save" @click="openModal">Edit member information</button>
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default {
   },
   computed: {
     ...mapState('member', ['member']),
-    ...mapState('member', ['status']),
+    ...mapState('member', ['apiStatus']),
     ...mapState('positions', ['positions']),
 
     newOrganizations(){
@@ -152,7 +152,7 @@ export default {
     submitForm(data){
       this.updateUser(data);
       setTimeout(() => {
-        if(this.status == null){
+        if(!this.apiStatus.updateUser.error){
           this.closeModal()
         }
       }, 1000);

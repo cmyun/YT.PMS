@@ -7,7 +7,6 @@
         <div class="ly_wrap dimmed en_US ua_win">
           <div class="ly_common ly_page ly_member_detail freeplan">
             <h3 class="tit">Group info</h3>
-            {{ apiStatus }}
             <div class="btn_box full">
               <button type="button" class="lw_btn_point" @click="openEditGroup">Modify</button>
               <button type="button" class="lw_btn_text" @click="openGroupMasterModal(group.id)">Change master</button>
@@ -23,7 +22,6 @@
                   <div class="name_box">
                     <h4 class="name">{{ group.name }}</h4>
                   </div>
-                  <!-- <p class="caption">1</p> -->
                   <button type="button" @click="openConf">
                     <em>Delete group</em>
                   </button>
@@ -40,7 +38,7 @@
                 v-bind:class="{ selected: activeTab === 'tab2' }"
                 @click="activeTab = 'tab2'"
                 >
-                  <a class="txt" href="#">Members ({{ groupMembers.length }})</a>
+                  <a class="txt" href="#">Members ({{ newGroupMembers.length }})</a>
                 </span>
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab1'">
@@ -58,7 +56,7 @@
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab2'">
                 <ul class="member_list">
-                  <li class="has_thmb" v-for="member in groupMembers" :key="member">
+                  <li class="has_thmb" v-for="member in newGroupMembers" :key="member">
                     <div class="thumb">
                       <span class="thmb_area">
                         <img src="../assets/img_profile.png" alt="">
@@ -81,15 +79,18 @@
           </div>
         </div>
         <edit-group-modal :title="'title'" 
-        :visible="visibleEdit"
-        :group = "group" 
-        @close="closeEditGroup" 
-        @submit="submitEditGroup"
+          :visible="visibleEdit"
+          :group = "group"
+          :groupMasters="newGroupMasters"
+          :groupMembers="newGroupMembers"
+          @close="closeEditGroup" 
+          @submitGroup="submitEditGroup"
         >
         </edit-group-modal>
         <group-master-modal :title="'title'" 
-          :visible="visibleMasterModal" 
-          
+          :visible="visibleMasterModal"
+          :masterIds="newGroupWhole.length ? newGroupWhole.filter(obj => obj.isMaster).map(obj => obj.id) : []"
+          :groupWhole="newGroupWhole"
           @close="closeGroupMasterModal" 
           @submitMaster="handleSubmitMasters"
           >
@@ -122,7 +123,7 @@ export default {
   },
   computed: {
     ...mapState('group', ['group']),
-    // ...mapState('group', ['status']),
+    ...mapState('account', ['user']),
     ...mapState('group', ['apiStatus']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
@@ -134,12 +135,29 @@ export default {
       activeTab: 'tab1',
       visibleMasterModal: false,
       visibleConf: false,
-
+      newGroupMembers: [],
+      newGroupMasters: [],
+      newGroupWhole: []
+    }
+  },
+  watch: {
+    groupMasters(newVal) {
+      this.newGroupMasters = newVal
+    },
+    groupMembers(newVal) {
+      this.newGroupMembers = newVal
+    },
+    groupWhole(newVal) {
+      this.newGroupWhole = newVal
     }
   },
   methods: {
     ...mapActions('group', ['updateGroupMasters']),
+    ...mapActions('group', ['updateGroup']),
     ...mapActions('groups', ['deleteGroup']),
+    ...mapActions('group', ['getGroupMasters']),
+    ...mapActions('group', ['getGroupMembers']),
+    ...mapActions('group', ['getGroupWhole']),
     close() {
       this.$emit('close');
     },
@@ -151,7 +169,6 @@ export default {
     },
     openGroupMasterModal(id){
       this.visibleMasterModal = true;
-      
     },
     closeGroupMasterModal(){
       this.visibleMasterModal = false;
@@ -162,28 +179,33 @@ export default {
         group: group, 
         ids: selected}
       )
-      if(!this.apiStatus.updateGroupMasters.error) {
-        this.closeGroupMasterModal();
-      }
+      setTimeout(() => {
+        if(!this.apiStatus.updateGroupMasters.error) {
+          this.closeGroupMasterModal();
+        }
+      }, 1000);
     },
     
-    submitEditGroup(){
-      
+    submitEditGroup(group){
+      this.updateGroup(group);
+      setTimeout(() => {
+        if(!this.apiStatus.updateGroup.error){
+          this.getGroupWhole(group.group.id);
+          this.getGroupMasters(group.group.id);
+          this.getGroupMembers(group.group.id);
+          this.closeEditGroup();
+        }
+      }, 1000);
     },
     handleDelete(conf){
       if(conf){
         this.deleteGroup([this.group.id]);
-        // setTimeout(() => {
-          // if(this.status == null){
-            this.closeConf();
-            this.selected = [];
-          // }
-          if(this.visibleDetail){
-            this.closeGroupDetail();
-          }
-        // }, 1000);
         
-        
+        this.closeConf();
+        this.selected = [];
+        if(this.visibleDetail){
+          this.closeGroupDetail();
+        }
       }
     },
     closeConf(){

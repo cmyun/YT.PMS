@@ -7,7 +7,6 @@
         <div class="ly_wrap dimmed en_US ua_win">
           <div class="ly_common ly_page ly_member_detail freeplan">
             <h3 class="tit">Organizational profile</h3>
-            
             <div class="btn_box full">
               <button type="button" class="lw_btn_point" @click="openEditOrg">Modify</button>
               <button type="button" class="lw_btn_text" @click="openGroupMasterModal(organization.id)" :disabled="!orgMembers.length">Change organizational head</button>
@@ -45,7 +44,7 @@
               </div>
               <div class="tab_cont" v-show="activeTab === 'tab1'">
                 <div class="detail_item">
-                  <i class="hd">Group name</i>
+                  <i class="hd">Organization name</i>
                   <p>
                     <strong>{{ organization.name }}</strong>
                   </p>
@@ -114,7 +113,7 @@ export default {
     ...mapState('organization', ['organization']),
     ...mapState('organization', ['orgMembers']),
     ...mapState('organization', ['orgHead']),
-    ...mapState('organization', ['status']),
+    ...mapState('organization', ['apiStatus']),
   },
   data(){
     return {
@@ -124,6 +123,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('organization', ['updateOrganization']),
     ...mapActions('organization', ['updateHeadOrganization']),
     close() {
       this.$emit('close');
@@ -147,13 +147,19 @@ export default {
         uid: selected
       });
       setTimeout(() => {
-        if(this.status == null){
+        if(!this.apiStatus.updateHeadOrganization.error){
           this.closeGroupMasterModal();
         }
-        }, 1000);
+      }, 1000);
     },
     deleteOrg(id){
       this.$emit('delete', id);
+    },
+    submitEditOrg(data){
+      this.updateOrganization(data);
+      if(!this.apiStatus.updateOrganization.error){
+        this.closeEditOrg();
+      }
     }
   }
 }

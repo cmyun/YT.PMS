@@ -1,8 +1,17 @@
 import { userService } from '../../services';
 
 const state = {
-  status: null,
-  members: []
+  members: [],
+  apiStatus: {
+    addMember: {
+      error: false,
+      message: null
+    },
+    deleteMember: {
+      error: false,
+      message: null
+    }
+  }
 }
 
 const actions = {
@@ -11,9 +20,6 @@ const actions = {
       .then(
         members => {
           commit('setMembers', members);
-        },
-        error => {
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -22,10 +28,6 @@ const actions = {
       .then(
         members => {
           commit('setMembers', members);
-        },
-        error => {
-          commit('getMembersFailure', error);
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -34,6 +36,7 @@ const actions = {
       .then(
         user => {
           commit('addMemberSuccess', user);
+          dispatch('alert/success', 'Add successful', { root: true });
         },
         error => {
           commit('addMemberFailure', error);
@@ -46,6 +49,7 @@ const actions = {
       .then(
         user => {
           commit('deleteMemberSuccess', id);
+          dispatch('alert/success', 'Delete successful', { root: true });
         },
         error => {
           commit('deleteMemberFailure', error);
@@ -63,21 +67,24 @@ const mutations = {
     let members = state.members;
     members.push(member);
     state.members = members;
+    state.apiStatus.addMember.error = false;
+    state.apiStatus.addMember.message = null;
   },
   addMemberFailure(state, error) {
-    state.status = 'error';
+    state.members = members;
+    state.apiStatus.addMember.error = true;
+    state.apiStatus.addMember.message = error;
   },
   deleteMemberSuccess(state, id) {
-    let members = state.members;
-    const filteredData = members.filter(item => !id.includes(item.id));
+    const filteredData = state.members.filter(item => !id.includes(item.id));
     state.members = filteredData;
+    state.apiStatus.deleteMember.error = false;
+    state.apiStatus.deleteMember.message = null;
   },
   deleteMemberFailure(state, error) {
-    state.status = 'error';
-  },
-  getMembersFailure(state) {
-    state.members = [];
-  },
+    state.apiStatus.deleteMember.error = true;
+    state.apiStatus.deleteMember.message = error;
+  }
 };
 
 export const members = {

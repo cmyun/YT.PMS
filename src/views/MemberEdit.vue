@@ -90,15 +90,18 @@
                       <div class="field">
                         <i class="hd"><em class="emp">Required field</em>Organization</i>
                         <div class="box">
-                            <Field name="organization_ID" type="text" class="lw_input" placeholder="Organization" v-model="form.organization_ID"/>
-                            <ErrorMessage name="organization_ID" class="text_error"/>
-                            <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
+                          <div class="lw_selectbox lw_selectbox-pr">
+                            <select name="level_ID" id="member_type" class="lw_selectbox_source" v-model="form.organization_ID">
+                              <option :value="organization.id" v-for="organization in organizations" :key="organization.id">{{ organization.name }}</option>
+                            </select>
+                          </div>
+                          <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
                         </div>
                       </div>
                       <div class="field minor">
                         <i class="hd">Employment type</i>
                         <div class="box">
-                          <div class="lw_selectbox">
+                          <div class="lw_selectbox lw_selectbox-pr">
                             <select name="type_ID" id="member_type" class="lw_selectbox_source" v-model="form.type_ID">
                               <option :value="item.id" v-for="item in types" :key="item.id">{{ item.name }}</option>
                             </select>
@@ -160,12 +163,9 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="btn_area">
-                    <button class="lw_btn_point_40" :disabled="disabled">Save</button>
-                  </div> -->
                   <div class="btn_area">
                     <button type="button" class="lw_btn" @click="clear">Cancel</button>
-                    <button class="lw_btn_point">Add</button>
+                    <button class="lw_btn_point">Save</button>
                   </div>
                 </div>
               </Form>
@@ -212,7 +212,8 @@ export default {
     Sidebar,
     Form,
     Field,
-    ErrorMessage
+    ErrorMessage,
+    OrgModal
   },
   data(){
 		return {
@@ -220,8 +221,8 @@ export default {
         name: '',
         login_ID: '',
         login_PW: '',
-        level_ID: 0,
-        position_ID: 0,
+        level_ID: 3,
+        position_ID: 7,
         type_ID: 0,
         organization_ID: 0,
         office: '',
@@ -252,11 +253,10 @@ export default {
     this.getTypes();
     this.getOrganizations();
     this.getPositions();
-    this.mem = this.member;
   },
   watch: {
     member(newVal) {
-      this.form = newVal
+      this.form = {...newVal}
     }
   },
   methods: {
@@ -268,14 +268,12 @@ export default {
     ...mapActions('member', ['updateUser']),
     ...mapActions('account', ['register']),
     handleSubmit(e) {
-      // this.updateUser(this.userInfo);
       const form = {
         ...this.form,
         'token': this.user.token,
         'expiresTime': this.user.expiresTime,
         'note': ''
       }
-      console.log(form)
       this.updateUser(form);
     },
     closeModalOrg() {
@@ -285,8 +283,12 @@ export default {
       this.visibleOrg = true;
     },
     clear(){
-      this.form = this.mem;
-    }
+      this.form = {...this.member};
+    },
+    onSelectedOrg(item){
+      this.form.organization_ID = item.id;
+      this.closeModalOrg();
+    },
   }
 }
 </script>
@@ -602,5 +604,8 @@ form .profile_form_cover .profile_form_header {
 }
 .profile_form_cover .profile_form .field {
   flex-wrap: wrap;
+}
+.lw_selectbox-pr {
+  padding-right: 40px;
 }
 </style>

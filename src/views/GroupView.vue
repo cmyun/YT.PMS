@@ -67,23 +67,25 @@
         </div>
       </div>
     </div>
-    <add-group-modal :title="title" 
+    <add-group-modal 
+      :title="title" 
       :visible="visible" 
       @close="closeAddGroupModal" 
-      >
-      </add-group-modal>
-      
-      <group-detail-modal
-        :visible="visibleDetail"
-        @close="closeGroupDetail"
-        @delete="deleteGroup02"
-      >
-      </group-detail-modal>
-      
-      <confirmation-box :visible="visibleConf" 
-      :index="getGroupName()" @close="closeConf" 
-      @confirm="handleDelete">
-      </confirmation-box>
+    >
+    </add-group-modal>
+    <group-detail-modal
+      :visible="visibleDetail"
+      @close="closeGroupDetail"
+      @delete="deleteGroup02"
+    >
+    </group-detail-modal>
+    <confirmation-box 
+      :visible="visibleConf" 
+      :index="getGroupName()" 
+      @close="closeConf" 
+      @confirm="handleDelete"
+    >
+    </confirmation-box>
   </div>
 </template>
 
@@ -119,7 +121,7 @@ export default {
   },
   computed: {
     ...mapState('groups', ['groups']),
-    ...mapState('groups', ['status']),
+    ...mapState('groups', ['apiStatus']),
     ...mapState('group', ['group']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
@@ -162,16 +164,15 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteGroup(this.selected);
+        this.selected = [];
+        this.closeConf();
         setTimeout(() => {
-          if(this.status == null){
-            this.closeConf();
-            this.selected = [];
+          if(!this.apiStatus.deleteGroup.error){
             if(this.visibleDetail){
               this.closeGroupDetail();
             }
           }
         }, 1000);
-        
       }
     },
     openAddGroupModal() {
@@ -181,6 +182,7 @@ export default {
       this.visible = false;
     },
     closeConf(){
+      this.selected = [];
       this.visibleConf = false;
     },
     openConf(){
@@ -195,10 +197,6 @@ export default {
         }
       });
       return nameList;
-    },
-    closeAlert() {
-      this.status = null;
-      this.visibleAlert = false;
     },
     openGroupDetail(id){
       this.visibleDetail = true;

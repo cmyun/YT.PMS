@@ -104,7 +104,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('organizations', ['status']),
+    ...mapState('organizations', ['apiStatus']),
   },
   methods: {
     ...mapActions('organizations', ['addOrg']),
@@ -125,7 +125,10 @@ export default {
       }
       this.addOrg(form);
       setTimeout(() => {
-        this.status == null ? this.close() : '';
+        if(!this.apiStatus.addOrg.error){
+          this.$emit('fetchData');
+          this.close()
+        }
       }, 1000);
     },
     multiSubmitForm(){
@@ -135,12 +138,17 @@ export default {
         type: ''
       }
       this.addOrg(form);
-      this.form = {
-        name: '',
-        description: '',
-        isNotify: false,
-        isDisclose: false
-      }
+      setTimeout(() => {
+        if(!this.apiStatus.addOrg.error){
+          this.$emit('fetchData');
+          this.form = {
+            name: '',
+            description: '',
+            isNotify: false,
+            isDisclose: false
+          }
+        }
+      }, 1000);
     },
   }
 };

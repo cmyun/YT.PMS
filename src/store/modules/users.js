@@ -13,7 +13,7 @@ const actions = {
           commit('setUsers', users);
         },
         error => {
-          dispatch('alert/error', error, { root: true });
+          // dispatch('alert/error', error, { root: true });
         }
       );
   },

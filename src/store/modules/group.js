@@ -8,11 +8,11 @@ const state = {
   apiStatus: {
     updateGroupMasters: {
       error: false,
-      message: ''
+      message: null
     },
     updateGroup: {
       error: false,
-      message: ''
+      message: null
     }
   }
 }
@@ -23,9 +23,6 @@ const actions = {
       .then(
         group => {
           commit('setGroup', group);
-        },
-        error => {
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -34,9 +31,6 @@ const actions = {
       .then(
         group => {
           commit('setGroupMasters', group);
-        },
-        error => {
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -45,9 +39,6 @@ const actions = {
       .then(
         group => {
           commit('setGroupMembers', group);
-        },
-        error => {
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -56,9 +47,6 @@ const actions = {
       .then(
         group => {
           commit('setGroupWhole', group);
-        },
-        error => {
-          dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -67,7 +55,7 @@ const actions = {
       .then(
         group => {
           commit('updateGroupMastersSuccess', group);
-          dispatch('alert/success', 'Update successful!', { root: true });
+          dispatch('alert/success', 'Update successful', { root: true });
         },
         error => {
           console.log(error);
@@ -81,11 +69,14 @@ const actions = {
       .then(
         group => {
           commit('updateGroupSuccess', group);
-          dispatch('alert/success', 'Update successful!', { root: true });
+          dispatch('alert/success', 'Update successful', { root: true });
         },
         error => {
           commit('updateGroupFailure', error);
-          dispatch('alert/error', error, { root: true });
+          setTimeout(() => {
+            dispatch('alert/error', error, { root: true });  
+          });
+          
         }
       );
   }
@@ -107,12 +98,12 @@ const mutations = {
   updateGroupMastersSuccess(state, group) {
     state.groupMasters = group;
     state.apiStatus['updateGroupMasters'].error = false;
-    state.apiStatus['updateGroupMasters'].status = 'Update successful!';
+    state.apiStatus['updateGroupMasters'].message = null;
   },
   updateGroupSuccess(state, group) {
     state.group = group;
     state.apiStatus['updateGroup'].error = false;
-    state.apiStatus['updateGroup'].message = 'Update successful';
+    state.apiStatus['updateGroup'].message = null;
   },
   updateGroupFailure(state, error) {
     state.apiStatus['updateGroup'].error = true;
@@ -121,7 +112,6 @@ const mutations = {
   updateGroupMastersFailure(state, error) {
     state.apiStatus['updateGroupMasters'].error = true;
     state.apiStatus['updateGroupMasters'].message = error;
-    console.log(state.apiStatus);
   },
 };
 

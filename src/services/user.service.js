@@ -12,6 +12,7 @@ export const userService = {
   addUsers,
   getByOrg,
   update,
+  updateProfile,
   delete: _delete
 };
 
@@ -113,6 +114,16 @@ function update(user) {
   };
   return fetch(`${apiUrl}/user-management/users/${user.id}`, requestOptions).then(handleResponse);
 }
+function updateProfile(user) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 
+      ...authHeader(), 
+      'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  };
+  return fetch(`${apiUrl}/user-management/users/${user.id}/profiles`, requestOptions).then(handleResponse);
+}
 function _delete(id) {
   const requestOptions = {
     method: 'DELETE',
@@ -133,8 +144,8 @@ function handleResponse(response) {
         // location.reload(true);
       }
       // const error = (data && data.message) || response.statusText;
-      const error = data;
-      console.log(response);
+      const error = data || response.statusText;
+      // console.log(response);
       return Promise.reject(error);
     }
     return data;

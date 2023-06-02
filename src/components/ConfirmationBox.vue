@@ -3,7 +3,7 @@
   <div class="confirmation" v-if="visible">
     <h2>Are you sure you want to delete the selected item?</h2>
     <div class="btn_box">
-      <button type="button" class="lw_btn"  @click="hideConfirmation">Cancel</button>
+      <button type="button" class="lw_btn" @click="hideConfirmation">Cancel</button>
       <button type="button" class="lw_btn_point" @click="deleteItem">Delete</button>
     </div>
   </div>
@@ -13,7 +13,6 @@
 export default {
   name: 'ConfirmationBox',
   props: {
-    // index: Array,
     visible: {
       type: Boolean,
       default: false

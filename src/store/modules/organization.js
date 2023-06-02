@@ -1,9 +1,18 @@
 import { organizationService } from '../../services';
 
 const state = {
-  status: null,
   organization: [],
-  orgMembers: [], 
+  orgMembers: [],
+  apiStatus: {
+    updateOrganization: {
+      error: false,
+      message: null
+    },
+    updateHeadOrganization: {
+      error: false,
+      message: null
+    }
+  }
 }
 
 const actions = {
@@ -20,10 +29,7 @@ const actions = {
       .then(
         org => {
           commit('setOrgMembers', org);
-        },
-        // error => {
-        //   commit('getOrgMembersFailure', error);
-        // }
+        }
       );
   },
   updateOrganization({ dispatch, commit }, organization) {
@@ -31,6 +37,7 @@ const actions = {
       .then(
         organization => {
           commit('updateOrganizationSuccess', organization);
+          dispatch('alert/success', 'Update successful', { root: true });
         },
         error => {
           commit('updateOrganizationFailure', error);
@@ -42,7 +49,8 @@ const actions = {
     organizationService.updateHeadOrganization(organization, uid)
       .then(
         organization => {
-          commit('updateHeadOrganizationFailure', organization);
+          commit('updateHeadOrganizationSuccess', organization);
+          dispatch('alert/success', 'Update successful', { root: true });
         },
         error => {
           commit('updateHeadOrganizationFailure', error);
@@ -62,17 +70,22 @@ const mutations = {
     setOrgHead(state, orgHead) {
       state.orgHead = orgHead
     },
-    // getOrgMembersFailure(state){
-    //   state.orgMembers = [];
-    // },
-    updateOrganizationSuccess(state, error) {
+    updateOrganizationSuccess(state, organization) {
       state.organization = organization
+      state.apiStatus.updateOrganization.error = false;
+      state.apiStatus.updateOrganization.message = null;
     },
     updateOrganizationFailure(state, error) {
-      state.status = 'error';
+      state.apiStatus.updateOrganization.error = true;
+      state.apiStatus.updateOrganization.message = error;
+    },
+    updateHeadOrganizationSuccess(state, organization) {
+      state.apiStatus.updateHeadOrganization.error = false;
+      state.apiStatus.updateHeadOrganization.message = null;
     },
     updateHeadOrganizationFailure(state, error) {
-      state.status = 'error';
+      state.apiStatus.updateHeadOrganization.error = true;
+      state.apiStatus.updateHeadOrganization.message = error;
     },
 };
 

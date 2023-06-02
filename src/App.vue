@@ -1,6 +1,7 @@
 <template>
-  <div v-if="message && typeof message == 'string'" :class="`alert ${type}`">{{message}}</div>
-  <div v-if="typeof message == 'object' && message" :class="`alert ${type}`">{{message.title}}</div>
+  <!-- <div v-if="message && typeof message == 'string'" :class="`alert ${type}`">{{message}}</div> -->
+  <!-- <div v-if="typeof message == 'object' && message" :class="`alert ${type}`">{{message.errors}}</div> -->
+  <div v-if="message" :class="`alert ${type}`">{{message}}</div>
   <router-view />
 </template>
 <script>

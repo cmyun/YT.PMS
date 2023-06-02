@@ -161,7 +161,7 @@
                 </div>
                 <div class="btn_box">
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
-                  <button class="lw_btn_point">Add</button>
+                  <button class="lw_btn_point">Save</button>
                 </div>
               </div>
             </div>
@@ -256,10 +256,10 @@ export default {
     ...mapActions('positions', ['getPositions']),
     ...mapActions('types', ['getTypes']),
     close() {
-      this.$emit('close');
+      // this.$emit('close');
     },
     submitForm() {
-      this.$emit('submit', this.form);
+      // this.$emit('submit', this.form);
     },
     closeModalOrg() {
       this.visibleOrg = false;
@@ -271,7 +271,6 @@ export default {
       this.form.organization_ID = item.id;
       this.closeModalOrg();
     }
-    
   }
 };
 </script>

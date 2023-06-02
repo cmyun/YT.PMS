@@ -110,29 +110,29 @@ export default {
         isNotify: false,
         isDisclose: false
       },
-      visibleAdvance: true
+      visibleAdvance: true,
     }
   },
   computed: {
-    ...mapState('organization', ['organization']),
+    ...mapState('organization', ['apiStatus']),
   },
   methods: {
     ...mapActions('organization', ['updateOrganization']),
     close() {
-      
       this.$emit('close');
+      this.form = {...this.organization};
     },
     submitForm(){
       const form = {
         ...this.form,
         note: ''
       }
-      this.updateOrganization(form);
+      this.$emit('submit', form);
     }
   },
   watch: {
     organization(newVal) {
-      this.form = newVal;
+      this.form = {...newVal};
     },
   },
 };

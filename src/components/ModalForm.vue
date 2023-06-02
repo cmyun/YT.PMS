@@ -4,7 +4,6 @@
     <div class="modal-container">
       <div class="modal-header">
         <h2>Add members</h2>
-        {{ status }}
       </div>
       <div class="modal-body">
         <Form @submit="submitForm">
@@ -89,15 +88,12 @@
                       </div>
                       <div class="field">
                         <i class="hd"><em class="emp">Required field</em>Organization</i>
-                        
                         <div class="box">
                           <div class="lw_selectbox lw_selectbox-pr">
-                            <select name="level_ID" id="member_type" class="lw_selectbox_source" v-model="form.member_ID">
-                              <option :value="member.id" v-for="member in members" :key="member.id">{{ member.name }}</option>
+                            <select name="level_ID" id="member_type" class="lw_selectbox_source" v-model="form.organization_ID">
+                              <option :value="organization.id" v-for="organization in organizations" :key="organization.id">{{ organization.name }}</option>
                             </select>
                           </div>
-                          <Field name="organization_ID" type="text" class="lw_input" placeholder="Organization" readonly v-model="form.organization_ID" hidden/>
-                          
                           <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
                         </div>
                       </div>
@@ -224,8 +220,8 @@ export default {
         name: '',
         login_ID: '',
         login_PW: '',
-        level_ID: 0,
-        position_ID: 0,
+        level_ID: 3,
+        position_ID: 7,
         type_ID: 0,
         organization_ID: 0,
         member_ID: null,
@@ -248,7 +244,7 @@ export default {
     ...mapState('positions', ['positions']),
     ...mapState('types', ['types']),
     ...mapState('members', ['members']),
-    ...mapState('members', ['status']),
+    ...mapState('members', ['apiStatus']),
   },
   created() {
     this.getLevels();
@@ -267,8 +263,8 @@ export default {
         name: '',
         login_ID: '',
         login_PW: '',
-        level_ID: 0,
-        position_ID: 0,
+        level_ID: 3,
+        position_ID: 7,
         type_ID: 0,
         organization_ID: 0,
         member_ID: 0,
@@ -285,6 +281,29 @@ export default {
     },
     submitForm() {
       this.$emit('submit', this.form);
+      setTimeout(() => {
+        if(!this.apiStatus.addMember.error){
+          this.form = {
+            name: '',
+            login_ID: '',
+            login_PW: '',
+            level_ID: 0,
+            position_ID: 0,
+            type_ID: 0,
+            organization_ID: 0,
+            member_ID: 0,
+            office: '',
+            mobile: '',
+            email: '',
+            nickname: '',
+            isUse: true,
+            isAdmin: false,
+            remark: '',
+            note: '',
+            token:'',
+          }
+        }
+      }, 1000);
     },
     closeModalOrg() {
       this.visibleOrg = false;

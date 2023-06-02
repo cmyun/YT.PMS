@@ -684,7 +684,6 @@ export default {
         isComplete: !task.isComplete
       }
       this.updateTaskStatus(taskStatus);
-      console.log(this.status);
       // setTimeout(() => {
         // if(this.status == null){
         //   this.selectedTask = this.task;

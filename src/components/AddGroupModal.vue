@@ -65,7 +65,6 @@
                                 <div class="txt">
                                   <strong class="position">{{ master.level }}</strong>
                                   <strong class="position">{{ ' / ' + master.position }}</strong>
-                                  <!-- <strong class="position">{{ master.organization }}</strong> -->
                                   <span class="corp">{{ master.organization }}</span>
                                 </div>
                               </div>
@@ -180,8 +179,7 @@ export default {
     ...mapState('members', ['members']),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
-    ...mapState('group', ['groupWhole']),
-    ...mapState('groups', ['status']),
+    ...mapState('groups', ['apiStatus']),
   },
   created(){
     this.getGroupMasters(this.group.id);
@@ -200,7 +198,11 @@ export default {
         isUse: true,
         note: '',
         mUser_ID: 0
-      }
+      };
+      this.member = [];
+      this.memberArr = [];
+      this.master = [];
+      this.masterArr = [];
     },
     openSelectMembersModal(value){
       this.visibleSelectMembers = true;
@@ -213,6 +215,11 @@ export default {
       }
     },
     closeSelectMembersModal(){
+      this.member = [];
+      this.memberArr = [];
+      this.master = [];
+      this.masterArr = [];
+      this.selectMembersData = [];
       this.visibleSelectMembers = false;
     },
     handleSubmitMembers(data, arr){
@@ -223,7 +230,7 @@ export default {
         this.member = data;
         this.memberArr = arr;
       }
-      this.closeSelectMembersModal();
+      this.visibleSelectMembers = false;
     },
     submitForm(){
       const group = {
@@ -236,23 +243,20 @@ export default {
         members: this.member
       }
       this.addGroup(group);
-      
       setTimeout(() => {
-        this.status == null ? this.close() : '';
+        if(!this.apiStatus.addGroup.error){
+          this.close();
+        }
       }, 1000);
-      
-      
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {
         return obj
       }
-      
       if (Object.prototype.hasOwnProperty.call(obj, oldName)) {
         obj[newName] = obj[oldName];
         delete obj[oldName];
       }
-      
       return obj;
     },
     handleDeleteMaster(master){
@@ -274,12 +278,10 @@ export default {
   },
   watch: {
     groupMasters(newVal) {
-      this.master = newVal.map(obj => obj.user_ID);
-      this.masterArr = newVal;
+      this.masterArr = {...newVal};
     },
     groupMembers(newVal) {
-      this.member = newVal.map(obj => obj.user_ID);
-      this.memberArr = newVal;
+      this.memberArr = {...newVal};
     },
 
   },

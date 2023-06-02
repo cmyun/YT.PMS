@@ -98,7 +98,6 @@ function handleResponse(response) {
       }
       // const error = (data && data.message) || response.statusText;
       const error = data || response.statusText;
-      console.log(response);
       return Promise.reject(error);
     }
     return data;

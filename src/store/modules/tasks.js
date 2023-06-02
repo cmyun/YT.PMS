@@ -14,7 +14,7 @@ const actions = {
           commit('setAffiliations', affiliations);
         },
         error => {
-          dispatch('alert/error', error, { root: true });
+          // dispatch('alert/error', error, { root: true });
         }
       );
   },

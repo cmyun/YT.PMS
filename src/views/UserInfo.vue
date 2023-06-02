@@ -28,7 +28,7 @@
                     </div>
                   </div>
                   <div class="info_area">
-                    <h4 class="name">{{ member.name }}</h4>
+                    <h4 class="name">{{ userInfo.name }}</h4>
                   </div>
                 </div>
                 <div class="profile_form">
@@ -42,19 +42,19 @@
                   </div>
                   <div class="field">
                     <strong class="title">Company</strong>
-                    <div class="box"><p class="text">{{ member.company }}</p></div>
+                    <div class="box"><p class="text">{{ userInfo.company }}</p></div>
                   </div>
                   <div class="field">
                     <strong class="title">Department</strong>
-                    <div class="box"><p class="text">{{ member.department }}</p></div>
+                    <div class="box"><p class="text">{{ userInfo.department }}</p></div>
                   </div>
                   <div class="field">
                     <strong class="title">Position</strong>
-                    <div class="box"><p class="text">{{ member.position }}</p></div>
+                    <div class="box"><p class="text">{{ userInfo.position }}</p></div>
                   </div>
                   <div class="field">
                     <strong class="title">Level</strong>
-                    <div class="box"><p class="text">{{ member.level }}</p></div>
+                    <div class="box"><p class="text">{{ userInfo.level }}</p></div>
                   </div>
                   <div class="field">
                     <strong class="title">Office</strong>
@@ -119,7 +119,11 @@ export default {
 				office: '',
 				mobile: '',
 				email: '',
-				note: ''
+				note: '',
+        company: '',
+        position: '',
+        department: '',
+        level: ''
 			},
 			disabled: false
 		}
@@ -131,31 +135,23 @@ export default {
   created() {
     this.getMemberInfo(this.user.id);
   },
-  mounted(){
-	const member = this.member
-    this.userInfo = {
-      'login_ID':  member.login_ID,
-      'login_PW':  member.login_PW,
-      'confirm_PW':  member.confirm_PW,
-      'name':  member.name,
-      'nickname':  member.nickname,
-      'office':  member.office,
-      'mobile':  member.mobile,
-      'email':  member.email,
-      'note': ''
-    }
-  },
   watch: {
     member(newVal) {
-      this.userInfo = newVal
+      this.userInfo = {...newVal}
     }
   },
   methods: {
     ...mapActions('member', ['getMemberInfo']),
-    ...mapActions('member', ['updateUser']),
+    ...mapActions('member', ['updateProfile']),
     ...mapActions('account', ['register']),
+    ...mapActions('account', ['user']),
     handleSubmit(e) {
-      this.updateUser(this.userInfo);
+      const userInfo = {
+        ...this.userInfo,
+        note: '',
+        token: this.user.token
+      }
+      this.updateProfile(userInfo);
     },
   }
 }

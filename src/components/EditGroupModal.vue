@@ -68,7 +68,6 @@
                                 <div class="txt">
                                   <strong class="position">{{ master.level }}</strong>
                                   <strong class="position">{{ ' / ' + master.position }}</strong>
-                                  <!-- <strong class="position">{{ master.organization }}</strong> -->
                                   <span class="corp">{{ master.organization }}</span>
                                 </div>
                               </div>
@@ -156,6 +155,14 @@ export default {
     group: {
       type: Object,
       default: ()=>{}
+    },
+    groupMembers: {
+      type: Array,
+      required: true
+    },
+    groupMasters: {
+      type: Array,
+      required: true
     }
   },
   components: {
@@ -179,28 +186,25 @@ export default {
       master: [],
       masterArr: [],
       member: [],
-      memberArr: []
+      memberArr: [],
+      newGroupMasters: [],
+      newGroupMembers: [],
     }
   },
   computed: {
-    ...mapState('group', ['group']),
+    ...mapState('account', ['user']),
     ...mapState('members', ['members']),
-    ...mapState('group', ['groupMembers']),
-    ...mapState('group', ['groupMasters']),
-    ...mapState('group', ['groupWhole']),
-    ...mapState('group', ['apiStatus'])
-  },
-  created(){
-    this.getGroupMasters(this.group.id);
-    this.getGroupMembers(this.group.id);
-    // this.getGroupWhole(this.group.id);
+    ...mapState('group', ['apiStatus']),
+    newGroup(){
+      return this.group
+    } 
   },
   methods: {
     ...mapActions('group', ['updateGroup']),
-    ...mapActions('group', ['getGroupMasters']),
-    ...mapActions('group', ['getGroupMembers']),
-    ...mapActions('group', ['getGroupWhole']),
     close() {
+      this.masterArr = this.groupMasters;
+      this.memberArr = this.groupMembers;
+      this.form = {...this.group}
       this.$emit('close');
     },
     openSelectMembersModal(value){
@@ -215,7 +219,6 @@ export default {
     },
     closeSelectMembersModal(){
       this.visibleSelectMembers = false;
-      
     },
     handleSubmitMembers(data, arr){
       if(this.memberModalType=='master'){
@@ -229,6 +232,7 @@ export default {
     },
     submitForm(){
       const group = {
+        user_ID: this.user.id,
         group: {
           ...this.form,
           note: ""
@@ -236,13 +240,7 @@ export default {
         masters: this.master,
         members: this.member
       }
-      this.updateGroup(group);
-      if(!this.apiStatus.updateGroup.error){
-        this.getGroupWhole(this.group.id);
-        this.getGroupMasters(this.group.id);
-        this.getGroupMembers(this.group.id);
-        this.close();
-      }
+      this.$emit('submitGroup', group);
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {
@@ -273,7 +271,7 @@ export default {
   },
   watch: {
     group(newVal) {
-      this.form = newVal;
+      this.form = {...newVal};
     },
     groupMasters(newVal) {
       this.master = newVal.map(obj => obj.user_ID);

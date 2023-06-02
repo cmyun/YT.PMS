@@ -15,7 +15,7 @@ const actions = {
           commit('setHistories', histories);
         },
         error => {
-          dispatch('alert/error', error, { root: true });
+          // dispatch('alert/error', error, { root: true });
         }
       );
   },
@@ -26,7 +26,7 @@ const actions = {
           commit('setFiles', files);
         },
         error => {
-          dispatch('alert/error', error, { root: true });
+          // dispatch('alert/error', error, { root: true });
         }
       );
   },
