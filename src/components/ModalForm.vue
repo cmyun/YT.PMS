@@ -167,6 +167,7 @@
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
                   <button class="lw_btn_point">Add</button>
                 </div>
+                <button type="button" class="btn_close" @click="close">Close</button>
               </div>
             </div>
           </div>
@@ -353,5 +354,9 @@ export default {
 }
 .lw_selectbox-pr {
   padding-right: 40px;
+}
+.ly_common .btn_close {
+  top: -35px;
+  right: 0;
 }
 </style>

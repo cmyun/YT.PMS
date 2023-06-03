@@ -12,7 +12,6 @@
               <div class="btn_box">
                 <button type="button" class="lw_btn" @click="close">Cancel</button>
                 <button class="lw_btn_point" :disabled="targetOrgId==null">Save</button>
-                <!-- <button type="button" class="lw_btn_text">Add</button> -->
               </div>
               <div class="org_container">
                 <section class="organization">
@@ -66,13 +65,11 @@ export default {
     }
   },
   methods: {
-    // ...mapActions('organizations', ['moveOrg']),
     close() {
       this.$emit('close');
       this.targetOrgId = null;
     },
     submitForm() {
-      // this.moveOrg({tid:this.targetOrgId, ids:this.selected2});
       this.$emit('submit',{tid:this.targetOrgId, ids:this.selected2});
     },
     updateTargetOrg(item){

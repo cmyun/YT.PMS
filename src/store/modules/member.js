@@ -56,7 +56,8 @@ const mutations = {
     state.member = member
   },
   updateSuccess(state, member) {
-    state.member = member
+    const newUser = {...state.member, ...member}
+    state.member = newUser;
     state.apiStatus.updateUser.error = false;
     state.apiStatus.updateUser.message = null;
   },

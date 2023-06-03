@@ -97,7 +97,7 @@
       :visible="visible" 
       @close="closeModal" 
       @submit="submitForm" 
-      :data="member">
+      :member="member">
     </modal-edit-form>
   </div>
 </template>

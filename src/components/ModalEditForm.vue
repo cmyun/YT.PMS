@@ -88,9 +88,12 @@
                       <div class="field">
                         <i class="hd"><em class="emp">Required field</em>Organization</i>
                         <div class="box">
-                            <Field name="organization_ID" type="text" class="lw_input" placeholder="Organization" v-model="form.organization_ID"/>
-                            <ErrorMessage name="organization_ID" class="text_error"/>
-                            <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
+                          <div class="lw_selectbox lw_selectbox-pr">
+                            <select name="level_ID" id="member_type" class="lw_selectbox_source" v-model="form.organization_ID">
+                              <option :value="organization.id" v-for="organization in organizations" :key="organization.id">{{ organization.name }}</option>
+                            </select>
+                          </div>
+                          <button type="button" class="btn w-10 btnAddOrg ms-3" @click="openModalOrg"></button>
                         </div>
                       </div>
                       <div class="field minor">
@@ -163,6 +166,7 @@
                   <button type="button" class="lw_btn" @click="close">Cancel</button>
                   <button class="lw_btn_point">Save</button>
                 </div>
+                <button type="button" class="btn_close" @click="close">Close</button>
               </div>
             </div>
           </div>
@@ -204,7 +208,7 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {
+    member: {
       type: Object,
       required: true
     }
@@ -221,8 +225,8 @@ export default {
         name: '',
         login_ID: '',
         login_PW: '',
-        level_ID: 0,
-        position_ID: 0,
+        level_ID: 3,
+        position_ID: 7,
         type_ID: 0,
         organization_ID: 0,
         office: '',
@@ -242,13 +246,18 @@ export default {
     ...mapState('organizations', ['organizations']),
     ...mapState('positions', ['positions']),
     ...mapState('types', ['types']),
+    ...mapState('account', ['user']),
   },
   created() {
     this.getLevels();
     this.getTypes();
     this.getOrganizations();
     this.getPositions();
-    this.form = this.data;
+  },
+  watch: {
+    member(newVal) {
+      this.form = {...newVal}
+    }
   },
   methods: {
     ...mapActions('levels', ['getLevels']),
@@ -256,10 +265,16 @@ export default {
     ...mapActions('positions', ['getPositions']),
     ...mapActions('types', ['getTypes']),
     close() {
-      // this.$emit('close');
+      this.$emit('close');
     },
     submitForm() {
-      // this.$emit('submit', this.form);
+      const form = {
+        ...this.form,
+        'token': this.user.token,
+        'expiresTime': this.user.expiresTime,
+        'note': ''
+      }
+      this.$emit('submit', form);
     },
     closeModalOrg() {
       this.visibleOrg = false;
@@ -290,5 +305,12 @@ export default {
   background-size: 100% 100%;
   outline: none;
   border: none;
+}
+.lw_selectbox-pr {
+  padding-right: 40px;
+}
+.ly_common .btn_close {
+  top: -35px;
+  right: 0;
 }
 </style>
