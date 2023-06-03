@@ -30,21 +30,18 @@ const routes = [
     path: "/member",
     name: "member",
     component: MemberView,
-    // meta: { requiresAdmin: true }
   },
   { 
     path: '/member/:id', 
     name: "MemberDetail",
     component: MemberDetail,
     props: true,
-    // meta: { requiresAdmin: true }
   },
   {
     path: '/member/edit/:id',
     name: 'MemberEdit',
     component: MemberEdit,
     props: true,
-    // meta: { requiresAdmin: true }
   },
   {
     path: "/group",
@@ -55,7 +52,6 @@ const routes = [
     path: "/organization",
     name: "organization",
     component: OrganizationView,
-    // meta: { requiresAdmin: true }
   },
   { 
     path: '/settings', 
@@ -83,18 +79,6 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !loggedIn) {
     return next('/login');
   }
-  // if (to.meta.requiresAdmin) {
-  //   if(loggedIn){
-  //     const userRole = loggedIn.isAdmin;
-  //     if (!userRole) {
-  //       next({ path: '/' })
-  //     } else {
-  //       next()
-  //     }
-  //   }
-  // } else {
-  //   next();
-  // }
   next();
 })
 

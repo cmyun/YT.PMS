@@ -33,7 +33,7 @@
               <div class="head_bar">
                 <strong>Team/Group Tasks</strong>
               </div>
-              {{ affiliations }}
+              <!-- {{ affiliations }} -->
               <ul class="lnb_tree" v-if="affiliations.length" ref="lnb_tree">
                 <li v-for="aff in affiliations" :key="aff" >
                   <div :class="['group menu_item', {selected: aff.division_ID==selectedTeam.division_ID}]">
@@ -153,7 +153,7 @@
                 </div>
               </div>
               <div class="todo_list">
-                {{ tasks }}
+                <!-- {{ tasks }} -->
                 <div :class="['todo_item', {completed: task.isComplete, selected:selectedTask.id==task.id}]" v-for="task in tasks" :key="task" @click="onSelectTodoItem(task)">
                   <button type="button" 
                   :class="['btn_status', {on:task.isComplete}]"
