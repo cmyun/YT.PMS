@@ -125,6 +125,9 @@ export default {
     ...mapState('group', ['group']),
     ...mapState('account', ['user']),
     ...mapState('group', ['apiStatus']),
+    ...mapState({
+      apiStatusGroups: state => state.groups.apiStatus
+    }),
     ...mapState('group', ['groupMembers']),
     ...mapState('group', ['groupMasters']),
     ...mapState('group', ['groupWhole']),
@@ -200,12 +203,13 @@ export default {
     handleDelete(conf){
       if(conf){
         this.deleteGroup([this.group.id]);
-        
         this.closeConf();
-        this.selected = [];
-        if(this.visibleDetail){
-          this.closeGroupDetail();
-        }
+        setTimeout(()=>{
+          if(!this.apiStatusGroups.deleteGroup.error){
+            this.selected = [];
+            this.close();
+          }
+        }, 1000);
       }
     },
     closeConf(){

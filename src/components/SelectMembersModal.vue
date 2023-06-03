@@ -132,8 +132,8 @@ export default {
   watch: {
     dataSelected(newVal) {
       this.selectAll = this.members.length == this.selected.length ? true : false;
-      this.selected = newVal.map(obj => obj.user_ID)
-      this.selectedArr = this.getCommonElements(this.members, newVal)
+      this.selected = newVal.length ? newVal.map(obj => obj.user_ID) : [];
+      this.selectedArr = newVal.length ? this.getCommonElements(this.members, newVal) : [];
     },
     visible(newVal){
       if(newVal){
@@ -176,6 +176,9 @@ export default {
     },
     close() {
       this.$emit('close');
+      this.selected = []
+      this.selectedArr = []
+      this.selectAll = false;
     },
     submitForm() {
       const memList = this.members.filter(item=>this.selected.includes(item.id));

@@ -76,18 +76,21 @@
             <button type="button" class="btn_close" @click="close">Close</button>
           </div>
         </div>
-        <edit-org-modal :title="'title'" 
-        :visible="visibleEdit"
-        :organization = "organization" 
-        @close="closeEditOrg" 
-        @submit="submitEditOrg"
+        <edit-org-modal 
+          :title="'title'" 
+          :visible="visibleEdit"
+          :organization = "organization" 
+          @close="closeEditOrg" 
+          @submit="submitEditOrg"
         >
         </edit-org-modal>
-        <select-org-head-modal :title="'title'" 
-          :visible="visibleMasterModal" 
+        <select-org-head-modal 
+          :title="'title'" 
+          :visible="visibleMasterModal"
+          :orgMembers="orgMembers"
           @close="closeGroupMasterModal" 
           @submitHead="handleSubmitHead"
-          >
+        >
         </select-org-head-modal>
       </div>
     </div>
@@ -115,16 +118,23 @@ export default {
     ...mapState('organization', ['orgHead']),
     ...mapState('organization', ['apiStatus']),
   },
+  watch: {
+    orgMembers(newVal) {
+      this.newOrgMembers = {...newVal}
+    }
+  },
   data(){
     return {
       visibleEdit: false,
       activeTab: 'tab1',
       visibleMasterModal: false,
+      newOrgMembers: []
     }
   },
   methods: {
     ...mapActions('organization', ['updateOrganization']),
     ...mapActions('organization', ['updateHeadOrganization']),
+    ...mapActions('organization', ['getOrgMembers']),
     close() {
       this.$emit('close');
     },
@@ -149,6 +159,7 @@ export default {
       setTimeout(() => {
         if(!this.apiStatus.updateHeadOrganization.error){
           this.closeGroupMasterModal();
+          this.getOrgMembers(organization.id);
         }
       }, 1000);
     },

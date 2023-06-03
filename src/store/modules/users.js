@@ -1,8 +1,13 @@
 import { userService } from '../../services';
 
 const state = {
-  status: null,
-  users: []
+  users: [],
+  apiStatus: {
+    addUsers: {
+      error: false,
+      message: null
+    }
+  }
 }
 
 const actions = {
@@ -11,17 +16,15 @@ const actions = {
       .then(
         users => {
           commit('setUsers', users);
-        },
-        error => {
-          // dispatch('alert/error', error, { root: true });
         }
       );
   },
   addUsers({ dispatch, commit }, ids) {
-    userService.addUsers()
+    userService.addUsers(ids)
       .then(
         users => {
           commit('addUsersSuccess', users);
+          dispatch('alert/success', 'Add success', { root: true });
         },
         error => {
           commit('addUsersFailure', error);
@@ -37,12 +40,13 @@ const mutations = {
     state.users = users
   },
   addUsersSuccess(state, users) {
-    
+    state.apiStatus.addUsers.error = false;
+    state.apiStatus.addUsers.message = null;
   },
-  addUsersFailure(state, users) {
-    state.status = 'error';
-  },
-  
+  addUsersFailure(state, error) {
+    state.apiStatus.addUsers.error = true;
+    state.apiStatus.addUsers.message = error;
+  }
 };
 
 export const users = {

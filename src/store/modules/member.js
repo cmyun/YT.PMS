@@ -13,7 +13,6 @@ const state = {
     }
   }
 }
-
 const actions = {
   getMemberInfo({ dispatch, commit }, id) {
     userService.getInfoById(id)

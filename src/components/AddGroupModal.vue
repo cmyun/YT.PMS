@@ -215,12 +215,13 @@ export default {
       }
     },
     closeSelectMembersModal(){
-      this.member = [];
-      this.memberArr = [];
-      this.master = [];
-      this.masterArr = [];
-      this.selectMembersData = [];
       this.visibleSelectMembers = false;
+      // this.member = [];
+      // this.memberArr = [];
+      // this.master = [];
+      // this.masterArr = [];
+      // this.selectMembersData = [];
+      
     },
     handleSubmitMembers(data, arr){
       if(this.memberModalType=='master'){
@@ -230,7 +231,8 @@ export default {
         this.member = data;
         this.memberArr = arr;
       }
-      this.visibleSelectMembers = false;
+      // this.visibleSelectMembers = false;
+      this.closeSelectMembersModal();
     },
     submitForm(){
       const group = {
@@ -242,12 +244,8 @@ export default {
         masters: this.master,
         members: this.member
       }
-      this.addGroup(group);
-      setTimeout(() => {
-        if(!this.apiStatus.addGroup.error){
-          this.close();
-        }
-      }, 1000);
+      this.$emit('submit', group);
+      
     },
     renameProperty(obj, oldName, newName) {
       if (oldName === newName) {

@@ -61,19 +61,21 @@ export default {
   },
   data(){
     return {
-      targetOrgId: null
+      targetOrgId: null,
+      isSubmitting: false
     }
   },
   methods: {
+    ...mapActions('organizations', ['moveOrg']),
     close() {
       this.$emit('close');
       this.targetOrgId = null;
     },
     submitForm() {
-      this.$emit('submit',{tid:this.targetOrgId, ids:this.selected2});
+      this.moveOrg({tid:this.targetOrgId, ids:this.selected2});
+      this.$emit('submit')
     },
     updateTargetOrg(item){
-      console.log(item)
       this.targetOrgId = item.id
     }
   }

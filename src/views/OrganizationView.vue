@@ -8,12 +8,12 @@
       <div id="content" class="contents fix_layout">
         <div class="contentsHead contents_head">
           <h3 class="title"><span class="txt">Organization</span></h3>
-            <div class="task_area">
-              <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button>
-              <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
-              <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
-              <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
-            </div>
+          <div class="task_area">
+            <button type="button" class="btn_cancel" @click="refreshHandle">Refresh</button>
+            <button type="button" class="btn_delete02" :disabled="!selected.length || visibleEdittingBar" @click="openConf">Delete</button>
+            <button type="button" class="btn_cancel" @click="openMove" :disabled="selected.length||visibleEdittingBar">Move</button>
+            <button type="button" class="btn_save" @click="openAddOrgModal">Add</button>
+          </div>
         </div>
         <div class="contentsBody contents_body">
           <div class="fix_contents">
@@ -144,7 +144,6 @@ export default {
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;
     },
-    
   },
   created() {
     this.getOrganizations();
@@ -177,7 +176,6 @@ export default {
         }
       }
       this.selectedOrgs = this.organizations.filter(item => this.selected.includes(item.id));
-      
     },
     updateCheckall(item){
       const ids = this.findAllIds(item);
@@ -329,20 +327,21 @@ export default {
       const item = this.findElementById(this.newOrganizations, org.id);
       this.updateCheckall(item);
     },
-    handleSubmitMoveOrg(data){
-      this.moveOrg(data);
+    
+    refreshHandle(){
+      this.getOrganizations();
+    },
+
+    handleSubmitMoveOrg(){
       setTimeout(()=>{
         if(!this.apiStatus.moveOrg.error){
           this.selected = []
           this.selectedOrgs = []
           this.closeSelectOrgModal();
-          this.refreshHandle()
+          this.refreshHandle();
         }
-      })
-    },
-    refreshHandle(){
-      this.getOrganizations();
-    },
+      }, 1000)
+    }
   },
   
 };

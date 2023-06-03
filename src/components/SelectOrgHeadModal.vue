@@ -33,7 +33,14 @@
                         </div>
                       </div>
                       <span class="slct">
-                        <input name="lw_checkbox" type="checkbox" class="lw_checkbox" :value="member.user_ID" :id="member.user_ID" v-model="selected">
+                        <input 
+                          name="lw_checkbox" 
+                          type="checkbox" 
+                          class="lw_checkbox" 
+                          :value="member.user_ID" :id="member.user_ID" 
+                          v-model="selected"
+                          @change="updateSelection(member.user_ID)"
+                        >
                       </span>
                     </li>
                   </ul>
@@ -61,6 +68,10 @@ export default {
       type: Boolean,
       default: false
     },
+    orgMembers: {
+      typr: Array,
+      required: true
+    }
   },
   data(){
     return {
@@ -68,21 +79,27 @@ export default {
     }
   },
   computed: {
-    ...mapState('organization', ['orgMembers']),
+    // ...mapState('organization', ['orgMembers']),
   },
   watch: {
     orgMembers(newVal) {
       this.selected = newVal
         .filter(member => member.isHead)
         .map(member => member.user_ID);
-      }
     },
+    selected(newVal) {
+      // alert(newVal)
+    }
+  },
   methods: {
     close() {
       this.$emit('close');
     },
     submitForm(){
       this.$emit('submitHead', this.selected);
+    },
+    updateSelection(option) {
+      this.selected = [option];
     }
   }
 }
@@ -91,5 +108,8 @@ export default {
 .member_list {
   display: block;
   border: none;
+}
+.lw_radio {
+  clip: unset;
 }
 </style>

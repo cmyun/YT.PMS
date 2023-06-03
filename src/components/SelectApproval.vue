@@ -12,7 +12,6 @@
                 <button class="lw_btn_point">OK</button>
               </div>
               <div class="org_container">
-                <!-- {{ users }} -->
                 <div class="member_view">
                   <section class="fix_contents member_list">
                     <div class="lw_table tb_cols_memberlist">
@@ -37,7 +36,7 @@
                 </div>
                 <div class="selected_list_box selected_list_box02" v-if="selectedArr.length">
                   <div class="count">
-                    <span>select {{ selectedArr.length }}</span>
+                    <span>Select {{ selectedArr.length }}</span>
                     <button type="button" class="btn_remove_all" @click="removeAll">
                     </button>
                   </div>
@@ -81,13 +80,9 @@ export default {
     return {
       selected: [],
       selectedArr: [],
-      // selectAll: false,
       dataIds: [],
       selectedId: 0
     }
-  },
-  components: {
-    // OrganizationList
   },
   computed: {
     ...mapState('organizations', ['organizations']),
@@ -95,79 +90,30 @@ export default {
     ...mapState('users', ['users']),
     ...mapState('organizations', ['organizations']),
     ...mapState('group', ['groupMembers']),
-    ...mapState('group', ['groupMasters']),
-    
-    newOrganizations(){
-      const tree = this.buildTree(this.organizations, -1, 0);
-      return tree;
-    },
+    ...mapState('group', ['groupMasters'])
   },
   watch: {
-    dataSelected(newVal) {
-      // this.selectAll = this.members.length == this.selected.length ? true : false;
-      this.selected = newVal.map(obj => obj.user_ID)
-      this.selectedArr = this.getCommonElements(this.members, newVal)
-    },
+    // dataSelected(newVal) {
+    //   this.selected = newVal.map(obj => obj.user_ID)
+    //   this.selectedArr = this.getCommonElements(this.members, newVal)
+    // },
   },
   methods: {
-    // ...mapActions('members', ['getMembersByOrg']),
-    buildTree(data, parent, level) {
-      const tree = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].pid === parent) {
-          const node = {
-            id: data[i].id,
-            name: data[i].name,
-            no: data[i].no,
-            type: data[i].type,
-            isDisclose: data[i].isDisclose,
-            isNotify: data[i].isNotify,
-            description: data[i].description,
-            pid: data[i].pid,
-            lv: level,
-            note: data[i].note,
-            fName: data[i].fName,
-            fid: data[i].fid,
-            hUser_ID: data[i].hUser_ID,
-            hUserName: data[i].hUserName,
-            count: data[i].count,
-            children: []
-          };
-          const children = this.buildTree(data, data[i].id, level + 1);
-          if (children.length) {
-            node.children = children;
-          }
-          tree.push(node);
-        }
-      }
-      return tree;
-    },
     close() {
       this.$emit('close');
+      this.selected = []
+      this.selectedArr = []
     },
     submitForm() {
       this.$emit('submitData', this.selected);
     },
     onDataUp(data) {
       this.selectedId = data.id;
-      // this.getMembersByOrg(data.id);
     },
-    // checkAll(){
-    //   this.selected = [];
-    //   this.selectedArr = [];
-    //   if (!this.selectAll) {
-    //     for (let i in this.members) {
-    //       this.selected.push(this.members[i].id);
-    //     }
-    //     this.selectedArr = this.members;
-    //   }
-    // },
     updateCheckall(){
       if(this.users.length == this.selected.length){
-        // this.selectAll = true;
         this.selectedArr = this.users;
       }else{
-        // this.selectAll = false;
         this.selectedArr = this.users.filter(item => this.selected.includes(item.id));
       }
     },
@@ -179,18 +125,17 @@ export default {
       this.updateCheckall();
     },
     removeAll(){
-      // this.selectAll = false
       this.selected = []
       this.selectedArr = []
     },
-    getCommonElements(A, B) {
-      let commonElements = A.filter(function(elementA) {
-        return B.some(function(elementB) {
-          return elementB.user_ID === elementA.id;
-        });
-      });
-      return commonElements;
-    }
+    // getCommonElements(A, B) {
+    //   let commonElements = A.filter(function(elementA) {
+    //     return B.some(function(elementB) {
+    //       return elementB.user_ID === elementA.id;
+    //     });
+    //   });
+    //   return commonElements;
+    // }
   }
 }
 </script>

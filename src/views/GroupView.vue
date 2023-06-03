@@ -71,6 +71,7 @@
       :title="title" 
       :visible="visible" 
       @close="closeAddGroupModal" 
+      @submit="submitAddGroup"
     >
     </add-group-modal>
     <group-detail-modal
@@ -140,6 +141,7 @@ export default {
     ...mapActions('group', ['getGroupMasters']),
     ...mapActions('group', ['getGroupMembers']),
     ...mapActions('group', ['getGroupWhole']),
+    ...mapActions('groups', ['addGroup']),
     ...mapActions('members', ['getMembersByOrg']),
     ...mapActions('organizations', ['getOrganizations']),
     checkAll(){
@@ -209,10 +211,20 @@ export default {
     },
     closeGroupDetail(){
       this.visibleDetail = false;
+      this.getAll();
     },
     refreshHandle(){
       this.getAll();
     },
+    submitAddGroup(group){
+      this.addGroup(group);
+      setTimeout(() => {
+        if(!this.apiStatus.addGroup.error){
+          this.closeAddGroupModal();
+          this.getAll();
+        }
+      }, 1000);
+    }
   }
 };
 </script>

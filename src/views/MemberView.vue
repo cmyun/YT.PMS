@@ -55,7 +55,7 @@
                     <div class="lw_table tb_cols_memberlist">
                       <div class="lwTr" v-for="member in members" :key="member.id">
                         <div class="lwTd check">
-                          <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall()'>
+                          <input :name="member.id" :value="member.id" type="checkbox" class="lw_checkbox" :id="member.id" v-model="selected" @change='updateCheckall(member)'>
                         </div>
                         <div class="lwTd profile">
                           <span class="thumb_cover"><img src="../assets/img_profile.png" alt=""></span>
@@ -78,6 +78,19 @@
                     </div>
                   </div>
                 </div>
+                <div class="selected_list_box selected_list_box02">
+                <div class="count">
+                  <span>Select {{ selectedMembers.length }}</span>
+                  <button type="button" class="btn_remove_all" @click="removeAll">
+                  </button>
+                </div>
+                <ul class="selected_list" v-if="selectedMembers.length">
+                  <li v-for="member in selectedMembers" :key="member.id">
+                    <a href="#" class="item groups">{{ member.name }}</a>
+                    <button type="button" class="btn_delete" @click="unchecked(member)">Delete</button>
+                  </li>
+                </ul>
+              </div>
               </div>
             </div>
           </div>
@@ -129,11 +142,13 @@ export default {
     return {
       selectAll: false,
       selected: [],
+      selectedMembers: [],
       title: 'Modal Form',
       visible: false,
       visibleConf: false,
       selectedId: 0,
-      visibleSelectApproval: false
+      visibleSelectApproval: false,
+      newMembers: []
     }
   },
   computed: {
@@ -143,7 +158,9 @@ export default {
     ...mapState('account', ['user']),
     ...mapState('members', ['apiStatus']),
     ...mapState('users', ['users']),
-
+    ...mapState({
+      apiStatusUsers: state => state.users.apiStatus
+    }),
     newOrganizations(){
       const tree = this.buildTree(this.organizations, -1, 0);
       return tree;
@@ -170,8 +187,15 @@ export default {
           this.selected.push(this.members[i].id);
         }
       }
+      this.selectedMembers = this.members.filter(item => this.selected.includes(item.id));
     },
-    updateCheckall(){
+    removeAll(){
+      this.selectAll = true;
+      this.checkAll();
+      this.selectAll = false;
+    },
+    updateCheckall(member){
+      this.selectedMembers = this.members.filter(item => this.selected.includes(item.id));
       if(this.members.length == this.selected.length){
         this.selectAll = true;
       }else{
@@ -214,6 +238,7 @@ export default {
         this.deleteMember(this.selected);  
         this.closeConf();
         this.selected = [];
+        this.selectedMembers = [];
       }
     },
     openModal() {
@@ -227,6 +252,7 @@ export default {
       setTimeout(() => {
         if(!this.apiStatus.addMember.error){
           this.closeModal();
+          this.getMembersByOrg(0);
         }
       }, 1000);
     },
@@ -258,7 +284,17 @@ export default {
         'ids': data
       }
       this.addUsers(data);
-    }
+      setTimeout(()=>{
+        if(!this.apiStatusUsers.addUsers.error){
+          this.closeSelectApproval();
+          this.getUsers();
+        }
+      }, 1000)
+    },
+    unchecked(member){
+      // const item = this.findElementById(this.newM, member.id);
+      this.updateCheckall(member);
+    },
   }
 };
 </script>
@@ -272,5 +308,9 @@ export default {
   }
   .name {
     font-weight: bold;
+  }
+  .selected_list_box {
+    padding: 0 0 0 111px;
+    border-width: 1px 0 0;
   }
 </style>

@@ -29,8 +29,8 @@ const actions = {
   moveOrg({ dispatch, commit }, {tid, ids}) {
     organizationService.moveOrg(tid, ids)
       .then(
-        (tid, ids) => {
-          commit('moveOrgSuccess', tid, ids);
+        res => {
+          commit('moveOrgSuccess', res);
           dispatch('alert/success', 'Move successful', { root: true });
         },
         error => {
@@ -72,7 +72,7 @@ const mutations = {
   setOrganizations(state, organizations) {
     state.organizations = organizations
   },
-  moveOrgSuccess(state, targetId, ids) {
+  moveOrgSuccess(state, res) {
     state.apiStatus.moveOrg.error = false;
     state.apiStatus.moveOrg.message = null;
   },

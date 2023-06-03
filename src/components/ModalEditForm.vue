@@ -53,7 +53,8 @@
                           <em class="emp">Required field</em>Password 
                         </i>
                         <div class="box">
-                          <Field  name="login_PW" type="password" class="lw_input" placeholder="Password" v-model="form.login_PW" rules="required"/>
+                          <Field  name="login_PW" type="password" class="lw_input w23" placeholder="Password" v-model="form.login_PW" rules="required"/>
+                          <button type="button" :disabled="!form.login_ID" @click="generatePassword" class="lw_btn_point btn02">Automatic generation</button>
                         </div>
                         <ErrorMessage name="login_PW" class="text_error"/>
                       </div>
@@ -266,6 +267,7 @@ export default {
     ...mapActions('types', ['getTypes']),
     close() {
       this.$emit('close');
+      this.form = {...this.member}
     },
     submitForm() {
       const form = {
@@ -285,6 +287,9 @@ export default {
     onSelectedOrg(item){
       this.form.organization_ID = item.id;
       this.closeModalOrg();
+    },
+    generatePassword() {
+      this.form.login_PW = this.form.login_ID + '!0a';
     }
   }
 };
@@ -312,5 +317,13 @@ export default {
 .ly_common .btn_close {
   top: -35px;
   right: 0;
+}
+.lw_input.w23 {
+  width: calc(100% - 188px);
+}
+.btn02 {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 </style>

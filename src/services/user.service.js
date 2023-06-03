@@ -87,13 +87,13 @@ function getUsers(id) {
   };
   return fetch(`${apiUrl}/user-management/users/signup`, requestOptions).then(handleResponse);
 }
-function addUsers(data){
+function addUsers(ids){
   const requestOptions = {
     method: 'POST',
     headers: { 
       ...authHeader(), 
       'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(ids)
   };
   return fetch(`${apiUrl}/user-management/users/approval`, requestOptions).then(handleResponse);
 }

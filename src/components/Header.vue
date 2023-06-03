@@ -69,7 +69,11 @@
         <div class="user_info">
           <p class="profile">{{ getUsername() }}</p>
           <div class="infor">
-            {{ user.name }}
+            <p class="user">{{ member.name }}</p>
+            <p class="work">
+              <span>{{ member.level + ' / ' + member.position }}</span>
+              <span>{{ member.organization }}</span>
+            </p>
           </div>
         </div>
         <ul>
@@ -78,17 +82,17 @@
               My Information
             </router-link>
           </li>
-          <li v-show="user.isAdmin">
+          <li v-show="member.isAdmin">
             <router-link to="/member">
               Member
             </router-link>
           </li>
-          <li v-show="user.isAdmin">
+          <li v-show="member.isAdmin">
             <router-link to="/organization">
               Organization
             </router-link>
           </li>
-          <li v-show="user.isAdmin">
+          <li v-show="member.isAdmin">
             <router-link to="/group">
               Group
             </router-link>
@@ -121,9 +125,16 @@ export default {
   },
   computed: {
     ...mapState('account', ['status']),
-    ...mapState('account', ['user'])
+    ...mapState('account', ['user']),
+    ...mapState('member', ['member'])
+  },
+  created() {
+    if(this.user){
+      this.getMemberInfo(this.user.id);
+    }
   },
   methods: {
+    ...mapActions('member', ['getMemberInfo']),
     getUsername(){
       return Array.from(this.user.name)[0];
     },
@@ -321,6 +332,12 @@ export default {
     word-break: break-all;
     color: #222;
     font-weight: bold;
+    text-align: left;
+    font-weight: normal;
+  }
+  .work {
+    margin-bottom: 0;
+    color: #787878;
   }
 }
 .gnb_user {
@@ -341,5 +358,9 @@ export default {
     border: none;
     background-color: transparent;
   }
+}
+.user {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 </style>

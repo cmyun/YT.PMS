@@ -684,12 +684,6 @@ export default {
         isComplete: !task.isComplete
       }
       this.updateTaskStatus(taskStatus);
-      // setTimeout(() => {
-        // if(this.status == null){
-        //   this.selectedTask = this.task;
-        //   console.log(this.selectedTask)
-        // }
-      // }, 1000);
     }
   },
   mounted() {

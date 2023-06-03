@@ -127,6 +127,7 @@
             <select-members-modal
               :visible="visibleSelectMembers"
               :dataSelected="selectMembersData"
+              :title="memberModalType"
               @close="closeSelectMembersModal"
               @submitData="handleSubmitMembers"
             >
