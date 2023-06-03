@@ -136,9 +136,9 @@
                         <i class="hd"><em class="emp">Required field</em>Status</i>
                         <div class="box fm_date">
                           <span class="fm_box">
-                            <input type="radio" id="status_inuse" name="status" class="lw_radio" checked="" v-model="form.isUse">
+                            <input type="radio" id="status_inuse" name="status" class="lw_radio" checked="" :value="true" v-model="form.isUse">
                             <label for="status_inuse">In use</label>
-                            <input type="radio" id="status_notuse" name="status" class="lw_radio" v-model="form.isUse">
+                            <input type="radio" id="status_notuse" name="status" class="lw_radio" :value="false" v-model="form.isUse">
                             <label for="status_notuse">Not in use</label>
                           </span>
                         </div>
@@ -147,9 +147,9 @@
                         <i class="hd"><em class="emp">Required field</em>Admin</i>
                         <div class="box fm_date">  
                           <span class="fm_box">
-                            <input type="radio" id="admin_yes" name="admin" class="lw_radio"  v-model="form.isAdmin">
+                            <input type="radio" id="admin_yes" name="admin" class="lw_radio" :value="true" v-model="form.isAdmin">
                             <label for="admin_yes">Yes</label>
-                            <input type="radio" id="admin_no" name="admin" class="lw_radio" checked="" v-model="form.isAdmin">
+                            <input type="radio" id="admin_no" name="admin" class="lw_radio" :value="false" checked="" v-model="form.isAdmin">
                             <label for="admin_no">No</label>
                           </span>
                         </div>

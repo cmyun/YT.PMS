@@ -284,25 +284,7 @@ export default {
       this.$emit('submit', this.form);
       setTimeout(() => {
         if(!this.apiStatus.addMember.error){
-          this.form = {
-            name: '',
-            login_ID: '',
-            login_PW: '',
-            level_ID: 0,
-            position_ID: 0,
-            type_ID: 0,
-            organization_ID: 0,
-            member_ID: 0,
-            office: '',
-            mobile: '',
-            email: '',
-            nickname: '',
-            isUse: true,
-            isAdmin: false,
-            remark: '',
-            note: '',
-            token:'',
-          }
+          this.close();
         }
       }, 1000);
     },

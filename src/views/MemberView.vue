@@ -251,7 +251,6 @@ export default {
       this.addMember(data);
       setTimeout(() => {
         if(!this.apiStatus.addMember.error){
-          this.closeModal();
           this.getMembersByOrg(0);
         }
       }, 1000);

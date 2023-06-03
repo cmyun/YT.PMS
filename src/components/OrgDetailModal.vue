@@ -167,10 +167,12 @@ export default {
       this.$emit('delete', id);
     },
     submitEditOrg(data){
-      this.updateOrganization(data);
-      if(!this.apiStatus.updateOrganization.error){
-        this.closeEditOrg();
-      }
+      setTimeout(()=>{
+        if(!this.apiStatus.updateOrganization.error){
+          this.closeEditOrg();
+        }
+      }, 1000)
+      
     }
   }
 }

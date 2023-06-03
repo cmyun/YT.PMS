@@ -127,7 +127,8 @@ export default {
         ...this.form,
         note: ''
       }
-      this.$emit('submit', form);
+      this.updateOrganization(form);
+      this.$emit('submit');
     }
   },
   watch: {
