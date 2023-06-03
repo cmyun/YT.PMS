@@ -78,7 +78,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="selected_list_box selected_list_box02">
+              </div>
+              <div class="selected_list_box selected_list_box02">
                 <div class="count">
                   <span>Select {{ selectedMembers.length }}</span>
                   <button type="button" class="btn_remove_all" @click="removeAll">
@@ -91,8 +92,8 @@
                   </li>
                 </ul>
               </div>
-              </div>
             </div>
+           
           </div>
         </div>
       </div>
@@ -195,12 +196,27 @@ export default {
       this.selectAll = false;
     },
     updateCheckall(member){
+      const ids = [member.id];
+      if(this.selected.includes(member.id)){
+        const newArray = this.removeElementsFromArrayA(this.selected, ids)
+        this.selected = newArray;
+      }else {
+        const newArray = this.selected.concat(ids);
+        this.selected = newArray.filter((value, index) => {
+          return newArray.indexOf(value) === index;
+        });
+      }
       this.selectedMembers = this.members.filter(item => this.selected.includes(item.id));
       if(this.members.length == this.selected.length){
         this.selectAll = true;
       }else{
         this.selectAll = false;
       }
+    },
+    removeElementsFromArrayA(arrA, arrB) {
+      return arrA.filter(function(elementA) {
+        return !arrB.includes(elementA);
+      });
     },
     buildTree(data, parent, level) {
       const tree = [];

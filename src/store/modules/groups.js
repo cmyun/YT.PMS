@@ -56,9 +56,6 @@ const mutations = {
     state.groups = groups
   },
   addGroupSuccess(state, group) {
-    // let groups = state.groups;
-    // groups.push(group.group);
-    // state.groups = groups;
     state.apiStatus['addGroup'].error = false;
     state.apiStatus['addGroup'].message = null;
   },

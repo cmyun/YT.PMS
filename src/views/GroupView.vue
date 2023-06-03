@@ -170,9 +170,9 @@ export default {
         this.closeConf();
         setTimeout(() => {
           if(!this.apiStatus.deleteGroup.error){
-            if(this.visibleDetail){
+            // if(this.visibleDetail){
               this.closeGroupDetail();
-            }
+            // }
           }
         }, 1000);
       }
@@ -216,8 +216,7 @@ export default {
     refreshHandle(){
       this.getAll();
     },
-    submitAddGroup(group){
-      this.addGroup(group);
+    submitAddGroup(){
       setTimeout(() => {
         if(!this.apiStatus.addGroup.error){
           this.closeAddGroupModal();

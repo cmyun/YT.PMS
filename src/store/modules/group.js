@@ -96,7 +96,7 @@ const mutations = {
     state.groupWhole = groupWhole
   },
   updateGroupMastersSuccess(state, group) {
-    state.groupMasters = group;
+    // state.groupMasters = group;
     state.apiStatus['updateGroupMasters'].error = false;
     state.apiStatus['updateGroupMasters'].message = null;
   },

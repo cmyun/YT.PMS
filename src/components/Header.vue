@@ -72,7 +72,7 @@
             <p class="user">{{ member.name }}</p>
             <p class="work">
               <span>{{ member.level + ' / ' + member.position }}</span>
-              <span>{{ member.organization }}</span>
+              <span>{{ "   " + member.organizationName }}</span>
             </p>
           </div>
         </div>

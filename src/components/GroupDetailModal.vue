@@ -161,6 +161,7 @@ export default {
     ...mapActions('group', ['getGroupMasters']),
     ...mapActions('group', ['getGroupMembers']),
     ...mapActions('group', ['getGroupWhole']),
+    ...mapActions('group', ['getGroupInfo']),
     close() {
       this.$emit('close');
     },
@@ -177,13 +178,18 @@ export default {
       this.visibleMasterModal = false;
     },
     handleSubmitMasters(selected){
-      const group = this.group
+      const group = this.group;
+
       this.updateGroupMasters({
         group: group, 
         ids: selected}
       )
       setTimeout(() => {
         if(!this.apiStatus.updateGroupMasters.error) {
+          this.getGroupWhole(group.id);
+          this.getGroupMasters(group.id);
+          this.getGroupMembers(group.id);
+          this.getGroupInfo(group.id);
           this.closeGroupMasterModal();
         }
       }, 1000);

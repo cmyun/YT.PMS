@@ -51,7 +51,6 @@ function getGroupWhole(id) {
   return fetch(`${apiUrl}/group-management/groups/${id}/whole`, requestOptions).then(handleResponse);
 }
 function updateGroupMasters(group, ids) {
-  console.log(group)
   const requestOptions = {
     method: 'PUT',
     headers: { 

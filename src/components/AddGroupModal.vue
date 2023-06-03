@@ -216,11 +216,6 @@ export default {
     },
     closeSelectMembersModal(){
       this.visibleSelectMembers = false;
-      // this.member = [];
-      // this.memberArr = [];
-      // this.master = [];
-      // this.masterArr = [];
-      // this.selectMembersData = [];
       
     },
     handleSubmitMembers(data, arr){
@@ -231,7 +226,6 @@ export default {
         this.member = data;
         this.memberArr = arr;
       }
-      // this.visibleSelectMembers = false;
       this.closeSelectMembersModal();
     },
     submitForm(){
@@ -244,7 +238,8 @@ export default {
         masters: this.master,
         members: this.member
       }
-      this.$emit('submit', group);
+      this.addGroup(group);
+      this.$emit('submit');
       
     },
     renameProperty(obj, oldName, newName) {

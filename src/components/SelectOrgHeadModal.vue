@@ -78,17 +78,14 @@ export default {
       selected: null
     }
   },
-  computed: {
-    // ...mapState('organization', ['orgMembers']),
-  },
   watch: {
     orgMembers(newVal) {
-      this.selected = newVal
+      if(newVal.length){
+        this.selected = newVal
         .filter(member => member.isHead)
         .map(member => member.user_ID);
-    },
-    selected(newVal) {
-      // alert(newVal)
+      }
+      
     }
   },
   methods: {

@@ -127,15 +127,7 @@ export default {
     removeAll(){
       this.selected = []
       this.selectedArr = []
-    },
-    // getCommonElements(A, B) {
-    //   let commonElements = A.filter(function(elementA) {
-    //     return B.some(function(elementB) {
-    //       return elementB.user_ID === elementA.id;
-    //     });
-    //   });
-    //   return commonElements;
-    // }
+    }
   }
 }
 </script>
