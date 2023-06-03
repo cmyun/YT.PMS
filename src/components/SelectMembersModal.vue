@@ -202,6 +202,7 @@ export default {
       }, 1000)
     },
     checkAll(){
+      
       this.selected = [];
       this.selectedArr = [];
       if (!this.selectAll) {
